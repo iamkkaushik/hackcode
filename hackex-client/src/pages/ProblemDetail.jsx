@@ -1,29 +1,35 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-
-const dummyProblems = {
-  1: {
-    title: "Two Sum",
-    description: "Find two numbers in an array that add up to a target value.",
-    constraints: "Array length should be between 2 and 10^4.",
-    sampleInput: "[2, 7, 11, 15], target = 9",
-    sampleOutput: "[0, 1]",
-  },
-  2: {
-    title: "Reverse Integer",
-    description: "Reverse the digits of an integer.",
-    constraints: "Input integer within the range of a 32-bit signed integer.",
-    sampleInput: "123",
-    sampleOutput: "321",
-  },
-};
 
 const ProblemDetail = () => {
   const { id } = useParams();
-  const problem = dummyProblems[id];
+
   const [code, setCode] = useState("");
   const [input, setInput] = useState("");
   const [output, setOutput] = useState("");
+  const [problem, setProblem] = useState(null);
+
+  useEffect(() => {
+    const fetchProblem = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:3000/api/v1/problems/getProblem/${id}`
+        );
+
+        if (response.ok) {
+          const data = await response.json();
+          console.log(data);
+          setProblem(data.problem);
+        } else {
+          console.error("Problem not found");
+        }
+      } catch (err) {
+        console.error("Error fetching problem:", err);
+      }
+    };
+
+    fetchProblem();
+  }, [id]);
 
   const handleRunCode = () => {
     // Mock implementation for demonstration
