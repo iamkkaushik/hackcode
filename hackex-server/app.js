@@ -14,6 +14,7 @@ const userRouter = require("./routes/userRoutes");
 const problemRouter = require("./routes/problemRoutes");
 
 const app = express();
+app.use(express.json());
 
 app.use(helmet({ contentSecurityPolicy: false }));
 
