@@ -3,6 +3,7 @@ const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const { generateCodeFile } = require("./utils/generateCodeFile");
 const { executeCode } = require("./utils/executeCode");
+const { generateInputFile } = require("./utils/generateInputFile");
 
 const app = express();
 
@@ -14,7 +15,7 @@ app.use(cookieParser());
 app.use(express.urlencoded({ extended: true, limit: "10kb" }));
 
 app.post("/execute", async (req, res) => {
-  const { langName, executionCode } = req.body;
+  const { langName, executionCode, customInput = "" } = req.body;
 
   if (!langName || !executionCode) {
     return res.status(500).json({
@@ -26,8 +27,9 @@ app.post("/execute", async (req, res) => {
 
   try {
     const filePath = generateCodeFile(langName, executionCode);
-    const out = await executeCode(filePath, langName);
-    res.status(200).json({ langName, executionCode, filePath, out });
+    const inputPath = generateInputFile(customInput);
+    const out = await executeCode(filePath, inputPath, langName);
+    res.status(200).json({ langName, executionCode, filePath, out, inputPath });
   } catch (err) {
     res.status(500).json({
       status: "fail",
