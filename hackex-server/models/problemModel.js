@@ -1,21 +1,25 @@
 const mongoose = require("mongoose");
-// const validator = require("validator");
 
 const problemSchema = new mongoose.Schema({
   title: {
     type: String,
-    required: [true, "Please enter the problem title."],
-    min: [3, "The title must be greater than 3 characters."],
-    max: [50, "The title must be lesser than 50 characters."],
+    required: true,
   },
   description: {
     type: String,
-    required: [true, "Please enter a description for the problem."],
+    required: true,
   },
-  user: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-    required: [true, "A problem must be associated with a user."],
+  constraints: {
+    type: String,
+    required: true,
+  },
+  sampleInput: {
+    type: String,
+    required: true,
+  },
+  sampleOutput: {
+    type: String,
+    required: true,
   },
 });
 
