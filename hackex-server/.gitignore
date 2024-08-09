@@ -128,10 +128,3 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
-
-#Environments
-.env
-.env.example
-.env.local
-.env.staging
-config.env
