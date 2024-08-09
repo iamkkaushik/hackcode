@@ -10,5 +10,6 @@ router.get("/hello", userController.hello);
 router.post("/signup", authController.signup);
 router.post("/login", authController.login);
 router.get("/logout", authController.logout);
-
+router.post("/submitCode", userController.submitCode);
+router.post("/userProblems", userController.userProblems);
 module.exports = router;

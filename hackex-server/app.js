@@ -16,6 +16,13 @@ const problemRouter = require("./routes/problemRoutes");
 const app = express();
 app.use(express.json());
 
+const corsOptions = {
+  origin: "http://localhost:5173", // Your frontend URL
+  credentials: true, // Allow credentials
+};
+
+app.use(cors(corsOptions));
+
 app.use(helmet({ contentSecurityPolicy: false }));
 
 const limiter = rateLimit({
@@ -25,9 +32,6 @@ const limiter = rateLimit({
 });
 
 app.use("/api", limiter);
-
-app.use(cors());
-app.options("*", cors());
 
 app.use(express.json({ limit: "10kb" }));
 app.use(cookieParser());
