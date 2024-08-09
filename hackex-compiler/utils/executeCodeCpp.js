@@ -11,7 +11,7 @@ if (!fs.existsSync(outPath)) {
 }
 
 // eslint-disable-next-line no-unused-vars
-const executeCode = (filePath, inputPath, extension) => {
+const executeCodeCpp = (filePath, inputPath) => {
   const executionId = path.basename(filePath).split(".")[0];
   const outName = `${executionId}.exe`;
   const outputPath = path.join(outPath, outName);
@@ -31,4 +31,4 @@ const executeCode = (filePath, inputPath, extension) => {
   });
 };
 
-module.exports = { executeCode };
+module.exports = { executeCodeCpp };

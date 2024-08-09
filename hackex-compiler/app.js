@@ -2,8 +2,9 @@ const express = require("express");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const { generateCodeFile } = require("./utils/generateCodeFile");
-const { executeCode } = require("./utils/executeCode");
+const { executeCodeCpp } = require("./utils/executeCodeCpp");
 const { generateInputFile } = require("./utils/generateInputFile");
+const { executeCodePython } = require("./utils/executeCodePython");
 
 const app = express();
 
@@ -28,7 +29,21 @@ app.post("/execute", async (req, res) => {
   try {
     const filePath = generateCodeFile(langName, executionCode);
     const inputPath = generateInputFile(customInput);
-    const out = await executeCode(filePath, inputPath, langName);
+    let out;
+    switch (langName) {
+      case "cpp":
+        out = await executeCodeCpp(filePath, inputPath);
+        break;
+      case "c":
+        out = await executeCodeCpp(filePath, inputPath);
+        break;
+      case "python":
+        out = await executeCodePython(filePath, inputPath);
+        break;
+      default:
+        throw new Error("Invalid language");
+    }
+
     res.status(200).json({ langName, executionCode, filePath, out, inputPath });
   } catch (err) {
     res.status(500).json({
