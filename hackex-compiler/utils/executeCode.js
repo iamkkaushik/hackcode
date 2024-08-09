@@ -1,7 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 const path = require("path");
 const fs = require("fs");
-const { v4: uuidv4 } = require("uuid");
+// const { v4: uuidv4 } = require("uuid");
 const { exec } = require("child_process");
 
 const outPath = path.join(__dirname, "outputExe");
@@ -11,13 +11,13 @@ if (!fs.existsSync(outPath)) {
 }
 
 // eslint-disable-next-line no-unused-vars
-const executeCode = (filePath, extension) => {
+const executeCode = (filePath, inputPath, extension) => {
   const executionId = path.basename(filePath).split(".")[0];
   const outName = `${executionId}.exe`;
   const outputPath = path.join(outPath, outName);
   return new Promise((resolve, reject) => {
     exec(
-      `g++ ${filePath} -o ${outputPath} && cd ${outPath} && .\\${outName}`,
+      `g++ ${filePath} -o ${outputPath} && cd ${outPath} && .\\${executionId}.exe < ${inputPath}`,
       (err, stdout, stderr) => {
         if (err) {
           reject(err);
