@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useUser } from "../userContext";
 import logo from "../assets/logo.png";
-import { FaBars } from "react-icons/fa";
+import { FaPowerOff } from "react-icons/fa";
 
 const Navbar = () => {
   const location = useLocation();
@@ -89,7 +89,7 @@ const Navbar = () => {
                   className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg flex items-center"
                   aria-label="User Menu"
                 >
-                  <FaBars className="text-xl" />
+                  <FaPowerOff className="text-xl" />
                 </button>
                 {isDropdownOpen && (
                   <div

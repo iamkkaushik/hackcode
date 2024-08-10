@@ -1,4 +1,4 @@
-import{ useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useUser } from "../userContext";
 import { ToastContainer, toast } from "react-toastify";
@@ -6,6 +6,7 @@ import { FaCopy } from "react-icons/fa";
 import { saveAs } from "file-saver";
 import Spinner from "../components/Spinner.jsx";
 import CodeHighlighter from "./CodeHighlighter.jsx";
+import useScreenSize from "../hooks/useScreenSize.js";
 
 const ProblemDetail = () => {
   const { id } = useParams();
@@ -16,6 +17,8 @@ const ProblemDetail = () => {
   const { isLoggedIn, user } = useUser();
   const [loading, setLoading] = useState(true);
   const [selectedLanguage, setSelectedLanguage] = useState("cpp");
+  const [theme, setTheme] = useState("vscodeDark");
+  const { height } = useScreenSize();
 
   useEffect(() => {
     const fetchProblem = async () => {
@@ -173,27 +176,54 @@ const ProblemDetail = () => {
           </button>
         </div>
       </div>
-      <div className="flex-1 bg-gray-800 p-6 rounded-lg">
-        <h2 className="text-2xl font-bold mb-4">Code Editor</h2>
-        <div className="mb-4">
-          <label
-            htmlFor="language"
-            className="block text-xl font-semibold mb-2"
-          >
-            Select Language
-          </label>
-          <select
-            id="language"
-            value={selectedLanguage}
-            onChange={(e) => setSelectedLanguage(e.target.value)}
-            className="w-full p-3 bg-gray-700 text-gray-100 rounded-lg"
-          >
-            <option value="cpp">C++</option>
-            <option value="c">C</option>
-            <option value="python">Python</option>
-            <option value="java">Java</option>
-            <option value="js">JavaScript</option>
-          </select>
+      <div className="flex-1 bg-gray-800 p-4 rounded-lg">
+        <div className="flex justify-between items-center mb-4">
+          <div className="flex justify-between items-center gap-8">
+            <select
+              className="ml-4 p-2 bg-gray-700 text-gray-300 border border-gray-600 rounded"
+              value={selectedLanguage}
+              onChange={(e) => setSelectedLanguage(e.target.value)}
+            >
+              <option value="java">Java</option>
+              <option value="cpp">C++</option>
+              <option value="c">C</option>
+              <option value="python">Python</option>
+              <option value="js">Javascript</option>
+            </select>
+            <select
+              className="p-2 bg-gray-700 text-gray-300 border border-gray-600 rounded"
+              value={theme}
+              onChange={(e) => setTheme(e.target.value)}
+            >
+              <option value="vscodeDark">VsCode Dark</option>
+              <option value="oneDark">One Dark</option>
+              <option value="solarizedDark">Solarized Dark</option>
+              <option value="solarizedLight">Solarized Light</option>
+              <option value="githubLight">GitHub Light</option>
+              <option value="bespin">Bespin</option>
+              <option value="duotoneDark">Duotone Dark</option>
+              <option value="dracula">Dracula</option>
+              <option value="githubLight">GitHub Light</option>
+              <option value="xcodeDark">XcodeDark</option>
+              <option value="xcodeLight">XcodeLight</option>
+              <option value="duotoneLight">DuoTone Light</option>
+              <option value="okaidia">Okaidia</option>
+            </select>
+          </div>
+          <div className="flex gap-8">
+            <button
+              onClick={handleRunCode}
+              className="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-lg"
+            >
+              Run
+            </button>
+            <button
+              onClick={handleSubmitCode}
+              className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg"
+            >
+              Submit
+            </button>
+          </div>
         </div>
 
         <div className="relative mb-4">
@@ -201,6 +231,8 @@ const ProblemDetail = () => {
             language={selectedLanguage}
             code={code}
             setCode={setCode}
+            height={String(parseInt(height) * 0.6) + "px"}
+            theme={theme}
           />
           <button
             onClick={() => copyToClipboard(code)}
@@ -210,6 +242,7 @@ const ProblemDetail = () => {
             <FaCopy />
           </button>
         </div>
+        <div className="flex justify-between items-center"></div>
 
         <div className="mb-4">
           <h3 className="text-xl font-semibold mb-2">Input</h3>
@@ -235,21 +268,6 @@ const ProblemDetail = () => {
               <FaCopy />
             </button>
           </div>
-        </div>
-
-        <div className="flex gap-4">
-          <button
-            onClick={handleRunCode}
-            className="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-lg"
-          >
-            Run Code
-          </button>
-          <button
-            onClick={handleSubmitCode}
-            className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg"
-          >
-            Submit Code
-          </button>
         </div>
 
         <div className="bg-gray-700 p-4 rounded-lg mt-4 relative">
