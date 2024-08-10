@@ -145,7 +145,7 @@ const Contest = () => {
         <table
           className={`min-w-full rounded-lg shadow-md ${
             theme === "light"
-              ? "bg-white border border-gray-300"
+              ? "bg-gray-50 border border-gray-300"
               : "bg-gray-800 border border-gray-700"
           }`}
         >

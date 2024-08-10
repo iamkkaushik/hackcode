@@ -9,8 +9,6 @@ import CodeHighlighter from "./CodeHighlighter.jsx";
 import useScreenSize from "../hooks/useScreenSize.js";
 
 import { useTheme } from "../themeContext"; // Import ThemeContext
-import { FaDownload } from "react-icons/fa";
-import { FaPlay, FaPaperPlane } from "react-icons/fa";
 
 const ProblemDetail = () => {
 	const { id } = useParams();
@@ -74,9 +72,7 @@ const ProblemDetail = () => {
 				let errorMessage = result.message;
 
 				if (selectedLanguage === "cpp") {
-					const lastErrorIndex = errorMessage
-						.toLowerCase()
-						.lastIndexOf("error");
+					const lastErrorIndex = errorMessage.toLowerCase().lastIndexOf("error");
 					if (lastErrorIndex !== -1) {
 						errorMessage = errorMessage.substring(lastErrorIndex);
 					}
@@ -103,6 +99,7 @@ const ProblemDetail = () => {
 		}
 	};
 
+
 	const handleSubmitCode = async () => {
 		if (!isLoggedIn) {
 			alert("You need to be logged in to submit code.");
@@ -110,57 +107,33 @@ const ProblemDetail = () => {
 		}
 
 		try {
-			const runResponse = await fetch("http://localhost:8000/execute", {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({
-					langName: selectedLanguage,
-					executionCode: code,
-					customInput: problem.sampleInput,
-				}),
-			});
-
-			const runResult = await runResponse.json();
-
-			if (runResponse.ok) {
-				if (runResult.out === problem.sampleOutput) {
-					const submitResponse = await fetch(
-						"http://localhost:3000/api/v1/users/submitCode",
-						{
-							method: "POST",
-							headers: {
-								"Content-Type": "application/json",
-							},
-							body: JSON.stringify({
-								problemId: id,
-								email: user.email,
-							}),
-							credentials: "include",
-						}
-					);
-
-					if (submitResponse.ok) {
-						toast.success("Code submitted and verified successfully.");
-					} else {
-						toast.error("Error submitting code. Please try again.");
-					}
-				} else {
-					setOutput(
-						`Expected Output:\n${problem.sampleOutput}\n\nYour Output:\n${runResult.out}`
-					);
-					toast.error("Code did not produce the expected output.");
+			const response = await fetch(
+				"http://localhost:3000/api/v1/users/submitCode",
+				{
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({
+						problemId: id,
+						email: user.email,
+					}),
+					credentials: "include",
 				}
+			);
+
+			if (response.ok) {
+				// const data = await response.json();
+				toast.success("Code submitted successfully.");
 			} else {
-				setOutput(runResult.message || "Error executing code.");
-				toast.error("Error executing code during submission.");
+				toast.error("Error submitting code. Please try again.");
 			}
 		} catch (err) {
-			console.error("Error during code submission or execution:", err);
-			toast.error("An error occurred. Please try again.");
+			console.error("Error submitting code:", err);
+			toast.error("Error submitting code. Please try again.");
 		}
 	};
+
 	const copyToClipboard = (text) => {
 		navigator.clipboard.writeText(text).then(
 			() => {
@@ -193,15 +166,15 @@ const ProblemDetail = () => {
 		return (
 			<div
 				className={`flex flex-col lg:flex-row min-h-screen p-4 gap-4 ${theme === "light"
-						? "bg-gray-100 text-gray-900"
-						: "bg-gray-900 text-gray-100"
+					? "bg-gray-100 text-gray-900"
+					: "bg-gray-900 text-gray-100"
 					}`}
 			>
 				<div
 					className={`flex-1 p-6 rounded-lg relative ${theme === "light" ? "bg-gray-50" : "bg-gray-800"
 						}`}
 				>
-					<div className="absolute inset-0 flex items-center justify-center">
+					<div className="absolute inset-0 flex items-center justify-center">lea
 						<Spinner
 							size={"4/5"}
 							color={theme === "light" ? "gray" : "white"}
@@ -215,8 +188,8 @@ const ProblemDetail = () => {
 	return (
 		<div
 			className={`flex flex-col lg:flex-row min-h-screen p-4 gap-4 ${theme === "light"
-					? "bg-gray-100 text-gray-900"
-					: "bg-gray-900 text-gray-100"
+				? "bg-gray-100 text-gray-900"
+				: "bg-gray-900 text-gray-100"
 				}`}
 		>
 			<div
@@ -229,8 +202,8 @@ const ProblemDetail = () => {
 					<h2 className="text-xl font-semibold mb-2">Sample Input</h2>
 					<pre
 						className={` p-2 rounded ${theme !== "light"
-								? "text-gray-100  bg-gray-700 "
-								: "text-gray-900  bg-gray-200"
+							? "text-gray-100  bg-gray-700 "
+							: "text-gray-900  bg-gray-200"
 							}`}
 					>
 						{problem.sampleInput}
@@ -247,8 +220,8 @@ const ProblemDetail = () => {
 					<h2 className="text-xl font-semibold mb-2">Sample Output</h2>
 					<pre
 						className={` p-2 rounded ${theme !== "light"
-								? "text-gray-100  bg-gray-700 "
-								: "text-gray-900  bg-gray-200"
+							? "text-gray-100  bg-gray-700 "
+							: "text-gray-900  bg-gray-200"
 							}`}
 					>
 						{problem.sampleOutput}
@@ -270,8 +243,8 @@ const ProblemDetail = () => {
 					<div className="flex justify-between items-center gap-8">
 						<select
 							className={`ml-4 p-2 rounded-lg ${theme === "light"
-									? "bg-gray-200 text-gray-900"
-									: "bg-gray-700 text-gray-100"
+								? "bg-gray-200 text-gray-900"
+								: "bg-gray-700 text-gray-100"
 								}`}
 							value={selectedLanguage}
 							onChange={(e) => setSelectedLanguage(e.target.value)}
@@ -283,10 +256,7 @@ const ProblemDetail = () => {
 							<option value="js">Javascript</option>
 						</select>
 						<select
-							className={`p-2  rounded ${theme === "light"
-									? "bg-gray-200 text-gray-900"
-									: "bg-gray-700 text-gray-100"
-								}`}
+							className="p-2 bg-gray-700 text-gray-300 border border-gray-600 rounded"
 							value={themes}
 							onChange={(e) => setThemes(e.target.value)}
 						>
@@ -308,16 +278,14 @@ const ProblemDetail = () => {
 					<div className="flex gap-8">
 						<button
 							onClick={handleRunCode}
-							className="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-lg flex items-center"
+							className="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-lg"
 						>
-							<FaPlay className="mr-2" />
 							Run
 						</button>
 						<button
 							onClick={handleSubmitCode}
-							className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg  flex items-center"
+							className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg"
 						>
-							<FaPaperPlane className="mr-2" />
 							Submit
 						</button>
 					</div>
@@ -328,7 +296,7 @@ const ProblemDetail = () => {
 						language={selectedLanguage}
 						code={code}
 						setCode={setCode}
-						height={String(parseInt(height) * 0.55) + "px"}
+						height={String(parseInt(height) * 0.6) + "px"}
 						theme={themes}
 					/>
 					<button
@@ -342,28 +310,24 @@ const ProblemDetail = () => {
 				<div className="flex justify-between items-center"></div>
 
 				<div className="mb-4">
-					<div className="flex justify-between items-center my-2">
-						<h3 className="text-xl font-semibold">Input</h3>
-
-						<input
-							type="file"
-							accept=".txt"
-							onChange={handleFileChange}
-							className="mt-2"
-						/>
-					</div>
+					<h3 className="text-xl font-semibold mb-2">Input</h3>
 					<div className="relative">
 						<textarea
 							value={input}
 							onChange={(e) => setInput(e.target.value)}
 							rows="4"
 							className={`w-full p-3 rounded-lg mb-4 ${theme === "light"
-									? "bg-gray-200 text-gray-900"
-									: "bg-gray-700 text-gray-100"
+								? "bg-gray-200 text-gray-900"
+								: "bg-gray-700 text-gray-100"
 								}`}
 							placeholder="Enter input for your code..."
 						/>
-
+						<input
+							type="file"
+							accept=".txt"
+							onChange={handleFileChange}
+							className="mt-2"
+						/>
 						<button
 							onClick={() => copyToClipboard(input)}
 							className="absolute top-1 right-1 p-2 hover:text-gray-100"
@@ -374,28 +338,29 @@ const ProblemDetail = () => {
 					</div>
 				</div>
 
-				<div className="flex justify-between items-center my-2">
-					<h3 className="text-xl font-semibold">Output</h3>
-
+				<div
+					className={` p-4 rounded-lg mt-4 relative ${theme === "light"
+						? "bg-gray-200 text-gray-900"
+						: "bg-gray-800 text-gray-100"
+						}`}
+				>
+					<h3 className="text-xl font-semibold mb-2">Output</h3>
+					<pre className={`text-gray-300 ${isError ? 'text-red-500' : ''}`}>
+						{output}
+					</pre>
+					<button
+						onClick={() => copyToClipboard(output)}
+						className="absolute top-2 right-2 p-2 hover:text-gray-100"
+						aria-label="Copy output to clipboard"
+					>
+						<FaCopy />
+					</button>
 					<button
 						onClick={() => downloadFile("output.txt", output)}
-						className="bg-blue-500 hover:bg-blue-600 text-white py-1 px-2 rounded-lg flex items-center justify-between"
+						className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg mt-2"
 					>
-						<FaDownload className="mr-2" />
-						Output
+						Download Output
 					</button>
-				</div>
-
-				<div className="relative">
-					<textarea
-						value={output}
-						rows="4"
-						className={`w-full p-3 rounded-lg mb-4 ${theme === "light"
-								? "bg-gray-200 text-gray-900"
-								: "bg-gray-700 text-gray-100"
-							}} ${isError ? "text-red-500" : ""}`}
-						placeholder="Output appears here..."
-					/>
 				</div>
 			</div>
 			<ToastContainer />

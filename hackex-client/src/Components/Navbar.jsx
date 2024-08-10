@@ -1,12 +1,11 @@
 import { Link } from "react-router-dom";
 import { useUser } from "../userContext";
 import { useTheme } from "../themeContext"; // Import ThemeContext
-import { FaSun, FaMoon } from "react-icons/fa";
+import { FaSun, FaMoon, FaPowerOff } from "react-icons/fa";
 import logo from "../assets/logo.png"; // Light mode logo
 import logoDark from "../assets/LogoDark.png"; // Dark mode logo
 import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { FaPowerOff } from "react-icons/fa";
 
 const Navbar = () => {
   const { theme, toggleTheme } = useTheme(); // Access theme and toggle function from context
@@ -32,23 +31,24 @@ const Navbar = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
   const handleLogout = async () => {
     const response = await fetch("http://localhost:3000/api/v1/users/logout", {
       method: "GET",
     });
     if (response.ok) {
       await logout();
-
       navigate("/");
     } else {
       alert("Logout failed. Please try again.");
     }
   };
+
   return (
     <nav
       className={`${
         theme === "light"
-          ? "bg-white text-gray-900 shadow-md"
+          ? "bg-gray-50 text-gray-900 shadow-md"
           : "bg-gray-800 text-gray-100 shadow-md"
       } sticky top-0 z-50`}
     >
@@ -70,25 +70,25 @@ const Navbar = () => {
         <div className="flex items-center justify-around space-x-12">
           <Link
             to="/problems"
-            className="text-md hover:text-blue-400 transition duration-300"
+            className="text-md hover:text-blue-400 transition-all duration-300 transform hover:scale-105"
           >
             Problems
           </Link>
           <Link
             to="/leaderboard"
-            className="text-lg hover:text-blue-400 transition duration-300"
+            className="text-lg hover:text-blue-400 transition-all duration-300 transform hover:scale-105"
           >
             Leaderboard
           </Link>
           <Link
             to="/playground"
-            className="text-md hover:text-blue-400 transition duration-300"
+            className="text-md hover:text-blue-400 transition-all duration-300 transform hover:scale-105"
           >
             Playground
           </Link>
           <Link
             to="/submit"
-            className="text-md hover:text-blue-400 transition duration-300"
+            className="text-md hover:text-blue-400 transition-all duration-300 transform hover:scale-105"
           >
             Submit Problem
           </Link>
@@ -106,7 +106,7 @@ const Navbar = () => {
             {!isLoggedIn ? (
               <Link
                 to="/login"
-                className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg transition duration-300"
+                className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg transition duration-300 transform hover:scale-105"
               >
                 Login/Register
               </Link>
@@ -114,7 +114,7 @@ const Navbar = () => {
               <div className="relative">
                 <button
                   onClick={toggleDropdown}
-                  className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg flex items-center"
+                  className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg flex items-center transition-transform duration-300 transform hover:scale-105"
                   aria-label="User Menu"
                 >
                   <FaPowerOff className="text-xl" />
@@ -126,7 +126,7 @@ const Navbar = () => {
                   >
                     <Link
                       to="/profile"
-                      className="block px-4 py-2 hover:bg-blue-500"
+                      className="block px-4 py-2 hover:bg-blue-500 transition duration-300"
                       onClick={() => setDropdownOpen(false)}
                     >
                       Profile
@@ -134,7 +134,7 @@ const Navbar = () => {
                     <Link to="/home">
                       <button
                         onClick={handleLogout}
-                        className="block w-full px-4 py-2 text-left hover:bg-blue-500"
+                        className="block w-full px-4 py-2 text-left hover:bg-blue-500 transition duration-300"
                       >
                         Logout
                       </button>

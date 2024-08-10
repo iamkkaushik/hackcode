@@ -15,6 +15,7 @@ import CreateContest from "./pages/CreateContest";
 import { Navigate } from "react-router-dom";
 import Home from "./pages/Home";
 import Footer from "./Components/Footer";
+import Profile from "./pages/Userprofile";
 
 const App = () => {
   return (
@@ -62,7 +63,7 @@ const App = () => {
           path="/profile"
           element={
             <Layout>
-              <UserProfile />
+              <Profile />
             </Layout>
           }
         />
