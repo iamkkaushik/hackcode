@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useUser } from "../userContext";
+import Spinner from "../components/Spinner.jsx";
 
 const ProblemDetail = () => {
   const { id } = useParams();
@@ -10,12 +11,14 @@ const ProblemDetail = () => {
   const [output, setOutput] = useState("");
   const [problem, setProblem] = useState(null);
   const { isLoggedIn, user } = useUser();
+  const [loading, setLoading] = useState(true);
   console.log(user);
   const [selectedLanguage, setSelectedLanguage] = useState("C++");
 
   useEffect(() => {
     const fetchProblem = async () => {
       try {
+        setLoading(true);
         const response = await fetch(
           `http://localhost:3000/api/v1/problems/getProblem/${id}`
         );
@@ -30,6 +33,7 @@ const ProblemDetail = () => {
       } catch (err) {
         console.error("Error fetching problem:", err);
       }
+      setLoading(false);
     };
 
     fetchProblem();
@@ -52,6 +56,7 @@ const ProblemDetail = () => {
     }
 
     try {
+      // setLoading(true);
       const response = await fetch(
         "http://localhost:3000/api/v1/users/submitCode",
         {
@@ -79,29 +84,44 @@ const ProblemDetail = () => {
       console.error("Error submitting code:", err);
       alert("Error submitting code. Please try againnnn.");
     }
+    // setLoading(false);
   };
 
-  if (!problem) return <div className="text-gray-400">Loading...</div>;
+  if (loading)
+    return (
+      // <div className="flex flex-col lg:flex-row bg-gray-900 text-gray-100 min-h-screen p-4 gap-4 ">
+      //   <div className="flex-1 bg-gray-800 p-6 rounded-lg">
+      //     <Spinner size={"4/5"} color="white" width={2} />
+      //   </div>
+      // </div>
+      <div className="flex flex-col lg:flex-row bg-gray-900 text-gray-100 min-h-screen p-4 gap-4">
+        <div className="flex-1 bg-gray-800 p-6 rounded-lg relative">
+          <div className="absolute inset-0 flex items-center justify-center">
+            <Spinner size={"4/5"} color="white" width={2} />
+          </div>
+        </div>
+      </div>
+    );
 
   return (
     <div className="flex flex-col lg:flex-row bg-gray-900 text-gray-100 min-h-screen p-4 gap-4">
       <div className="flex-1 bg-gray-800 p-6 rounded-lg">
-        <h1 className="text-3xl font-bold mb-4">{problem.title}</h1>
+        <h1 className="text-3xl font-bold mb-4">{problem?.title}</h1>
         <div className="mb-6">
           <h2 className="text-xl font-semibold mb-2">Description</h2>
-          <p className="text-gray-300">{problem.description}</p>
+          <p className="text-gray-300">{problem?.description}</p>
         </div>
         <div className="mb-6">
           <h2 className="text-xl font-semibold mb-2">Constraints</h2>
-          <p className="text-gray-300">{problem.constraints}</p>
+          <p className="text-gray-300">{problem?.constraints}</p>
         </div>
         <div className="mb-6">
           <h2 className="text-xl font-semibold mb-2">Sample Input</h2>
-          <pre className="bg-gray-700 p-2 rounded">{problem.sampleInput}</pre>
+          <pre className="bg-gray-700 p-2 rounded">{problem?.sampleInput}</pre>
         </div>
         <div className="mb-6">
           <h2 className="text-xl font-semibold mb-2">Sample Output</h2>
-          <pre className="bg-gray-700 p-2 rounded">{problem.sampleOutput}</pre>
+          <pre className="bg-gray-700 p-2 rounded">{problem?.sampleOutput}</pre>
         </div>
       </div>
       <div className="flex-1 bg-gray-800 p-6 rounded-lg">

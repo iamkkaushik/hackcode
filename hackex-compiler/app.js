@@ -27,11 +27,12 @@ app.post("/execute", async (req, res) => {
         "Invalid request! Please provide both name of language and code to execute.",
     });
   }
+  let out;
 
   try {
     const filePath = generateCodeFile(langName, executionCode);
     const inputPath = generateInputFile(customInput);
-    let out;
+
     switch (langName) {
       case "cpp":
         out = await executeCodeCpp(filePath, inputPath);
@@ -57,6 +58,7 @@ app.post("/execute", async (req, res) => {
     res.status(500).json({
       status: "fail",
       message: err,
+      out,
     });
   }
 });
