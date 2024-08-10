@@ -10,6 +10,7 @@ import Signup from "./pages/Signup";
 import Navbar from "./Components/Navbar";
 import Contest from "./pages/Contest";
 import Contests from "./pages/Contests";
+import CreateContest from "./pages/CreateContest";
 const App = () => {
   return (
     <Router>
@@ -85,6 +86,14 @@ const App = () => {
           element={
             <Layout>
               <Contest />
+            </Layout>
+          }
+        />
+        <Route
+          path="/create-contest"
+          element={
+            <Layout>
+              <CreateContest />
             </Layout>
           }
         />
