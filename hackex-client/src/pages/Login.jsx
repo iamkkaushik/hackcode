@@ -57,7 +57,7 @@ const LoginPage = () => {
       <div
         className={`w-full max-w-md p-8 rounded-lg shadow-lg ${
           theme === "light"
-            ? "bg-white border border-gray-300"
+            ? "bg-gray-50 border border-gray-300"
             : "bg-gray-800 border border-gray-700"
         }`}
       >

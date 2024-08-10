@@ -27,23 +27,25 @@ const LeaderBoard = () => {
   return (
     <div
       className={`min-h-screen p-8 flex flex-col items-center ${
-        theme === "light" ? " text-gray-900" : " text-gray-100"
+        theme !== "light" ? " bg-gray-900" : " bg-gray-100"
       }`}
     >
-      <h1 className="text-4xl font-bold mb-8 text-center">LEADERBOARD</h1>
+      <h1 className={`text-4xl font-bold mb-8 text-center ${
+        theme === "light" ? " text-gray-900" : " text-gray-100"
+      }`}>LEADERBOARD</h1>
       <div className="overflow-x-auto w-full max-w-3xl">
         <table
           className={`min-w-full ${
             theme === "light"
-              ? "bg-white border-gray-300"
+              ? "bg-gray-50 border-gray-300"
               : "bg-gray-800 border-gray-700"
           } border rounded-lg shadow-md`}
         >
           <thead
             className={`${
               theme === "light"
-                ? "bg-gray-200 border-gray-300"
-                : "bg-gray-700 border-gray-600"
+                ? "bg-gray-200 border-gray-300 text-gray-700"
+                : "bg-gray-700 border-gray-600 text-gray-200"
             }`}
           >
             <tr>

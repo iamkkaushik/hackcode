@@ -74,7 +74,7 @@ const Profile = () => {
       <h1 className="text-4xl font-bold mb-6 text-center">Profile</h1>
       <div
         className={`max-w-5xl mx-auto p-10 rounded-lg shadow-lg ${
-          theme === "light" ? "bg-white" : "bg-gray-800"
+          theme === "light" ? "bg-gray-50" : "bg-gray-800"
         }`}
       >
         <div className="mb-4">

@@ -171,10 +171,10 @@ const ProblemDetail = () => {
 					}`}
 			>
 				<div
-					className={`flex-1 p-6 rounded-lg relative ${theme === "light" ? "bg-white" : "bg-gray-800"
+					className={`flex-1 p-6 rounded-lg relative ${theme === "light" ? "bg-gray-50" : "bg-gray-800"
 						}`}
 				>
-					<div className="absolute inset-0 flex items-center justify-center">
+					<div className="absolute inset-0 flex items-center justify-center">lea
 						<Spinner
 							size={"4/5"}
 							color={theme === "light" ? "gray" : "white"}
@@ -193,7 +193,7 @@ const ProblemDetail = () => {
 				}`}
 		>
 			<div
-				className={`flex-1 p-6 rounded-lg ${theme === "light" ? "bg-white" : "bg-gray-800"
+				className={`flex-1 p-6 rounded-lg ${theme === "light" ? "bg-gray-50" : "bg-gray-800"
 					}`}
 			>
 				<h1 className="text-3xl font-bold mb-4">{problem.title}</h1>
@@ -236,7 +236,7 @@ const ProblemDetail = () => {
 				</div>
 			</div>
 			<div
-				className={`flex-1 p-6 rounded-lg ${theme === "light" ? "bg-white" : "bg-gray-800"
+				className={`flex-1 p-6 rounded-lg ${theme === "light" ? "bg-gray-50" : "bg-gray-800"
 					}`}
 			>
 				<div className="flex justify-between items-center mb-4">

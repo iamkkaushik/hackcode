@@ -95,7 +95,7 @@ const CreateContest = () => {
       </h1>
       <div
         className={`max-w-4xl mx-auto p-6 rounded-lg shadow-lg ${
-          theme === "light" ? "bg-white" : "bg-gray-800"
+          theme === "light" ? "bg-gray-50" : "bg-gray-800"
         }`}
       >
         {error && (

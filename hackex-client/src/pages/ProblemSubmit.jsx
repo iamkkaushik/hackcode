@@ -50,7 +50,7 @@ const AddProblem = () => {
     >
       <div
         className={`w-full max-w-4xl p-8 rounded-lg shadow-lg ${
-          theme === "light" ? "bg-white" : "bg-gray-800"
+          theme === "light" ? "bg-gray-50" : "bg-gray-800"
         }`}
       >
         <h1 className="text-3xl font-bold mb-6 text-center">

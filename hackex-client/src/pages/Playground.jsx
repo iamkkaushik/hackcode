@@ -115,7 +115,7 @@ const Playground = () => {
       <div className="max-w-10xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div
           className={`shadow-lg rounded-lg pt-4 overflow-hidden ${theme === "light"
-            ? "bg-white text-gray-900"
+            ? "bg-gray-50 text-gray-900"
             : "bg-gray-800 text-gray-200"
             }`}
         >
@@ -187,7 +187,7 @@ const Playground = () => {
 
         <div
           className={`shadow-lg rounded-lg p-4 flex flex-col h-full ${theme === "light"
-            ? "bg-white text-gray-900"
+            ? "bg-gray-50 text-gray-900"
             : "bg-gray-800 text-gray-200"
             }`}
         >
