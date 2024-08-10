@@ -4,11 +4,17 @@ import { Link, useNavigate } from "react-router-dom";
 import { useUser } from "../userContext";
 
 const LoginPage = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("dummy@email.com");
+  const [password, setPassword] = useState("dummy2222");
   const [error, setError] = useState("");
   const navigate = useNavigate();
-  const { login } = useUser();
+  const { login, isLoggedIn } = useUser();
+
+  const setCookie = (name, value, days) => {
+    const expires = new Date();
+    expires.setTime(expires.getTime() + days * 24 * 60 * 60 * 1000);
+    document.cookie = `${name}=${value}; expires=${expires.toUTCString()}; path=/`;
+  };
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -22,16 +28,12 @@ const LoginPage = () => {
       });
 
       if (response.ok) {
-        await login(email, password);
-		const data = await response.json();
-		// console.log("THIS IS TOKEN",data.token);
-		// console.log(data);
-		// console.log("THIS IS ID ",data.data.user.email);
-		localStorage.setItem("user", JSON.stringify(data.data.user.email));
-        localStorage.setItem("token", data.token);
-		console.log(localStorage.getItem("user"));
-		console.log(localStorage.getItem("token"));
-        navigate("/profile"); // Redirect to profile page on successful login
+        const data = await response.json();
+        setCookie("token", data.token, 1);
+        localStorage.setItem("user", JSON.stringify(data.data.user));
+        login(data.data.user);
+        // console.log(isLoggedIn);
+        navigate("/profile");
       } else {
         const result = await response.json();
         setError(result.message || "Login failed. Please try again.");
