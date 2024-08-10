@@ -5,10 +5,10 @@ import ProblemList from "./pages/ProblemList";
 import ProblemDetail from "./pages/ProblemDetail";
 import ProblemSubmit from "./pages/ProblemSubmit";
 import Login from "./pages/Login";
-import UserProfile from "./pages/Userprofile";
+// import UserProfile from "./pages/Userprofile";
 import Signup from "./pages/Signup";
 import Navbar from "./Components/Navbar";
-import LeaderBoard from "./pages/LeaderBoard";
+// import LeaderBoard from "./pages/LeaderBoard";
 import Contest from "./pages/Contest";
 import Contests from "./pages/Contests";
 import CreateContest from "./pages/CreateContest";
@@ -86,14 +86,14 @@ const App = () => {
           }
         />
 
-        <Route
+        {/* <Route
           path="/leaderboard"
           element={
             <Layout>
               <LeaderBoard />
             </Layout>
           }
-        />
+        /> */}
 
         <Route
           path="/contests"

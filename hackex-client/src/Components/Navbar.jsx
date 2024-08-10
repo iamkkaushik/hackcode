@@ -75,10 +75,10 @@ const Navbar = () => {
             Problems
           </Link>
           <Link
-            to="/leaderboard"
-            className="text-lg hover:text-blue-400 transition-all duration-300 transform hover:scale-105"
+            to="/create-contest"
+            className="text-md hover:text-blue-400 transition-all duration-300 transform hover:scale-105"
           >
-            Leaderboard
+            Create Contest
           </Link>
           <Link
             to="/playground"

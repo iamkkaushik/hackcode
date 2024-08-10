@@ -95,7 +95,7 @@ const CreateContest = () => {
       </h1>
       <div
         className={`max-w-4xl mx-auto p-6 rounded-lg shadow-lg ${
-          theme === "light" ? "bg-gray-50" : "bg-gray-800"
+          theme === "light" ? "bg-gray-50" : "bg-gray-800 text-gray-100"
         }`}
       >
         {error && (
@@ -124,9 +124,9 @@ const CreateContest = () => {
                 onChange={(e) => setTitle(e.target.value)}
                 className={`w-full p-3 border ${
                   theme === "light"
-                    ? "border-gray-300 bg-gray-100"
-                    : "border-gray-700 bg-gray-900"
-                } rounded text-gray-900`}
+                    ? "border-gray-300 bg-gray-100 text-gray-900"
+                    : "border-gray-700 bg-gray-900 text-gray-100"
+                } rounded`}
                 required
               />
             </div>
@@ -143,9 +143,9 @@ const CreateContest = () => {
                 onChange={(e) => setDescription(e.target.value)}
                 className={`w-full p-3 border ${
                   theme === "light"
-                    ? "border-gray-300 bg-gray-100"
-                    : "border-gray-700 bg-gray-900"
-                } rounded text-gray-900`}
+                    ? "border-gray-300 bg-gray-100 text-gray-900"
+                    : "border-gray-700 bg-gray-900 text-gray-100"
+                } rounded `}
                 rows="4"
                 required
               />
@@ -171,7 +171,12 @@ const CreateContest = () => {
                       onChange={() => handleProblemSelect(problem._id)}
                       className="mr-2"
                     />
-                    <label htmlFor={problem._id} className="text-gray-900">
+                    <label
+                      htmlFor={problem._id}
+                      className={` ${
+                        theme === "light" ? "bg-gray-100" : "bg-gray-800"
+                      }`}
+                    >
                       {problem.title}
                     </label>
                   </div>
@@ -192,9 +197,9 @@ const CreateContest = () => {
                 onChange={(e) => setStartTime(e.target.value)}
                 className={`w-full p-3 border ${
                   theme === "light"
-                    ? "border-gray-300 bg-gray-100"
-                    : "border-gray-700 bg-gray-900"
-                } rounded text-gray-900`}
+                    ? "border-gray-300 bg-gray-100 text-gray-900"
+                    : "border-gray-700 bg-gray-900 text-gray-100"
+                } rounded `}
                 required
               />
             </div>
@@ -212,9 +217,9 @@ const CreateContest = () => {
                 onChange={(e) => setEndTime(e.target.value)}
                 className={`w-full p-3 border ${
                   theme === "light"
-                    ? "border-gray-300 bg-gray-100"
-                    : "border-gray-700 bg-gray-900"
-                } rounded text-gray-900`}
+                    ? "border-gray-300 bg-gray-100 text-gray-900"
+                    : "border-gray-700 bg-gray-900 text-gray-100"
+                } rounded `}
                 required
               />
             </div>
