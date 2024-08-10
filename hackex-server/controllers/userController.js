@@ -76,10 +76,11 @@ exports.userProblems = catchAsync(async (req, res, next) => {
 
 exports.getLeaderboard = catchAsync(async (req, res, next) => {
   try {
-    // Fetch all users and sort them by noOfProblems in descending order
+    // Fetch the top 10 users sorted by noOfProblems in descending order
     const users = await User.find({})
       .sort({ noOfProblems: -1 })
-      .select("name noOfProblems");
+      .select("name noOfProblems")
+      .limit(10); // Limit the results to the top 10 users
 
     // Check if there are users
     if (users.length === 0) {
