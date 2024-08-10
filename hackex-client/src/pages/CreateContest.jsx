@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "../themeContext"; // Import ThemeContext
+import Spinner from "../Components/Spinner";
 
 const CreateContest = () => {
   const [title, setTitle] = useState("");
@@ -9,7 +10,7 @@ const CreateContest = () => {
   const [selectedProblems, setSelectedProblems] = useState([]);
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
-
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [noProblems, setNoProblems] = useState(false); // Track if there are no problems
   const navigate = useNavigate();
@@ -18,6 +19,7 @@ const CreateContest = () => {
   useEffect(() => {
     // Fetch problems from the backend when the component mounts
     const fetchProblems = async () => {
+      setLoading(true);
       try {
         const response = await fetch(
           "http://localhost:3000/api/v1/problems/allProblems"
@@ -32,8 +34,8 @@ const CreateContest = () => {
         console.error("Error fetching problems:", error);
         setError("Error fetching problems. Please try again later.");
       }
+      setLoading(false);
     };
-
     fetchProblems();
   }, []);
 
@@ -82,6 +84,31 @@ const CreateContest = () => {
     }
   };
 
+  if (loading) {
+    return (
+      <div
+        className={`flex flex-col lg:flex-row min-h-screen p-4 gap-4 ${
+          theme === "light"
+            ? "bg-gray-100 text-gray-900"
+            : "bg-gray-900 text-gray-100"
+        }`}
+      >
+        <div
+          className={`flex-1 p-6 rounded-lg relative ${
+            theme === "light" ? "bg-gray-50" : "bg-gray-800"
+          }`}
+        >
+          <div className="absolute inset-0 flex items-center justify-center">
+            <Spinner
+              size={"4/5"}
+              color={theme === "light" ? "gray" : "white"}
+              width={2}
+            />
+          </div>
+        </div>
+      </div>
+    );
+  }
   return (
     <div
       className={`min-h-screen p-8 ${

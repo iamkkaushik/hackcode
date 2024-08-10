@@ -1,14 +1,17 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "../themeContext"; // Import ThemeContext
+import Spinner from "../Components/Spinner";
 
 const Contests = () => {
   const [contests, setContests] = useState([]);
   const navigate = useNavigate();
   const { theme } = useTheme(); // Access theme from context
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchContests = async () => {
+      setLoading(true);
       try {
         const response = await fetch(
           "http://localhost:3000/api/v1/contests/allContests"
@@ -22,6 +25,7 @@ const Contests = () => {
       } catch (error) {
         console.error("Error fetching contests:", error);
       }
+      setLoading(false);
     };
 
     fetchContests();
@@ -46,6 +50,31 @@ const Contests = () => {
   const handleContestClick = (contest) => {
     navigate(`/contest/${contest._id}`);
   };
+  if (loading) {
+    return (
+      <div
+        className={`flex flex-col lg:flex-row min-h-screen p-4 gap-4 ${
+          theme === "light"
+            ? "bg-gray-100 text-gray-900"
+            : "bg-gray-900 text-gray-100"
+        }`}
+      >
+        <div
+          className={`flex-1 p-6 rounded-lg relative ${
+            theme === "light" ? "bg-gray-50" : "bg-gray-800"
+          }`}
+        >
+          <div className="absolute inset-0 flex items-center justify-center">
+            <Spinner
+              size={"4/5"}
+              color={theme === "light" ? "gray" : "white"}
+              width={2}
+            />
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div
