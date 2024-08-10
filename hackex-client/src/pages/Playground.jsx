@@ -1,8 +1,8 @@
 import { useState } from "react";
 import CodeHighlighter from "./CodeHighlighter";
-import useScreenSize from "../hooks/useScreenSize.js";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import useScreenSize from "../hooks/useScreenSize.js";
 
 const Playground = () => {
   const [input, setInput] = useState("");
@@ -30,16 +30,16 @@ const Playground = () => {
       });
 
       const result = await response.json();
-	  console.log(result);
+      console.log(result);
 
       if (result.status === "fail") {
-		if(language === "java"){
-			toast.error("ERROR"); // Show toast if response status is failed
-			setOutput(result.message);
-		}else{
-			toast.error("ERROR");
-			setOutput(result.message.cmd);
-		}
+        if (language === "java") {
+          toast.error("ERROR"); // Show toast if response status is failed
+          setOutput(result.message);
+        } else {
+          toast.error("ERROR");
+          setOutput(result.message.cmd);
+        }
       } else {
         setOutput(result.out);
       }
@@ -65,24 +65,30 @@ const Playground = () => {
             >
               <option value="java">Java</option>
               <option value="cpp">C++</option>
+              <option value="c">C</option>
               <option value="python">Python</option>
-              <option value="javascript">Javascript</option>
+              <option value="js">Javascript</option>
             </select>
             <div className="flex space-x-2">
-              <button className="bg-green-500 text-white py-2 px-4 rounded-lg">
-                <span>
-                  <i className="bi bi-play-fill text-xl"></i>
-                </span>
-                Run Code
+              <button
+                className="bg-green-500 text-white py-2 px-4 rounded-lg"
+                onClick={handleRunCode}
+              >
+                Coding Sprint
+              </button>
+              <button className="bg-green-500 text-white py-2 px-4 rounded-lg flex items-center">
+                <i className="bi bi-play-fill"></i>
               </button>
             </div>
           </div>
           <CodeHighlighter
-            height={String(parseInt(height) * 0.8) + "px"}
             language={language}
+            code={input}
+            setCode={setInput}
+            height={String(parseInt(height) * 0.8) + "px"}
           />
         </div>
-        {/* <div className="bg-gray-800 shadow-lg rounded-lg p-4 flex flex-col justify-between">
+        <div className="bg-gray-800 shadow-lg rounded-lg p-4 flex flex-col justify-between">
           <div className="mb-4">
             <label
               htmlFor="input"
@@ -93,8 +99,8 @@ const Playground = () => {
             <textarea
               id="input"
               className="w-full h-32 p-4 bg-gray-700 text-gray-200 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
+              value={testInput}
+              onChange={(e) => setTestInput(e.target.value)}
               placeholder="Input data here..."
             ></textarea>
           </div>
