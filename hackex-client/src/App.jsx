@@ -8,8 +8,10 @@ import Login from "./pages/Login";
 import UserProfile from "./pages/Userprofile";
 import Signup from "./pages/Signup";
 import Navbar from "./Components/Navbar";
+import LeaderBoard from "./pages/LeaderBoard";
 import Contest from "./pages/Contest";
 import Contests from "./pages/Contests";
+
 const App = () => {
   return (
     <Router>
@@ -40,6 +42,7 @@ const App = () => {
             </Layout>
           }
         />
+        
         <Route
           path="/problem/:id"
           element={
@@ -48,6 +51,7 @@ const App = () => {
             </Layout>
           }
         />
+        
         <Route
           path="/profile"
           element={
@@ -56,6 +60,7 @@ const App = () => {
             </Layout>
           }
         />
+        
         <Route
           path="/playground"
           element={
@@ -64,6 +69,7 @@ const App = () => {
             </Layout>
           }
         />
+        
         <Route
           path="/submit"
           element={
@@ -72,6 +78,16 @@ const App = () => {
             </Layout>
           }
         />
+        
+        <Route
+          path="/leaderboard"
+          element={
+            <Layout>
+              <LeaderBoard />
+            </Layout>
+          }
+        />
+        
         <Route
           path="/contests"
           element={
@@ -80,6 +96,7 @@ const App = () => {
             </Layout>
           }
         />
+        
         <Route
           path="/contest/:id"
           element={
