@@ -6,8 +6,8 @@ import "./Home.css"; // Make sure to import your CSS file
 
 const Home = () => {
   const [platformInfo, setPlatformInfo] = useState({
-    title: "Welcome to CodeMaster",
-    description: "CodeMaster is a platform to enhance your coding skills with a variety of challenges, contests, and a collaborative community.",
+    title: "Welcome to Hackex",
+    description: "Hackex is a platform to enhance your coding skills with a variety of challenges, contests, and a collaborative community.",
   });
 
   const menuItems = [
