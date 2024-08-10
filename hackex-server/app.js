@@ -12,6 +12,7 @@ const compression = require("compression");
 const AppError = require("./utils/appError");
 const userRouter = require("./routes/userRoutes");
 const problemRouter = require("./routes/problemRoutes");
+const contestRouter = require("./routes/contestRouter");
 
 const app = express();
 app.use(express.json());
@@ -46,6 +47,7 @@ app.use(compression());
 
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/problems", problemRouter);
+app.use("/api/v1/contests", contestRouter);
 
 app.all("*", (req, res, next) => {
   const err = new AppError(`Can't find ${req.url} on the server.`, 404);

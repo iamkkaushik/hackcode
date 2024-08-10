@@ -30,6 +30,12 @@ const Navbar = () => {
             Problems
           </Link>
           <Link
+            to="/leaderboard"
+            className="text-lg hover:text-blue-400 transition duration-300"
+          >
+            Leaderboard
+          </Link>
+          <Link
             to="/playground"
             className="text-md hover:text-blue-400 transition duration-300"
           >

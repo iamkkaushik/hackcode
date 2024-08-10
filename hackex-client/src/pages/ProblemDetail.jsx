@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useUser } from "../userContext";
 import Spinner from "../components/Spinner.jsx";
+import { ToastContainer, toast } from "react-toastify";
+import CodeHighlighter from "./CodeHighlighter"; // Import the CodeHighlighter component
 
 const ProblemDetail = () => {
   const { id } = useParams();
@@ -13,7 +15,7 @@ const ProblemDetail = () => {
   const { isLoggedIn, user } = useUser();
   const [loading, setLoading] = useState(true);
   console.log(user);
-  const [selectedLanguage, setSelectedLanguage] = useState("C++");
+  const [selectedLanguage, setSelectedLanguage] = useState("cpp");
 
   useEffect(() => {
     const fetchProblem = async () => {
@@ -39,14 +41,44 @@ const ProblemDetail = () => {
     fetchProblem();
   }, [id]);
 
-  const handleRunCode = () => {
+  const handleRunCode = async () => {
     if (!isLoggedIn) {
       alert("You need to be logged in to run code.");
       return;
     }
 
-    // Mock implementation for demonstration
-    setOutput(`Code executed successfully in ${selectedLanguage}.`);
+    try {
+      const response = await fetch("http://localhost:8000/execute", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          langName: selectedLanguage,
+          executionCode: code,
+          customInput: input,
+        }),
+      });
+
+      const result = await response.json();
+      console.log(result);
+      console.log(selectedLanguage);
+
+      if (result?.status === "fail") {
+        if (selectedLanguage !== "java") {
+          setOutput(result.message.cmd || "Error executing code.");
+        } else {
+          console.log(result);
+          setOutput(result.message);
+        }
+      } else {
+        setOutput(result.out);
+      }
+    } catch (error) {
+      console.error("Error executing code:", error);
+      toast.error("Network error: Unable to execute code.");
+      setOutput("Error executing code.");
+    }
   };
 
   const handleSubmitCode = async () => {
@@ -56,7 +88,6 @@ const ProblemDetail = () => {
     }
 
     try {
-      // setLoading(true);
       const response = await fetch(
         "http://localhost:3000/api/v1/users/submitCode",
         {
@@ -66,7 +97,9 @@ const ProblemDetail = () => {
           },
           body: JSON.stringify({
             problemId: id,
-            email: user,
+            email: user.email, // Ensure you're sending the correct user identifier
+            code,
+            langName: selectedLanguage,
           }),
           credentials: "include", // Ensure cookies are sent
         }
@@ -75,53 +108,37 @@ const ProblemDetail = () => {
       if (response.ok) {
         const data = await response.json();
         console.log("Code submitted successfully:", data);
-        alert("Code submitted successfully.");
+        toast.success("Code submitted successfully.");
       } else {
-        console.error("Error submitting code");
-        alert("Error submitting code. Please try again.");
+        toast.error("Error submitting code. Please try again.");
       }
     } catch (err) {
       console.error("Error submitting code:", err);
-      alert("Error submitting code. Please try againnnn.");
+      toast.error("Error submitting code. Please try again.");
     }
-    // setLoading(false);
   };
 
-  if (loading)
-    return (
-      // <div className="flex flex-col lg:flex-row bg-gray-900 text-gray-100 min-h-screen p-4 gap-4 ">
-      //   <div className="flex-1 bg-gray-800 p-6 rounded-lg">
-      //     <Spinner size={"4/5"} color="white" width={2} />
-      //   </div>
-      // </div>
-      <div className="flex flex-col lg:flex-row bg-gray-900 text-gray-100 min-h-screen p-4 gap-4">
-        <div className="flex-1 bg-gray-800 p-6 rounded-lg relative">
-          <div className="absolute inset-0 flex items-center justify-center">
-            <Spinner size={"4/5"} color="white" width={2} />
-          </div>
-        </div>
-      </div>
-    );
+  if (!problem) return <div className="text-gray-400">Loading...</div>;
 
   return (
     <div className="flex flex-col lg:flex-row bg-gray-900 text-gray-100 min-h-screen p-4 gap-4">
       <div className="flex-1 bg-gray-800 p-6 rounded-lg">
-        <h1 className="text-3xl font-bold mb-4">{problem?.title}</h1>
+        <h1 className="text-3xl font-bold mb-4">{problem.title}</h1>
         <div className="mb-6">
           <h2 className="text-xl font-semibold mb-2">Description</h2>
-          <p className="text-gray-300">{problem?.description}</p>
+          <p className="text-gray-300">{problem.description}</p>
         </div>
         <div className="mb-6">
           <h2 className="text-xl font-semibold mb-2">Constraints</h2>
-          <p className="text-gray-300">{problem?.constraints}</p>
+          <p className="text-gray-300">{problem.constraints}</p>
         </div>
         <div className="mb-6">
           <h2 className="text-xl font-semibold mb-2">Sample Input</h2>
-          <pre className="bg-gray-700 p-2 rounded">{problem?.sampleInput}</pre>
+          <pre className="bg-gray-700 p-2 rounded">{problem.sampleInput}</pre>
         </div>
         <div className="mb-6">
           <h2 className="text-xl font-semibold mb-2">Sample Output</h2>
-          <pre className="bg-gray-700 p-2 rounded">{problem?.sampleOutput}</pre>
+          <pre className="bg-gray-700 p-2 rounded">{problem.sampleOutput}</pre>
         </div>
       </div>
       <div className="flex-1 bg-gray-800 p-6 rounded-lg">
@@ -139,18 +156,21 @@ const ProblemDetail = () => {
             onChange={(e) => setSelectedLanguage(e.target.value)}
             className="w-full p-3 bg-gray-700 text-gray-100 rounded-lg"
           >
-            <option value="javascript">C++</option>
+            <option value="cpp">C++</option>
+            <option value="c">C</option>
             <option value="python">Python</option>
             <option value="java">Java</option>
+            <option value="js">JavaScript</option>
           </select>
         </div>
-        <textarea
-          value={code}
-          onChange={(e) => setCode(e.target.value)}
-          rows="10"
-          className="w-full p-3 bg-gray-700 text-gray-100 rounded-lg mb-4"
-          placeholder="Write your code here..."
+
+        {/* CodeHighlighter Component for Code Editing */}
+        <CodeHighlighter
+          language={selectedLanguage}
+          code={code}
+          setCode={setCode}
         />
+
         <div className="mb-4">
           <h3 className="text-xl font-semibold mb-2">Input</h3>
           <textarea
