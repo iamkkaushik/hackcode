@@ -6,6 +6,7 @@ import useScreenSize from "../hooks/useScreenSize.js";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlay, faCopy, faDownload } from "@fortawesome/free-solid-svg-icons";
 import { saveAs } from "file-saver";
+import Spinner from "../components/Spinner.jsx";
 
 const Playground = () => {
   const [input, setInput] = useState("");
@@ -14,9 +15,11 @@ const Playground = () => {
   const [testInput, setTestInput] = useState("");
   const { height } = useScreenSize();
   const [theme, setTheme] = useState("vscodeDark");
+  const [loading, setLoading] = useState(false);
 
   const handleRunCode = async () => {
     try {
+      setLoading(true);
       const response = await fetch("http://localhost:8000/execute", {
         method: "POST",
         headers: {
@@ -47,6 +50,7 @@ const Playground = () => {
       setOutput("Error executing code.");
       toast.error("ERROR");
     }
+    setLoading(false);
   };
 
   const copyToClipboard = (text) => {
@@ -79,6 +83,7 @@ const Playground = () => {
 
   return (
     <div className="p-6 bg-gray-900 min-h-screen text-gray-200 ">
+      {loading && <Spinner />}
       <ToastContainer />
       <div className="max-w-10xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="bg-gray-800 shadow-lg rounded-lg pt-4 overflow-hidden">
@@ -120,10 +125,11 @@ const Playground = () => {
                 onClick={handleRunCode}
               >
                 <FontAwesomeIcon icon={faPlay} className="mr-2" />
-                Run
+                {loading ? "Running..." : "Run Code"}
               </button>
             </div>
           </div>
+
           <div className="relative">
             <CodeHighlighter
               language={language}

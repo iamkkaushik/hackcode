@@ -1,6 +1,6 @@
+const jwt = require("jsonwebtoken");
 const catchAsync = require("../utils/catchAsync");
 const User = require("../models/userModel");
-const jwt = require("jsonwebtoken");
 const AppError = require("../utils/appError");
 
 const generateToken = (id) =>
