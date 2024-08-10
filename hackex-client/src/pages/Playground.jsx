@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import CodeHighlighter from "./CodeHighlighter";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -8,6 +8,14 @@ import { faPlay, faCopy, faDownload } from "@fortawesome/free-solid-svg-icons";
 import { saveAs } from "file-saver";
 import { useTheme } from "../themeContext"; 
 import Spinner from "../components/Spinner.jsx";
+
+const boilerplateCode = {
+  cpp: '#include <iostream>\nusing namespace std;\n\nint main() {\n    // Write your code here\n    return 0;\n}',
+  c: '#include <stdio.h>\n\nint main() {\n    // Write your code here\n    return 0;\n}',
+  java: 'public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}',
+  python: 'def main():\n    # Write your code here\n    pass\n\nif __name__ == "__main__":\n    main()',
+  js: 'function main() {\n    // Write your code here\n}\n\nmain();',
+};
 
 const Playground = () => {
   const [input, setInput] = useState("");
@@ -21,59 +29,60 @@ const Playground = () => {
   const [loading, setLoading] = useState(false);
   const [isError, setIsError] = useState(false);
 
+  useEffect(() => {
+    setInput(boilerplateCode[language] || "");
+  }, [language]);
+
   const handleRunCode = async () => {
-	setLoading(true);
-	try {
-	  const response = await fetch("http://localhost:8000/execute", {
-		method: "POST",
-		headers: {
-		  "Content-Type": "application/json",
-		},
-		body: JSON.stringify({
-		  langName: language,
-		  executionCode: input,
-		  customInput: testInput,
-		}),
-	  });
-  
-	  const result = await response.json();
-  
-	  if (result?.status === "fail") {
-		let errorMessage = result.message;
-		console.log(typeof errorMessage);
-  
-		if (Object.keys(errorMessage).length === 0) {
-		  errorMessage = "Uncaught error";
-		} else {
-		  if (language === "cpp") {
-			const lastErrorIndex = errorMessage.toLowerCase().lastIndexOf("error");
-			if (lastErrorIndex !== -1) {
-			  errorMessage = errorMessage.substring(lastErrorIndex);
-			}
-		  } else if (language === "python") {
-			const lineIndex = errorMessage.toLowerCase().indexOf("line");
-			if (lineIndex !== -1) {
-			  errorMessage = errorMessage.substring(lineIndex);
-			}
-		  } else if (language === "js") {
-			errorMessage = "Compilation or Execution Error";
-		  }
-		}
-  
-		setIsError(true);
-		setOutput(errorMessage);
-	  } else {
-		setIsError(false);
-		setOutput(result.out);
-	  }
-	} catch (error) {
-	  console.error("Error executing code:", error);
-	  toast.error("Network error: Unable to execute code.");
-	  setOutput("Error executing code.");
-	}
-	setLoading(false);
+    setLoading(true);
+    try {
+      const response = await fetch("http://localhost:8000/execute", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          langName: language,
+          executionCode: input,
+          customInput: testInput,
+        }),
+      });
+
+      const result = await response.json();
+
+      if (result?.status === "fail") {
+        let errorMessage = result.message;
+        if (Object.keys(errorMessage).length === 0) {
+          errorMessage = "Uncaught error";
+        } else {
+          if (language === "cpp") {
+            const lastErrorIndex = errorMessage.toLowerCase().lastIndexOf("error");
+            if (lastErrorIndex !== -1) {
+              errorMessage = errorMessage.substring(lastErrorIndex);
+            }
+          } else if (language === "python") {
+            const lineIndex = errorMessage.toLowerCase().indexOf("line");
+            if (lineIndex !== -1) {
+              errorMessage = errorMessage.substring(lineIndex);
+            }
+          } else if (language === "js") {
+            errorMessage = "Compilation or Execution Error";
+          }
+        }
+
+        setIsError(true);
+        setOutput(errorMessage);
+      } else {
+        setIsError(false);
+        setOutput(result.out);
+      }
+    } catch (error) {
+      console.error("Error executing code:", error);
+      toast.error("Network error: Unable to execute code.");
+      setOutput("Error executing code.");
+    }
+    setLoading(false);
   };
-  
 
   const copyToClipboard = (text) => {
     navigator.clipboard.writeText(text).then(
