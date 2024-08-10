@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useTheme } from "../themeContext"; // Import ThemeContext
 
 const CreateContest = () => {
   const [title, setTitle] = useState("");
@@ -12,6 +13,7 @@ const CreateContest = () => {
   const [error, setError] = useState("");
   const [noProblems, setNoProblems] = useState(false); // Track if there are no problems
   const navigate = useNavigate();
+  const { theme } = useTheme(); // Access theme from context
 
   useEffect(() => {
     // Fetch problems from the backend when the component mounts
@@ -81,11 +83,21 @@ const CreateContest = () => {
   };
 
   return (
-    <div className="bg-gray-900 text-gray-100 min-h-screen p-8">
+    <div
+      className={`min-h-screen p-8 ${
+        theme === "light"
+          ? "bg-gray-100 text-gray-900"
+          : "bg-gray-900 text-gray-100"
+      }`}
+    >
       <h1 className="text-4xl font-bold mb-6 text-center">
         Create a New Contest
       </h1>
-      <div className="max-w-4xl mx-auto bg-gray-800 p-6 rounded-lg shadow-lg">
+      <div
+        className={`max-w-4xl mx-auto p-6 rounded-lg shadow-lg ${
+          theme === "light" ? "bg-white" : "bg-gray-800"
+        }`}
+      >
         {error && (
           <div className="mb-4 p-3 bg-red-600 text-white rounded">{error}</div>
         )}
@@ -110,7 +122,11 @@ const CreateContest = () => {
                 id="title"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                className="w-full p-3 border border-gray-700 bg-gray-900 rounded text-gray-100"
+                className={`w-full p-3 border ${
+                  theme === "light"
+                    ? "border-gray-300 bg-gray-100"
+                    : "border-gray-700 bg-gray-900"
+                } rounded text-gray-900`}
                 required
               />
             </div>
@@ -125,7 +141,11 @@ const CreateContest = () => {
                 id="description"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                className="w-full p-3 border border-gray-700 bg-gray-900 rounded text-gray-100"
+                className={`w-full p-3 border ${
+                  theme === "light"
+                    ? "border-gray-300 bg-gray-100"
+                    : "border-gray-700 bg-gray-900"
+                } rounded text-gray-900`}
                 rows="4"
                 required
               />
@@ -137,7 +157,11 @@ const CreateContest = () => {
               >
                 Select Problems:
               </label>
-              <div className="max-h-60 overflow-y-auto bg-gray-800 p-4 rounded">
+              <div
+                className={`max-h-60 overflow-y-auto p-4 rounded ${
+                  theme === "light" ? "bg-gray-100" : "bg-gray-800"
+                }`}
+              >
                 {problems.map((problem) => (
                   <div key={problem._id} className="flex items-center mb-2">
                     <input
@@ -147,7 +171,7 @@ const CreateContest = () => {
                       onChange={() => handleProblemSelect(problem._id)}
                       className="mr-2"
                     />
-                    <label htmlFor={problem._id} className="text-gray-100">
+                    <label htmlFor={problem._id} className="text-gray-900">
                       {problem.title}
                     </label>
                   </div>
@@ -166,7 +190,11 @@ const CreateContest = () => {
                 id="startTime"
                 value={startTime}
                 onChange={(e) => setStartTime(e.target.value)}
-                className="w-full p-3 border border-gray-700 bg-gray-900 rounded text-gray-100"
+                className={`w-full p-3 border ${
+                  theme === "light"
+                    ? "border-gray-300 bg-gray-100"
+                    : "border-gray-700 bg-gray-900"
+                } rounded text-gray-900`}
                 required
               />
             </div>
@@ -182,14 +210,22 @@ const CreateContest = () => {
                 id="endTime"
                 value={endTime}
                 onChange={(e) => setEndTime(e.target.value)}
-                className="w-full p-3 border border-gray-700 bg-gray-900 rounded text-gray-100"
+                className={`w-full p-3 border ${
+                  theme === "light"
+                    ? "border-gray-300 bg-gray-100"
+                    : "border-gray-700 bg-gray-900"
+                } rounded text-gray-900`}
                 required
               />
             </div>
 
             <button
               type="submit"
-              className="w-full py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
+              className={`w-full py-2 rounded ${
+                theme === "light"
+                  ? "bg-blue-600 text-white hover:bg-blue-700"
+                  : "bg-blue-600 text-white hover:bg-blue-500"
+              } transition`}
             >
               Create Contest
             </button>
