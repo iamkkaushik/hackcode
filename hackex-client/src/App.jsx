@@ -12,6 +12,7 @@ import LeaderBoard from "./pages/LeaderBoard";
 import Contest from "./pages/Contest";
 import Contests from "./pages/Contests";
 import CreateContest from "./pages/CreateContest";
+
 const App = () => {
   return (
     <Router>

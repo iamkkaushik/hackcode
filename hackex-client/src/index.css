@@ -26,3 +26,6 @@
 }
 
 
+.codemirror-transparent .cm-editor {
+  background-color: transparent !important;
+}
