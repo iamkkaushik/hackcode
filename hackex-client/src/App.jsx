@@ -8,6 +8,7 @@ import Login from "./pages/Login";
 import UserProfile from "./pages/Userprofile";
 import Signup from "./pages/Signup";
 import Navbar from "./Components/Navbar";
+import LeaderBoard from "./pages/LeaderBoard";
 const App = () => {
   return (
     <Router>
@@ -67,6 +68,14 @@ const App = () => {
           element={
             <Layout>
               <ProblemSubmit />
+            </Layout>
+          }
+        />
+        <Route
+          path="/leaderboard"
+          element={
+            <Layout>
+              <LeaderBoard />
             </Layout>
           }
         />

@@ -9,15 +9,20 @@ const languageExtensions = {
   cpp,
   java,
   python,
-  javascript,
+  javascript
 };
 
 // eslint-disable-next-line react/prop-types
 const CodeHighlighter = ({ language, code, setCode }) => {
 
 	if(language==='c') language='cpp'
-	console.log(language)
-	console.log(code)
+	// if(language === 'javascript') language = 'js'
+	// console.log(language)
+	// console.log(code)
+	if(language==='c') language='cpp'
+	if(language === 'js') language = 'javascript'
+	// console.log(language)
+	// console.log(code)
 
   return (
     <div>

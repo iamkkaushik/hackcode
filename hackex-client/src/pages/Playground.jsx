@@ -31,8 +31,13 @@ const Playground = () => {
 	  console.log(result);
 
       if (result.status === "fail") {
-        toast.error("ERROR"); // Show toast if response status is failed
-		setOutput(result.message);
+		if(language === "java"){
+			toast.error("ERROR"); // Show toast if response status is failed
+			setOutput(result.message);
+		}else{
+			toast.error("ERROR");
+			setOutput(result.message.cmd);
+		}
       } else {
         setOutput(result.out);
       }
@@ -94,7 +99,7 @@ const Playground = () => {
               placeholder="Input data here..."
             ></textarea>
           </div>
-          <div>
+          <div >
             <label
               htmlFor="output"
               className="block text-gray-400 font-semibold mb-2"

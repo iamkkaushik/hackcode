@@ -44,6 +44,13 @@ const userSchema = new mongoose.Schema(
       default: true,
       select: false,
     },
+    collegeName: {
+      type: String,
+      required: [true, "Please enter your college name."],
+    },
+    profileImage: {
+      type: String,
+    },
   },
   { timestamps: true },
 );
