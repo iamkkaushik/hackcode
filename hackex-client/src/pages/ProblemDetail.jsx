@@ -22,6 +22,7 @@ const ProblemDetail = () => {
   const [themes, setThemes] = useState("vscodeDark");
   const { height } = useScreenSize();
   const { theme } = useTheme(); // Access theme from context
+  const [isError, setError] = useState(false);
 
   useEffect(() => {
     const fetchProblem = async () => {
@@ -66,13 +67,31 @@ const ProblemDetail = () => {
       });
 
       const result = await response.json();
+
       if (result?.status === "fail") {
-        if (selectedLanguage !== "java") {
-          setOutput(result.message.cmd || "Error executing code.");
-        } else {
-          setOutput(result.message);
+        let errorMessage = result.message;
+
+        if (selectedLanguage === "cpp") {
+          const lastErrorIndex = errorMessage
+            .toLowerCase()
+            .lastIndexOf("error");
+          if (lastErrorIndex !== -1) {
+            errorMessage = errorMessage.substring(lastErrorIndex);
+          }
+        } else if (selectedLanguage === "python") {
+          const lineIndex = errorMessage.toLowerCase().indexOf("line");
+          if (lineIndex !== -1) {
+            errorMessage = errorMessage.substring(lineIndex);
+          }
+        } else if (selectedLanguage === "js") {
+          // For JavaScript, display a generic error message
+          errorMessage = "Compilation or Execution Error";
         }
+
+        setError(true);
+        setOutput(errorMessage);
       } else {
+        setError(false);
         setOutput(result.out);
       }
     } catch (error) {
@@ -140,7 +159,6 @@ const ProblemDetail = () => {
       toast.error("An error occurred. Please try again.");
     }
   };
-
   const copyToClipboard = (text) => {
     navigator.clipboard.writeText(text).then(
       () => {
@@ -362,7 +380,9 @@ const ProblemDetail = () => {
           }`}
         >
           <h3 className="text-xl font-semibold mb-2">Output</h3>
-          <pre>{output}</pre>
+          <pre className={`text-gray-300 ${isError ? "text-red-500" : ""}`}>
+            {output}
+          </pre>
           <button
             onClick={() => copyToClipboard(output)}
             className="absolute top-2 right-2 p-2 hover:text-gray-100"
