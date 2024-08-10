@@ -1,11 +1,13 @@
-import{ useState, useEffect } from "react";
+/* eslint-disable no-unused-vars */
+import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useUser } from "../userContext";
 import { ToastContainer, toast } from "react-toastify";
 import { FaCopy } from "react-icons/fa";
-import { saveAs } from "file-saver";
+import { saveAs } from "file-saver"; // Import file-saver for downloading files
 import Spinner from "../components/Spinner.jsx";
-import CodeHighlighter from "./CodeHighlighter.jsx";
+import { useContext } from "react";
+import { useTheme } from "../themeContext"; // Import ThemeContext
 
 const ProblemDetail = () => {
   const { id } = useParams();
@@ -16,6 +18,7 @@ const ProblemDetail = () => {
   const { isLoggedIn, user } = useUser();
   const [loading, setLoading] = useState(true);
   const [selectedLanguage, setSelectedLanguage] = useState("cpp");
+  const { theme } = useTheme(); // Access theme from context
 
   useEffect(() => {
     const fetchProblem = async () => {
@@ -61,7 +64,11 @@ const ProblemDetail = () => {
 
       const result = await response.json();
       if (result?.status === "fail") {
-        setOutput(result.message);
+        if (selectedLanguage !== "java") {
+          setOutput(result.message.cmd || "Error executing code.");
+        } else {
+          setOutput(result.message);
+        }
       } else {
         setOutput(result.out);
       }
@@ -89,14 +96,13 @@ const ProblemDetail = () => {
           body: JSON.stringify({
             problemId: id,
             email: user.email,
-            code,
-            langName: selectedLanguage,
           }),
           credentials: "include",
         }
       );
 
       if (response.ok) {
+        const data = await response.json();
         toast.success("Code submitted successfully.");
       } else {
         toast.error("Error submitting code. Please try again.");
@@ -137,25 +143,58 @@ const ProblemDetail = () => {
 
   if (loading)
     return (
-      <div className="flex flex-col lg:flex-row bg-gray-900 text-gray-100 min-h-screen p-4 gap-4">
-        <div className="flex-1 bg-gray-800 p-6 rounded-lg relative">
+      <div
+        className={`flex flex-col lg:flex-row min-h-screen p-4 gap-4 ${
+          theme === "light"
+            ? "bg-gray-100 text-gray-900"
+            : "bg-gray-900 text-gray-100"
+        }`}
+      >
+        <div
+          className={`flex-1 p-6 rounded-lg relative ${
+            theme === "light" ? "bg-white" : "bg-gray-800"
+          }`}
+        >
           <div className="absolute inset-0 flex items-center justify-center">
-            <Spinner size={"4/5"} color="white" width={2} />
+            <Spinner
+              size={"4/5"}
+              color={theme === "light" ? "gray" : "white"}
+              width={2}
+            />
           </div>
         </div>
       </div>
     );
 
   return (
-    <div className="flex flex-col lg:flex-row bg-gray-900 text-gray-100 min-h-screen p-4 gap-4">
-      <div className="flex-1 bg-gray-800 p-6 rounded-lg">
+    <div
+      className={`flex flex-col lg:flex-row min-h-screen p-4 gap-4 ${
+        theme === "light"
+          ? "bg-gray-100 text-gray-900"
+          : "bg-gray-900 text-gray-100"
+      }`}
+    >
+      <div
+        className={`flex-1 p-6 rounded-lg ${
+          theme === "light" ? "bg-white" : "bg-gray-800"
+        }`}
+      >
         <h1 className="text-3xl font-bold mb-4">{problem.title}</h1>
+        <h2 className="text-xl font-semibold mb-2">{problem.description}</h2>
         <div className="mb-6 relative">
           <h2 className="text-xl font-semibold mb-2">Sample Input</h2>
-          <pre className="bg-gray-700 p-2 rounded">{problem.sampleInput}</pre>
+          <pre
+            className={` p-2 rounded ${
+              theme !== "light"
+                ? "text-gray-100  bg-gray-700 "
+                : "text-gray-900  bg-gray-200"
+            }`}
+          >
+            {problem.sampleInput}
+          </pre>
           <button
             onClick={() => copyToClipboard(problem.sampleInput)}
-            className="absolute top-2 right-2 p-2 text-gray-400 hover:text-gray-100"
+            className="absolute top-2 right-2 p-2 hover:text-gray-100"
             aria-label="Copy sample input to clipboard"
           >
             <FaCopy />
@@ -163,17 +202,29 @@ const ProblemDetail = () => {
         </div>
         <div className="mb-6 relative">
           <h2 className="text-xl font-semibold mb-2">Sample Output</h2>
-          <pre className="bg-gray-700 p-2 rounded">{problem.sampleOutput}</pre>
+          <pre
+            className={` p-2 rounded ${
+              theme !== "light"
+                ? "text-gray-100  bg-gray-700 "
+                : "text-gray-900  bg-gray-200"
+            }`}
+          >
+            {problem.sampleOutput}
+          </pre>
           <button
             onClick={() => copyToClipboard(problem.sampleOutput)}
-            className="absolute top-2 right-2 p-2 text-gray-400 hover:text-gray-100"
+            className="absolute top-2 right-2 p-2 hover:text-gray-100"
             aria-label="Copy sample output to clipboard"
           >
             <FaCopy />
           </button>
         </div>
       </div>
-      <div className="flex-1 bg-gray-800 p-6 rounded-lg">
+      <div
+        className={`flex-1 p-6 rounded-lg ${
+          theme === "light" ? "bg-white" : "bg-gray-800"
+        }`}
+      >
         <h2 className="text-2xl font-bold mb-4">Code Editor</h2>
         <div className="mb-4">
           <label
@@ -186,7 +237,11 @@ const ProblemDetail = () => {
             id="language"
             value={selectedLanguage}
             onChange={(e) => setSelectedLanguage(e.target.value)}
-            className="w-full p-3 bg-gray-700 text-gray-100 rounded-lg"
+            className={`w-full p-3 rounded-lg ${
+              theme === "light"
+                ? "bg-gray-200 text-gray-900"
+                : "bg-gray-700 text-gray-100"
+            }`}
           >
             <option value="cpp">C++</option>
             <option value="c">C</option>
@@ -197,14 +252,20 @@ const ProblemDetail = () => {
         </div>
 
         <div className="relative mb-4">
-          <CodeHighlighter
-            language={selectedLanguage}
-            code={code}
-            setCode={setCode}
+          <textarea
+            value={code}
+            onChange={(e) => setCode(e.target.value)}
+            rows="10"
+            className={`w-full p-3 rounded-lg ${
+              theme === "light"
+                ? "bg-gray-200 text-gray-900"
+                : "bg-gray-700 text-gray-100"
+            }`}
+            placeholder="Enter your code here..."
           />
           <button
             onClick={() => copyToClipboard(code)}
-            className="absolute top-2 right-2 p-2 text-gray-400 hover:text-gray-100"
+            className="absolute top-2 right-2 p-2 hover:text-gray-100"
             aria-label="Copy code to clipboard"
           >
             <FaCopy />
@@ -218,7 +279,11 @@ const ProblemDetail = () => {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               rows="4"
-              className="w-full p-3 bg-gray-700 text-gray-100 rounded-lg mb-4"
+              className={`w-full p-3 rounded-lg mb-4 ${
+                theme === "light"
+                  ? "bg-gray-200 text-gray-900"
+                  : "bg-gray-700 text-gray-100"
+              }`}
               placeholder="Enter input for your code..."
             />
             <input
@@ -229,7 +294,7 @@ const ProblemDetail = () => {
             />
             <button
               onClick={() => copyToClipboard(input)}
-              className="absolute top-1 right-1 p-2 text-gray-400 hover:text-gray-100"
+              className="absolute top-1 right-1 p-2 hover:text-gray-100"
               aria-label="Copy input to clipboard"
             >
               <FaCopy />
@@ -252,12 +317,18 @@ const ProblemDetail = () => {
           </button>
         </div>
 
-        <div className="bg-gray-700 p-4 rounded-lg mt-4 relative">
+        <div
+          className={` p-4 rounded-lg mt-4 relative ${
+            theme === "light"
+              ? "bg-gray-200 text-gray-900"
+              : "bg-gray-800 text-gray-100"
+          }`}
+        >
           <h3 className="text-xl font-semibold mb-2">Output</h3>
-          <pre className="text-gray-300">{output}</pre>
+          <pre>{output}</pre>
           <button
             onClick={() => copyToClipboard(output)}
-            className="absolute top-2 right-2 p-2 text-gray-400 hover:text-gray-100"
+            className="absolute top-2 right-2 p-2 hover:text-gray-100"
             aria-label="Copy output to clipboard"
           >
             <FaCopy />

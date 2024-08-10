@@ -1,12 +1,13 @@
-// src/pages/Contest.js
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { useTheme } from "../themeContext"; // Import ThemeContext
 
 const Contest = () => {
   const { id } = useParams();
   const [contest, setContest] = useState(null);
   const [timeRemaining, setTimeRemaining] = useState(null);
   const navigate = useNavigate();
+  const { theme } = useTheme(); // Access theme from context
 
   useEffect(() => {
     const fetchContest = async () => {
@@ -20,11 +21,9 @@ const Contest = () => {
           const start = new Date(data.startTime);
           const end = new Date(data.endTime);
 
-          console.log(data);
-          console.log(currentTime, end, start);
-          if (new Date(start) > currentTime) {
+          if (currentTime < start) {
             navigate("/contests"); // Redirect if the contest hasn't started yet
-          } else if (new Date(end) < currentTime) {
+          } else if (currentTime > end) {
             navigate("/contests"); // Redirect if the contest has ended
           } else {
             setContest(data);
@@ -83,59 +82,133 @@ const Contest = () => {
   const durationInHours = Math.abs(endTime - startTime) / 36e5; // Duration in hours
 
   return (
-    <div className="bg-gray-900 text-gray-100 min-h-screen p-8">
+    <div
+      className={`min-h-screen p-8 ${
+        theme === "light"
+          ? "bg-gray-100 text-gray-900"
+          : "bg-gray-900 text-gray-100"
+      }`}
+    >
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-5xl font-bold mb-6 text-center text-blue-400">
+        <h1
+          className={`text-5xl font-bold mb-6 text-center ${
+            theme === "light" ? "text-black" : "text-blue-400"
+          }`}
+        >
           {contest.title}
         </h1>
         <p className="text-lg mb-4">{contest.description}</p>
 
         {/* Timer */}
-        <div className="text-2xl font-bold text-red-500 mb-6 text-center">
+        <div
+          className={`text-2xl font-bold mb-6 text-center ${
+            theme === "light" ? "text-red-600" : "text-red-500"
+          }`}
+        >
           Time Remaining: {formatTime(timeRemaining)}
         </div>
 
         <div className="mt-8 mb-10">
-          <div className="text-lg">
-            <span className="font-semibold text-gray-400">Start Time: </span>
+          <div
+            className={`text-lg ${
+              theme === "light" ? "text-gray-800" : "text-gray-400"
+            }`}
+          >
+            <span className="font-semibold">Start Time: </span>
             <span>{startTime.toLocaleTimeString()}</span>
           </div>
-          <div className="text-lg mt-2">
-            <span className="font-semibold text-gray-400">Start Date: </span>
+          <div
+            className={`text-lg mt-2 ${
+              theme === "light" ? "text-gray-800" : "text-gray-400"
+            }`}
+          >
+            <span className="font-semibold">Start Date: </span>
             <span>{startTime.toLocaleDateString()}</span>
           </div>
-          <div className="text-lg mt-2">
-            <span className="font-semibold text-gray-400">Duration: </span>
+          <div
+            className={`text-lg mt-2 ${
+              theme === "light" ? "text-gray-800" : "text-gray-400"
+            }`}
+          >
+            <span className="font-semibold">Duration: </span>
             <span>{durationInHours} hours</span>
           </div>
         </div>
 
-        <h2 className="text-3xl font-bold mt-10 mb-6 text-blue-400">
+        <h2
+          className={`text-3xl font-bold mt-10 mb-6 ${
+            theme === "light" ? "text-black" : "text-blue-400"
+          }`}
+        >
           Problems in this Contest
         </h2>
-        <table className="min-w-full bg-gray-800 rounded-lg shadow-md">
-          <thead>
-            <tr className="bg-gray-700">
-              <th className="text-left px-6 py-4 text-gray-300">Title</th>
-              <th className="text-left px-6 py-4 text-gray-300">Description</th>
-              <th className="text-left px-6 py-4 text-gray-300">Action</th>
+        <table
+          className={`min-w-full rounded-lg shadow-md ${
+            theme === "light"
+              ? "bg-white border border-gray-300"
+              : "bg-gray-800 border border-gray-700"
+          }`}
+        >
+          <thead
+            className={
+              theme === "light"
+                ? "bg-gray-200 border-b border-gray-300"
+                : "bg-gray-700 border-b border-gray-600"
+            }
+          >
+            <tr>
+              <th
+                className={`text-left px-6 py-4 ${
+                  theme === "light" ? "text-gray-800" : "text-gray-300"
+                }`}
+              >
+                Title
+              </th>
+              <th
+                className={`text-left px-6 py-4 ${
+                  theme === "light" ? "text-gray-800" : "text-gray-300"
+                }`}
+              >
+                Description
+              </th>
+              <th
+                className={`text-left px-6 py-4 ${
+                  theme === "light" ? "text-gray-800" : "text-gray-300"
+                }`}
+              >
+                Action
+              </th>
             </tr>
           </thead>
           <tbody>
             {contest.problems.map((problem) => (
               <tr
                 key={problem._id}
-                className="hover:bg-gray-700 cursor-pointer"
+                className={`hover:bg-gray-700 cursor-pointer ${
+                  theme === "light" ? "hover:bg-gray-200" : ""
+                }`}
                 onClick={() => handleProblemClick(problem._id)}
               >
-                <td className="px-6 py-4 text-blue-300">{problem.title}</td>
-                <td className="px-6 py-4 text-gray-300">
+                <td
+                  className={`px-6 py-4 ${
+                    theme === "light" ? "text-blue-600" : "text-blue-300"
+                  }`}
+                >
+                  {problem.title}
+                </td>
+                <td
+                  className={`px-6 py-4 ${
+                    theme === "light" ? "text-gray-800" : "text-gray-300"
+                  }`}
+                >
                   {problem.description}
                 </td>
                 <td className="px-6 py-4">
                   <button
                     onClick={() => handleProblemClick(problem._id)}
-                    className="bg-blue-600 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded"
+                    className={`bg-blue-600 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded ${
+                      theme === "light" ? "bg-blue-500 hover:bg-blue-400" : ""
+                    }`}
                   >
                     View
                   </button>

@@ -1,9 +1,10 @@
-/* eslint-disable no-unused-vars */
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { useTheme } from "../themeContext"; // Adjust path as needed
 
 const ProblemList = () => {
   const [problems, setProblems] = useState([]);
+  const { theme } = useTheme();
 
   useEffect(() => {
     const fetchProblems = async () => {
@@ -21,36 +22,88 @@ const ProblemList = () => {
 
     fetchProblems();
   }, []);
+
   return (
-    <div className="bg-gray-900 text-gray-100 min-h-screen p-8">
-      <h1 className="text-4xl font-bold mb-8 text-center">
+    <div
+      className={`min-h-screen p-8 ${
+        theme !== "light"
+          ? "bg-gray-900 text-gray-100"
+          : "bg-white text-gray-900"
+      }`}
+    >
+      <h1
+        className={`text-4xl font-bold mb-8 text-center ${
+          theme !== "light" ? "text-gray-100" : "text-gray-900"
+        }`}
+      >
         Available Coding Problems
       </h1>
       <div className="overflow-x-auto">
-        <table className="min-w-full bg-gray-800 border border-gray-700 rounded-lg shadow-md">
-          <thead className="bg-gray-700 border-b border-gray-600">
+        <table
+          className={`min-w-full ${
+            theme !== "light"
+              ? "bg-gray-800 border-gray-700"
+              : "bg-white border-gray-300"
+          } border rounded-lg shadow-md`}
+        >
+          <thead
+            className={`${
+              theme !== "light"
+                ? "bg-gray-700 border-gray-600"
+                : "bg-gray-200 border-gray-300"
+            }`}
+          >
             <tr>
-              <th className="p-4 text-left">Title</th>
-              <th className="p-4 text-left">Description</th>
-              <th className="p-4 text-left">Details</th>
+              <th
+                className={`p-4 text-left ${
+                  theme !== "light" ? "rounded-tl-lg" : ""
+                }`}
+              >
+                Title
+              </th>
+              <th className={`p-4 text-left`}>Description</th>
+              <th
+                className={`p-4 text-left ${
+                  theme !== "light" ? "rounded-tr-lg" : ""
+                }`}
+              >
+                Details
+              </th>
             </tr>
           </thead>
           <tbody>
             {problems?.problems?.map((problem) => (
-              <tr key={problem.id} className="border-b border-gray-700">
+              <tr
+                key={problem._id}
+                className={`${
+                  theme !== "light" ? "border-gray-700" : "border-gray-200"
+                }`}
+              >
                 <td className="p-4">
                   {/* <Link
                     to={`/problem/${problem._id}`}
+                    className={`hover:underline ${
+                      theme ? "text-blue-400" : "text-blue-600"
+                    }`}
+                  >
                     className="text-blue-400 hover:underline"
                   > */}
-                    {problem.title}
+                  {problem.title}
                   {/* </Link> */}
                 </td>
-                <td className="p-4 text-gray-300">{problem.description}</td>
+                <td
+                  className={`p-4 ${
+                    theme !== "light" ? "text-gray-300" : "text-gray-900"
+                  }`}
+                >
+                  {problem.description}
+                </td>
                 <td className="p-4">
                   <Link
                     to={`/problem/${problem._id}`}
-                    className="text-blue-400 hover:underline"
+                    className={`hover:underline ${
+                      theme ? "text-blue-400" : "text-blue-600"
+                    }`}
                   >
                     View
                   </Link>

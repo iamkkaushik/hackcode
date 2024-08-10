@@ -75,6 +75,7 @@ export const UserProvider = ({ children }) => {
   const logout = () => {
     setUser(null);
     setIsLoggedIn(false);
+    console.log("Logged out");
     deleteCookie("user");
   };
 
