@@ -7,9 +7,9 @@ import { saveAs } from "file-saver"; // Import file-saver for downloading files
 import Spinner from "../components/Spinner.jsx";
 import CodeHighlighter from "./CodeHighlighter.jsx";
 import useScreenSize from "../hooks/useScreenSize.js";
-import { FaDownload } from "react-icons/fa";
 
 import { useTheme } from "../themeContext"; // Import ThemeContext
+import { FaDownload } from "react-icons/fa";
 import { FaPlay, FaPaperPlane } from "react-icons/fa";
 
 const ProblemDetail = () => {
@@ -24,6 +24,7 @@ const ProblemDetail = () => {
   const [themes, setThemes] = useState("vscodeDark");
   const { height } = useScreenSize();
   const { theme } = useTheme(); // Access theme from context
+  const [isError, setError] = useState(false);
 
   useEffect(() => {
     const fetchProblem = async () => {
@@ -68,13 +69,31 @@ const ProblemDetail = () => {
       });
 
       const result = await response.json();
+
       if (result?.status === "fail") {
-        if (selectedLanguage !== "java") {
-          setOutput(result.message.cmd || "Error executing code.");
-        } else {
-          setOutput(result.message);
+        let errorMessage = result.message;
+
+        if (selectedLanguage === "cpp") {
+          const lastErrorIndex = errorMessage
+            .toLowerCase()
+            .lastIndexOf("error");
+          if (lastErrorIndex !== -1) {
+            errorMessage = errorMessage.substring(lastErrorIndex);
+          }
+        } else if (selectedLanguage === "python") {
+          const lineIndex = errorMessage.toLowerCase().indexOf("line");
+          if (lineIndex !== -1) {
+            errorMessage = errorMessage.substring(lineIndex);
+          }
+        } else if (selectedLanguage === "js") {
+          // For JavaScript, display a generic error message
+          errorMessage = "Compilation or Execution Error";
         }
+
+        setError(true);
+        setOutput(errorMessage);
       } else {
+        setError(false);
         setOutput(result.out);
       }
     } catch (error) {
@@ -107,7 +126,7 @@ const ProblemDetail = () => {
       );
 
       if (response.ok) {
-        const data = await response.json();
+        // const data = await response.json();
         toast.success("Code submitted successfully.");
       } else {
         toast.error("Error submitting code. Please try again.");
@@ -342,34 +361,34 @@ const ProblemDetail = () => {
 
         <div className="mb-4">
           <div className="flex justify-between items-center my-2">
-            <h3 className="text-xl font-semibold mb-2">Output</h3>
+            <h3 className="text-xl font-semibold">Output</h3>
             <button
               onClick={() => downloadFile("output.txt", output)}
-              className="bg-blue-500 hover:bg-blue-600 text-white py-1 px-2 rounded-lg mt-2 flex items-center justify-between"
+              className="bg-blue-500 hover:bg-blue-600 text-white py-1 px-2 rounded-lg flex items-center justify-between"
             >
               <FaDownload className="mr-2" />
               Output
             </button>
           </div>
-          <div className="relative">
-            <textarea
-              value={output}
-              rows="4"
-              className={`w-full p-3 rounded-lg mb-4 ${
-                theme === "light"
-                  ? "bg-gray-200 text-gray-900"
-                  : "bg-gray-700 text-gray-100"
-              }`}
-              placeholder="Output..."
-            />
-            <button
-              onClick={() => copyToClipboard(output)}
-              className="absolute top-2 right-2 p-2 hover:text-gray-100"
-              aria-label="Copy output to clipboard"
-            >
-              <FaCopy />
-            </button>
-          </div>
+        </div>
+        <div className="relative">
+          <textarea
+            value={output}
+            rows="4"
+            className={`w-full p-3 rounded-lg mb-4 ${
+              theme === "light"
+                ? "bg-gray-200 text-gray-900"
+                : "bg-gray-700 text-gray-100"
+            } ${isError ? "text-red-500" : ""}`}
+            placeholder="Output..."
+          />
+          <button
+            onClick={() => copyToClipboard(output)}
+            className="absolute top-2 right-2 p-2 hover:text-gray-100"
+            aria-label="Copy output to clipboard"
+          >
+            <FaCopy />
+          </button>
         </div>
       </div>
       <ToastContainer />
