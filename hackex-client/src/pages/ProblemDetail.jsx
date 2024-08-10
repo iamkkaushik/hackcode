@@ -96,8 +96,6 @@ const ProblemDetail = () => {
           body: JSON.stringify({
             problemId: id,
             email: user.email,
-            code,
-            langName: selectedLanguage,
           }),
           credentials: "include",
         }
@@ -188,7 +186,7 @@ const ProblemDetail = () => {
           <pre
             className={` p-2 rounded ${
               theme !== "light"
-                ? "text-gray-100 bg-gray-700"
+                ? "text-gray-100  bg-gray-700 "
                 : "text-gray-900  bg-gray-200"
             }`}
           >
@@ -207,7 +205,7 @@ const ProblemDetail = () => {
           <pre
             className={` p-2 rounded ${
               theme !== "light"
-                ? "text-gray-100 bg-gray-700"
+                ? "text-gray-100  bg-gray-700 "
                 : "text-gray-900  bg-gray-200"
             }`}
           >
@@ -320,14 +318,14 @@ const ProblemDetail = () => {
         </div>
 
         <div
-          className={` p-2 rounded ${
-            theme !== "light"
-              ? "text-gray-100 bg-gray-700"
-              : "text-gray-900  bg-gray-200"
+          className={` p-4 rounded-lg mt-4 relative ${
+            theme === "light"
+              ? "bg-gray-200 text-gray-900"
+              : "bg-gray-800 text-gray-100"
           }`}
         >
           <h3 className="text-xl font-semibold mb-2">Output</h3>
-          <pre className="text-gray-300">{output}</pre>
+          <pre>{output}</pre>
           <button
             onClick={() => copyToClipboard(output)}
             className="absolute top-2 right-2 p-2 hover:text-gray-100"

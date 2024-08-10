@@ -80,14 +80,16 @@ const ProblemList = () => {
                 }`}
               >
                 <td className="p-4">
-                  <Link
+                  {/* <Link
                     to={`/problem/${problem._id}`}
                     className={`hover:underline ${
                       theme ? "text-blue-400" : "text-blue-600"
                     }`}
                   >
-                    {problem.title}
-                  </Link>
+                    className="text-blue-400 hover:underline"
+                  > */}
+                  {problem.title}
+                  {/* </Link> */}
                 </td>
                 <td
                   className={`p-4 ${

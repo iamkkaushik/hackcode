@@ -22,12 +22,11 @@ exports.getAllUsers = catchAsync(async (req, res, next) => {
 });
 
 exports.submitCode = catchAsync(async (req, res, next) => {
-  const { problemId, code, email } = req.body;
+  const { problemId, email } = req.body;
 
-  if (!problemId || !code || !email) {
+  if (!problemId || !email) {
     return next(new AppError("All fields are required", 400));
   }
-
   try {
     const user = await User.findOne({ email });
     if (!user) {

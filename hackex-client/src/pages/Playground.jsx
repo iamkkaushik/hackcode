@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlay, faCopy, faDownload } from "@fortawesome/free-solid-svg-icons";
 import { saveAs } from "file-saver";
 import { useTheme } from "../themeContext"; // Import SaveContext
+import Spinner from "../components/Spinner.jsx";
 
 const Playground = () => {
   const [input, setInput] = useState("");
@@ -17,8 +18,11 @@ const Playground = () => {
   const { theme } = useTheme(); // Access theme from context
   const [themes, setThemes] = useState("vscodeDark");
 
+  const [loading, setLoading] = useState(false);
+
   const handleRunCode = async () => {
     try {
+      setLoading(true);
       const response = await fetch("http://localhost:8000/execute", {
         method: "POST",
         headers: {
@@ -44,6 +48,7 @@ const Playground = () => {
       setOutput("Error executing code.");
       toast.error("ERROR");
     }
+    setLoading(false);
   };
 
   const copyToClipboard = (text) => {
@@ -82,6 +87,7 @@ const Playground = () => {
           : "bg-gray-900 text-gray-200"
       }`}
     >
+      {loading && <Spinner />}
       <ToastContainer />
       <div className="max-w-10xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div
@@ -135,10 +141,11 @@ const Playground = () => {
                 onClick={handleRunCode}
               >
                 <FontAwesomeIcon icon={faPlay} className="mr-2" />
-                Run
+                {loading ? "Running..." : "Run Code"}
               </button>
             </div>
           </div>
+
           <div className="relative">
             <CodeHighlighter
               language={language}

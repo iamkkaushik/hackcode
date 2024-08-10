@@ -1,22 +1,29 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import ProblemList from "./ProblemList";
 import LeaderBoard from "./LeaderBoard";
 import { useTheme } from "../themeContext"; // Adjust path as needed
+import { useUser } from "../userContext";
 
 const Home = () => {
   const { theme } = useTheme(); // Get theme context
-  const [platformInfo, setPlatformInfo] = useState({
+  const platformInfo = {
     title: "Welcome to CodeMaster",
     description:
       "CodeMaster is a platform to enhance your coding skills with a variety of challenges, contests, and a collaborative community.",
-  });
+  };
 
   const menuItems = [
     { name: "Problems", path: "/problems" },
     { name: "Contests", path: "/contests" },
     { name: "Leaderboard", path: "/leaderboard" },
   ];
+
+  const { isLoggedIn } = useUser(); // Access login state
+
+  useEffect(() => {
+    // This ensures that the Navbar will re-render if the user login state changes
+  }, [isLoggedIn]);
 
   return (
     <div

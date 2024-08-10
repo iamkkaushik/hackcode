@@ -5,11 +5,48 @@ import { useTheme } from "../themeContext"; // Import ThemeContext
 import { FaSun, FaMoon } from "react-icons/fa";
 import logo from "../assets/logo.png"; // Light mode logo
 import logoDark from "../assets/LogoDark.png"; // Dark mode logo
+import { useState, useRef, useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { FaBars } from "react-icons/fa";
 
 const Navbar = () => {
-  const { isLoggedIn } = useUser();
   const { theme, toggleTheme } = useTheme(); // Access theme and toggle function from context
 
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { isLoggedIn, logout } = useUser();
+  const [isDropdownOpen, setDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
+
+  const toggleDropdown = () => {
+    setDropdownOpen((prev) => !prev);
+  };
+
+  const handleClickOutside = (event) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      setDropdownOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+  const handleLogout = async () => {
+    const response = await fetch("http://localhost:3000/api/v1/users/logout", {
+      method: "GET",
+    });
+    if (response.ok) {
+      await logout();
+
+      navigate("/");
+    } else {
+      alert("Logout failed. Please try again.");
+    }
+  };
   return (
     <nav
       className={`${
@@ -77,12 +114,37 @@ const Navbar = () => {
                 Login/Register
               </Link>
             ) : (
-              <Link
-                to="/profile"
-                className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg transition duration-300"
-              >
-                Profile
-              </Link>
+              <div className="relative">
+                <button
+                  onClick={toggleDropdown}
+                  className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg flex items-center"
+                  aria-label="User Menu"
+                >
+                  <FaBars className="text-xl" />
+                </button>
+                {isDropdownOpen && (
+                  <div
+                    ref={dropdownRef}
+                    className="absolute right-0 mt-2 bg-gray-700 text-gray-100 rounded-lg shadow-lg w-40"
+                  >
+                    <Link
+                      to="/profile"
+                      className="block px-4 py-2 hover:bg-blue-500"
+                      onClick={() => setDropdownOpen(false)}
+                    >
+                      Profile
+                    </Link>
+                    <Link to="/home">
+                      <button
+                        onClick={handleLogout}
+                        className="block w-full px-4 py-2 text-left hover:bg-blue-500"
+                      >
+                        Logout
+                      </button>
+                    </Link>
+                  </div>
+                )}
+              </div>
             )}
           </div>
         </div>

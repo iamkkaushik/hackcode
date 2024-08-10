@@ -11,7 +11,7 @@ const Profile = () => {
   const [email, setEmail] = useState("");
   const navigate = useNavigate();
   const { theme } = useTheme(); // Access theme from context
-
+  console.log(user);
   useEffect(() => {
     if (!isLoggedIn) {
       navigate("/login");
@@ -28,7 +28,7 @@ const Profile = () => {
               "Content-Type": "application/json",
             },
             body: JSON.stringify({
-              email: user,
+              email: user.email,
             }),
             credentials: "include",
           }
@@ -36,6 +36,7 @@ const Profile = () => {
 
         if (response.ok) {
           const data = await response.json();
+          console.log(data);
           setName(data.name);
           setEmail(data.email);
           setProblemCount(data.noOfProblems);
