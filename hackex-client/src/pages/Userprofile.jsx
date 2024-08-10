@@ -81,7 +81,7 @@ const Profile = () => {
                     </td>
                     <td className="py-2 px-4 border-b">
                       <Link
-                        to={`/problem/${problem.id}`}
+                        to={`/problem/${problem._id}`}
                         className="text-blue-400 hover:underline"
                       >
                         View Problem

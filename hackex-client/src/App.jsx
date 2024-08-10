@@ -11,7 +11,7 @@ import Navbar from "./Components/Navbar";
 import LeaderBoard from "./pages/LeaderBoard";
 import Contest from "./pages/Contest";
 import Contests from "./pages/Contests";
-
+import CreateContest from "./pages/CreateContest";
 const App = () => {
   return (
     <Router>
@@ -42,7 +42,7 @@ const App = () => {
             </Layout>
           }
         />
-        
+
         <Route
           path="/problem/:id"
           element={
@@ -51,7 +51,7 @@ const App = () => {
             </Layout>
           }
         />
-        
+
         <Route
           path="/profile"
           element={
@@ -60,7 +60,7 @@ const App = () => {
             </Layout>
           }
         />
-        
+
         <Route
           path="/playground"
           element={
@@ -69,7 +69,7 @@ const App = () => {
             </Layout>
           }
         />
-        
+
         <Route
           path="/submit"
           element={
@@ -78,7 +78,7 @@ const App = () => {
             </Layout>
           }
         />
-        
+
         <Route
           path="/leaderboard"
           element={
@@ -87,7 +87,7 @@ const App = () => {
             </Layout>
           }
         />
-        
+
         <Route
           path="/contests"
           element={
@@ -96,12 +96,20 @@ const App = () => {
             </Layout>
           }
         />
-        
+
         <Route
           path="/contest/:id"
           element={
             <Layout>
               <Contest />
+            </Layout>
+          }
+        />
+        <Route
+          path="/create-contest"
+          element={
+            <Layout>
+              <CreateContest />
             </Layout>
           }
         />
