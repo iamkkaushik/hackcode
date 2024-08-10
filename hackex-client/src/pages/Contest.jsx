@@ -184,8 +184,8 @@ const Contest = () => {
             {contest.problems.map((problem) => (
               <tr
                 key={problem._id}
-                className={`hover:bg-gray-700 cursor-pointer ${
-                  theme === "light" ? "hover:bg-gray-200" : ""
+                className={` cursor-pointer ${
+                  theme === "light" ? "hover:bg-gray-200" : "hover:bg-gray-700"
                 }`}
                 onClick={() => handleProblemClick(problem._id)}
               >

@@ -7,7 +7,16 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlay, faCopy, faDownload } from "@fortawesome/free-solid-svg-icons";
 import { saveAs } from "file-saver";
 import { useTheme } from "../themeContext";
-import Spinner from "../Components/Spinner";
+import Spinner from "../components/Spinner";
+
+const boilerplateCode = {
+  cpp: "#include <iostream>\nusing namespace std;\n\nint main() {\n    // Write your code here\n    return 0;\n}",
+  c: "#include <stdio.h>\n\nint main() {\n    // Write your code here\n    return 0;\n}",
+  java: "public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}",
+  python:
+    'def main():\n    # Write your code here\n    pass\n\nif __name__ == "__main__":\n    main()',
+  js: "function main() {\n    // Write your code here\n}\n\nmain();",
+};
 
 const Playground = () => {
   const [input, setInput] = useState("");
@@ -162,7 +171,7 @@ const Playground = () => {
             </select>
             <div className="flex space-x-2 mr-4">
               <button
-                className="bg-green-500 text-white py-2 px-4 rounded-lg"
+                className="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-lg transition-colors duration-200"
                 onClick={handleRunCode}
                 disabled={loading}
               >
