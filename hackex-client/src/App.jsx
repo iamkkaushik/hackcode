@@ -16,7 +16,6 @@ import { Navigate } from "react-router-dom";
 import Home from "./pages/Home";
 import Footer from "./Components/Footer";
 
-
 const App = () => {
   return (
     <Router>
@@ -39,19 +38,7 @@ const App = () => {
           }
         />
 
-        <Route
-          path="/"
-          element={<Navigate to="/home" replace />}
-        />
-
-        {/* <Route
-          path="/"
-          element={
-            <Layout>
-              <ProblemList />
-            </Layout>
-          }
-        /> */}
+        <Route path="/" element={<Navigate to="/home" replace />} />
 
         <Route
           path="/home"
@@ -150,7 +137,7 @@ const Layout = ({ children }) => {
     <>
       <Navbar />
       <main>{children}</main>
-	  <Footer />
+      <Footer />
     </>
   );
 };

@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useTheme } from "../themeContext"; // Import ThemeContext
 
 const AddProblem = () => {
   const [title, setTitle] = useState("");
@@ -10,6 +11,7 @@ const AddProblem = () => {
   const [sampleOutput, setSampleOutput] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const { theme } = useTheme(); // Access theme from context
 
   const handleSubmit = async () => {
     try {
@@ -39,8 +41,18 @@ const AddProblem = () => {
   };
 
   return (
-    <div className="bg-gray-900 text-gray-100 min-h-screen flex items-center justify-center p-8">
-      <div className="w-full max-w-4xl bg-gray-800 p-8 rounded-lg shadow-lg">
+    <div
+      className={`min-h-screen flex items-center justify-center p-8 ${
+        theme === "light"
+          ? "bg-gray-100 text-gray-900"
+          : "bg-gray-900 text-gray-100"
+      }`}
+    >
+      <div
+        className={`w-full max-w-4xl p-8 rounded-lg shadow-lg ${
+          theme === "light" ? "bg-white" : "bg-gray-800"
+        }`}
+      >
         <h1 className="text-3xl font-bold mb-6 text-center">
           Add a New Problem
         </h1>
@@ -49,31 +61,51 @@ const AddProblem = () => {
           type="text"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          className="w-full p-3 mb-4 bg-gray-700 text-white rounded-lg border border-gray-600 focus:outline-none focus:border-blue-500"
+          className={`w-full p-3 mb-4 rounded-lg border ${
+            theme === "light"
+              ? "bg-gray-200 text-gray-900 border-gray-300 focus:border-blue-500"
+              : "bg-gray-700 text-white border-gray-600 focus:border-blue-500"
+          }`}
           placeholder="Title"
         />
         <textarea
           value={description}
           onChange={(e) => setDescription(e.target.value)}
-          className="w-full p-3 mb-4 bg-gray-700 text-white rounded-lg border border-gray-600 focus:outline-none focus:border-blue-500"
+          className={`w-full p-3 mb-4 rounded-lg border ${
+            theme === "light"
+              ? "bg-gray-200 text-gray-900 border-gray-300 focus:border-blue-500"
+              : "bg-gray-700 text-white border-gray-600 focus:border-blue-500"
+          }`}
           placeholder="Description"
         />
         <textarea
           value={constraints}
           onChange={(e) => setConstraints(e.target.value)}
-          className="w-full p-3 mb-4 bg-gray-700 text-white rounded-lg border border-gray-600 focus:outline-none focus:border-blue-500"
+          className={`w-full p-3 mb-4 rounded-lg border ${
+            theme === "light"
+              ? "bg-gray-200 text-gray-900 border-gray-300 focus:border-blue-500"
+              : "bg-gray-700 text-white border-gray-600 focus:border-blue-500"
+          }`}
           placeholder="Constraints"
         />
         <textarea
           value={sampleInput}
           onChange={(e) => setSampleInput(e.target.value)}
-          className="w-full p-3 mb-4 bg-gray-700 text-white rounded-lg border border-gray-600 focus:outline-none focus:border-blue-500"
+          className={`w-full p-3 mb-4 rounded-lg border ${
+            theme === "light"
+              ? "bg-gray-200 text-gray-900 border-gray-300 focus:border-blue-500"
+              : "bg-gray-700 text-white border-gray-600 focus:border-blue-500"
+          }`}
           placeholder="Sample Input"
         />
         <textarea
           value={sampleOutput}
           onChange={(e) => setSampleOutput(e.target.value)}
-          className="w-full p-3 mb-6 bg-gray-700 text-white rounded-lg border border-gray-600 focus:outline-none focus:border-blue-500"
+          className={`w-full p-3 mb-6 rounded-lg border ${
+            theme === "light"
+              ? "bg-gray-200 text-gray-900 border-gray-300 focus:border-blue-500"
+              : "bg-gray-700 text-white border-gray-600 focus:border-blue-500"
+          }`}
           placeholder="Sample Output"
         />
         <button
