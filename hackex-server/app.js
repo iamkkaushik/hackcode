@@ -30,8 +30,8 @@ app.use(cors(corsOptions));
 app.use(helmet({ contentSecurityPolicy: false }));
 
 const limiter = rateLimit({
-  max: 100,
-  windowMs: 60 * 60 * 1000,
+  max: 10000,
+  windowMs: 60 * 60 * 10000,
   message: "Too many requests from this IP. Please try again later.",
 });
 
@@ -48,7 +48,7 @@ const storage = multer.diskStorage({
   },
 });
 
-app.use(express.json({ limit: "10kb" }));
+app.use(express.json({ limit: "100kb" }));
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true, limit: "10kb" }));
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
