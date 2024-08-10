@@ -1,15 +1,14 @@
-/* eslint-disable no-unused-vars */
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useUser } from "../userContext";
 import { ToastContainer, toast } from "react-toastify";
 import { FaCopy } from "react-icons/fa";
-import { saveAs } from "file-saver"; // Import file-saver for downloading files
+import { saveAs } from "file-saver";
 import Spinner from "../components/Spinner.jsx";
+import CodeHighlighter from "./CodeHighlighter.jsx";
 
 const ProblemDetail = () => {
   const { id } = useParams();
-
   const [code, setCode] = useState("");
   const [input, setInput] = useState("");
   const [output, setOutput] = useState("");
@@ -62,11 +61,7 @@ const ProblemDetail = () => {
 
       const result = await response.json();
       if (result?.status === "fail") {
-        if (selectedLanguage !== "java") {
-          setOutput(result.message.cmd || "Error executing code.");
-        } else {
-          setOutput(result.message);
-        }
+        setOutput(result.message);
       } else {
         setOutput(result.out);
       }
@@ -102,7 +97,6 @@ const ProblemDetail = () => {
       );
 
       if (response.ok) {
-        const data = await response.json();
         toast.success("Code submitted successfully.");
       } else {
         toast.error("Error submitting code. Please try again.");
@@ -203,12 +197,10 @@ const ProblemDetail = () => {
         </div>
 
         <div className="relative mb-4">
-          <textarea
-            value={code}
-            onChange={(e) => setCode(e.target.value)}
-            rows="10"
-            className="w-full p-3 bg-gray-700 text-gray-100 rounded-lg"
-            placeholder="Enter your code here..."
+          <CodeHighlighter
+            language={selectedLanguage}
+            code={code}
+            setCode={setCode}
           />
           <button
             onClick={() => copyToClipboard(code)}
@@ -278,6 +270,7 @@ const ProblemDetail = () => {
           </button>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 };
