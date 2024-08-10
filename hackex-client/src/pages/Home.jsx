@@ -20,6 +20,10 @@ const Home = () => {
     // This ensures that the Navbar will re-render if the user login state changes
   }, [isLoggedIn]);
 
+  const cardBgColor = theme === "light" ? "bg-gray-100" : "bg-gray-700";
+  const cardHoverColor =
+    theme === "light" ? "hover:bg-gray-200" : "hover:bg-gray-600";
+
   return (
     <div
       className={`flex flex-col lg:flex-row justify-between items-start lg:items-start lg:space-x-10 p-8 ${
@@ -43,9 +47,7 @@ const Home = () => {
         <div className="flex flex-col lg:flex-row lg:space-x-6 mb-6">
           {/* Coding Playground */}
           <div
-            className={`flex-1 p-6 rounded-lg shadow-lg mb-4 lg:mb-0 flex flex-col items-center justify-center ${
-              theme !== "light" ? "bg-gray-700" : "bg-gray-100"
-            } transition-transform duration-300 ease-in-out hover:scale-105`}
+            className={`flex-1 p-6 rounded-lg shadow-lg mb-4 lg:mb-0 flex flex-col items-center justify-center ${cardBgColor} ${cardHoverColor} transition-transform duration-300 ease-in-out hover:scale-105`}
           >
             <Link to="/playground">
               <h2 className="text-2xl font-bold mb-2 text-center">
@@ -60,9 +62,7 @@ const Home = () => {
           </div>
           {/* Coding Arena */}
           <div
-            className={`flex-1 p-6 rounded-lg shadow-lg mb-4 lg:mb-0 flex flex-col items-center justify-center ${
-              theme !== "light" ? "bg-gray-700" : "bg-gray-100"
-            } transition-transform duration-300 ease-in-out hover:scale-105`}
+            className={`flex-1 p-6 rounded-lg shadow-lg mb-4 lg:mb-0 flex flex-col items-center justify-center ${cardBgColor} ${cardHoverColor} transition-transform duration-300 ease-in-out hover:scale-105`}
           >
             <Link to="/problems">
               <h2 className="text-2xl font-bold mb-2 text-center">
@@ -78,9 +78,7 @@ const Home = () => {
           </div>
           {/* Coding Battleground */}
           <div
-            className={`flex-1 p-6 rounded-lg shadow-lg flex flex-col items-center justify-center ${
-              theme !== "light" ? "bg-gray-700" : "bg-gray-100"
-            } transition-transform duration-300 ease-in-out hover:scale-105`}
+            className={`flex-1 p-6 rounded-lg shadow-lg flex flex-col items-center justify-center ${cardBgColor} ${cardHoverColor} transition-transform duration-300 ease-in-out hover:scale-105`}
           >
             <Link to="/contests">
               <h2 className="text-2xl font-bold mb-2 text-center">
