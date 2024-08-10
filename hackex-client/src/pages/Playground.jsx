@@ -6,7 +6,7 @@ import useScreenSize from "../hooks/useScreenSize.js";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlay, faCopy, faDownload } from "@fortawesome/free-solid-svg-icons";
 import { saveAs } from "file-saver";
-import { useTheme } from "../themeContext"; // Import SaveContext
+import { useTheme } from "../themeContext"; 
 import Spinner from "../components/Spinner.jsx";
 
 const Playground = () => {
@@ -15,41 +15,65 @@ const Playground = () => {
   const [language, setLanguage] = useState("cpp");
   const [testInput, setTestInput] = useState("");
   const { height } = useScreenSize();
-  const { theme } = useTheme(); // Access theme from context
+  const { theme } = useTheme(); 
   const [themes, setThemes] = useState("vscodeDark");
 
   const [loading, setLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
 
   const handleRunCode = async () => {
-    try {
-      setLoading(true);
-      const response = await fetch("http://localhost:8000/execute", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          langName: language,
-          executionCode: input,
-          customInput: testInput,
-        }),
-      });
-
-      const result = await response.json();
-
-      if (result.status === "fail") {
-        toast.error("ERROR");
-        setOutput(language === "java" ? result.message : result.message.cmd);
-      } else {
-        setOutput(result.out);
-      }
-    } catch (error) {
-      console.error("Error executing code:", error);
-      setOutput("Error executing code.");
-      toast.error("ERROR");
-    }
-    setLoading(false);
+	setLoading(true);
+	try {
+	  const response = await fetch("http://localhost:8000/execute", {
+		method: "POST",
+		headers: {
+		  "Content-Type": "application/json",
+		},
+		body: JSON.stringify({
+		  langName: language,
+		  executionCode: input,
+		  customInput: testInput,
+		}),
+	  });
+  
+	  const result = await response.json();
+  
+	  if (result?.status === "fail") {
+		let errorMessage = result.message;
+		console.log(typeof errorMessage);
+  
+		if (Object.keys(errorMessage).length === 0) {
+		  errorMessage = "Uncaught error";
+		} else {
+		  if (language === "cpp") {
+			const lastErrorIndex = errorMessage.toLowerCase().lastIndexOf("error");
+			if (lastErrorIndex !== -1) {
+			  errorMessage = errorMessage.substring(lastErrorIndex);
+			}
+		  } else if (language === "python") {
+			const lineIndex = errorMessage.toLowerCase().indexOf("line");
+			if (lineIndex !== -1) {
+			  errorMessage = errorMessage.substring(lineIndex);
+			}
+		  } else if (language === "js") {
+			errorMessage = "Compilation or Execution Error";
+		  }
+		}
+  
+		setIsError(true);
+		setOutput(errorMessage);
+	  } else {
+		setIsError(false);
+		setOutput(result.out);
+	  }
+	} catch (error) {
+	  console.error("Error executing code:", error);
+	  toast.error("Network error: Unable to execute code.");
+	  setOutput("Error executing code.");
+	}
+	setLoading(false);
   };
+  
 
   const copyToClipboard = (text) => {
     navigator.clipboard.writeText(text).then(
@@ -81,29 +105,26 @@ const Playground = () => {
 
   return (
     <div
-      className={`p-6 min-h-screen ${
-        theme === "light"
-          ? "bg-gray-100 text-gray-900"
-          : "bg-gray-900 text-gray-200"
-      }`}
+      className={`p-6 min-h-screen ${theme === "light"
+        ? "bg-gray-100 text-gray-900"
+        : "bg-gray-900 text-gray-200"
+        }`}
     >
       {loading && <Spinner />}
       <ToastContainer />
       <div className="max-w-10xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div
-          className={`shadow-lg rounded-lg pt-4 overflow-hidden ${
-            theme === "light"
-              ? "bg-white text-gray-900"
-              : "bg-gray-800 text-gray-200"
-          }`}
+          className={`shadow-lg rounded-lg pt-4 overflow-hidden ${theme === "light"
+            ? "bg-white text-gray-900"
+            : "bg-gray-800 text-gray-200"
+            }`}
         >
           <div className="flex justify-between items-center mb-4">
             <select
-              className={`ml-4 p-2 border rounded ${
-                theme === "light"
-                  ? "bg-gray-200 text-gray-900"
-                  : "bg-gray-700 text-gray-300"
-              }`}
+              className={`ml-4 p-2 border rounded ${theme === "light"
+                ? "bg-gray-200 text-gray-900"
+                : "bg-gray-700 text-gray-300"
+                }`}
               value={language}
               onChange={(e) => setLanguage(e.target.value)}
             >
@@ -111,14 +132,13 @@ const Playground = () => {
               <option value="cpp">C++</option>
               <option value="c">C</option>
               <option value="python">Python</option>
-              <option value="js">Javascript</option>
+              <option value="js">JavaScript</option>
             </select>
             <select
-              className={`p-2 border rounded ${
-                theme === "light"
-                  ? "bg-gray-200 text-gray-900"
-                  : "bg-gray-700 text-gray-300"
-              }`}
+              className={`p-2 border rounded ${theme === "light"
+                ? "bg-gray-200 text-gray-900"
+                : "bg-gray-700 text-gray-300"
+                }`}
               value={themes}
               onChange={(e) => setThemes(e.target.value)}
             >
@@ -139,6 +159,7 @@ const Playground = () => {
               <button
                 className="bg-green-500 text-white py-2 px-4 rounded-lg"
                 onClick={handleRunCode}
+                disabled={loading}
               >
                 <FontAwesomeIcon icon={faPlay} className="mr-2" />
                 {loading ? "Running..." : "Run Code"}
@@ -165,11 +186,10 @@ const Playground = () => {
         </div>
 
         <div
-          className={`shadow-lg rounded-lg p-4 flex flex-col h-full ${
-            theme === "light"
-              ? "bg-white text-gray-900"
-              : "bg-gray-800 text-gray-200"
-          }`}
+          className={`shadow-lg rounded-lg p-4 flex flex-col h-full ${theme === "light"
+            ? "bg-white text-gray-900"
+            : "bg-gray-800 text-gray-200"
+            }`}
         >
           <div className="flex-1 flex flex-col gap-4">
             <div className="flex-1 flex flex-col">
@@ -187,11 +207,10 @@ const Playground = () => {
               <div className="relative flex-1">
                 <textarea
                   id="input"
-                  className={`w-full h-full p-4 border rounded-lg ${
-                    theme === "light"
-                      ? "bg-gray-200 text-gray-900"
-                      : "bg-gray-700 text-gray-200"
-                  }`}
+                  className={`w-full h-full p-4 border rounded-lg ${theme === "light"
+                    ? "bg-gray-200 text-gray-900"
+                    : "bg-gray-700 text-gray-200"
+                    }`}
                   value={testInput}
                   onChange={(e) => setTestInput(e.target.value)}
                   placeholder="Input data here..."
@@ -219,17 +238,18 @@ const Playground = () => {
                 </button>
               </div>
               <div className="relative flex-1">
-                <textarea
+                <pre
                   id="output"
-                  className={`w-full h-full p-4 border rounded-lg ${
-                    theme === "light"
+                  className={`w-full h-full p-4 border rounded-lg overflow-auto ${isError
+                    ? "text-red-500"
+                    : "text-green-500"
+                    } ${theme === "light"
                       ? "bg-gray-200 text-gray-900"
                       : "bg-gray-700 text-gray-200"
-                  }`}
-                  value={output}
-                  readOnly
-                  placeholder="Output will appear here..."
-                ></textarea>
+                    }`}
+                >
+                  {output}
+                </pre>
                 <button
                   onClick={() => copyToClipboard(output)}
                   className="absolute top-2 right-2 p-2 text-gray-400 hover:text-gray-100"
