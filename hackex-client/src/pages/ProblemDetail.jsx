@@ -5,6 +5,7 @@ import { useUser } from "../userContext";
 import { ToastContainer, toast } from "react-toastify";
 import { FaCopy } from "react-icons/fa";
 import { saveAs } from "file-saver"; // Import file-saver for downloading files
+import Spinner from "../components/Spinner.jsx";
 
 const ProblemDetail = () => {
   const { id } = useParams();
@@ -140,7 +141,16 @@ const ProblemDetail = () => {
     saveAs(blob, filename);
   };
 
-  if (!problem) return <div className="text-gray-400">Loading...</div>;
+  if (loading)
+    return (
+      <div className="flex flex-col lg:flex-row bg-gray-900 text-gray-100 min-h-screen p-4 gap-4">
+        <div className="flex-1 bg-gray-800 p-6 rounded-lg relative">
+          <div className="absolute inset-0 flex items-center justify-center">
+            <Spinner size={"4/5"} color="white" width={2} />
+          </div>
+        </div>
+      </div>
+    );
 
   return (
     <div className="flex flex-col lg:flex-row bg-gray-900 text-gray-100 min-h-screen p-4 gap-4">
