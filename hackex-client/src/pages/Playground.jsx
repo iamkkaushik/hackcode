@@ -1,5 +1,6 @@
 import { useState } from "react";
 import CodeHighlighter from "./CodeHighlighter";
+import useScreenSize from "../hooks/useScreenSize.js";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -8,6 +9,7 @@ const Playground = () => {
   const [output, setOutput] = useState("");
   const [language, setLanguage] = useState("cpp");
   const [testInput, setTestInput] = useState("");
+  const { height } = useScreenSize();
 
   const handleRunCode = async () => {
     try {
@@ -63,27 +65,24 @@ const Playground = () => {
             >
               <option value="java">Java</option>
               <option value="cpp">C++</option>
-              <option value="c">C</option>
               <option value="python">Python</option>
-              <option value="js">Javascript</option>
+              <option value="javascript">Javascript</option>
             </select>
             <div className="flex space-x-2">
-              <button
-                className="bg-green-500 text-white py-2 px-4 rounded-lg"
-                onClick={handleRunCode}
-              >
-                Coding Sprint
-              </button>
-              <button
-                className="bg-green-500 text-white py-2 px-4 rounded-lg flex items-center"
-              >
-                <i className="bi bi-play-fill"></i>
+              <button className="bg-green-500 text-white py-2 px-4 rounded-lg">
+                <span>
+                  <i className="bi bi-play-fill text-xl"></i>
+                </span>
+                Run Code
               </button>
             </div>
           </div>
-          <CodeHighlighter language={language} code={input} setCode={setInput} />
+          <CodeHighlighter
+            height={String(parseInt(height) * 0.8) + "px"}
+            language={language}
+          />
         </div>
-        <div className="bg-gray-800 shadow-lg rounded-lg p-4 flex flex-col justify-between">
+        {/* <div className="bg-gray-800 shadow-lg rounded-lg p-4 flex flex-col justify-between">
           <div className="mb-4">
             <label
               htmlFor="input"
@@ -94,12 +93,12 @@ const Playground = () => {
             <textarea
               id="input"
               className="w-full h-32 p-4 bg-gray-700 text-gray-200 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              value={testInput}
-              onChange={(e) => setTestInput(e.target.value)}
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
               placeholder="Input data here..."
             ></textarea>
           </div>
-          <div >
+          <div>
             <label
               htmlFor="output"
               className="block text-gray-400 font-semibold mb-2"

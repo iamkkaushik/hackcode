@@ -1,36 +1,51 @@
-// import { useState } from 'react';
-import CodeMirror from '@uiw/react-codemirror';
-import { cpp } from '@codemirror/lang-cpp';
-import { java } from '@codemirror/lang-java';
-import { python } from '@codemirror/lang-python';
-import { javascript } from '@codemirror/lang-javascript';
+/* eslint-disable react/prop-types */
+import { useState } from "react";
+import CodeMirror from "@uiw/react-codemirror";
+import { cpp } from "@codemirror/lang-cpp";
+import { java } from "@codemirror/lang-java";
+import { python } from "@codemirror/lang-python";
+import { javascript } from "@codemirror/lang-javascript";
+// import {
+//   dracula,
+//   solarizedDark,
+//   oneDark,
+//   monokai,
+// } from "@uiw/codemirror-theme-dracula";
 
 const languageExtensions = {
   cpp,
   java,
   python,
-  javascript
+  javascript,
 };
 
-// eslint-disable-next-line react/prop-types
-const CodeHighlighter = ({ language, code, setCode }) => {
+// const themes = {
+//   dracula,
+//   solarizedDark,
+//   oneDark,
+//   monokai,
+// };
 
-	if(language==='c') language='cpp'
-	// if(language === 'javascript') language = 'js'
-	// console.log(language)
-	// console.log(code)
-	if(language==='c') language='cpp'
-	if(language === 'js') language = 'javascript'
-	// console.log(language)
-	// console.log(code)
+// eslint-disable-next-line react/prop-types
+const CodeHighlighter = ({
+  language,
+  height = "1000px",
+  // theme = "dracula",
+}) => {
+  const [code, setCode] = useState("");
+
+  console.log(height);
 
   return (
     <div>
       <CodeMirror
         value={code}
-        height="200px"
-        extensions={[languageExtensions[language]()]}
-        onChange={(value) => setCode(value)} // Call setCode to update the input
+        height={height}
+        extensions={[
+          languageExtensions[language](), // Language extension
+          // themes[theme],
+        ]}
+        onChange={(value) => setCode(value)}
         options={{
           lineNumbers: true,
           indentUnit: 4,
