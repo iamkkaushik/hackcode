@@ -43,14 +43,12 @@ const CodeHighlighter = ({
   height = "1000px",
   code = "",
   setCode,
-  theme = "solarizedDark",
+  theme = "vscodeDark",
 }) => {
   if (language === "c") language = "cpp";
 
   if (language === "c") language = "cpp";
   if (language === "js") language = "javascript";
-
-  console.log(height);
 
   return (
     <CodeMirror
