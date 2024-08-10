@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import CodeHighlighter from "./CodeHighlighter";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlay, faCopy, faDownload } from "@fortawesome/free-solid-svg-icons";
 import { saveAs } from "file-saver";
 import { useTheme } from "../themeContext";
-import Spinner from "../components/Spinner.jsx";
+import Spinner from "../components/Spinner";
 
 const boilerplateCode = {
   cpp: "#include <iostream>\nusing namespace std;\n\nint main() {\n    // Write your code here\n    return 0;\n}",
@@ -30,10 +30,6 @@ const Playground = () => {
   const [loading, setLoading] = useState(false);
   const [isError, setIsError] = useState(false);
 
-  useEffect(() => {
-    setInput(boilerplateCode[language] || "");
-  }, [language]);
-
   const handleRunCode = async () => {
     setLoading(true);
     try {
@@ -53,6 +49,8 @@ const Playground = () => {
 
       if (result?.status === "fail") {
         let errorMessage = result.message;
+        console.log(typeof errorMessage);
+
         if (Object.keys(errorMessage).length === 0) {
           errorMessage = "Uncaught error";
         } else {
