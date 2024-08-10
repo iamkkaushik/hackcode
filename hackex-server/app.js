@@ -8,6 +8,9 @@ const mongoSanitize = require("express-mongo-sanitize");
 const xss = require("xss-clean");
 const cookieParser = require("cookie-parser");
 const compression = require("compression");
+const multer = require("multer");
+const path = require("path");
+const fs = require("fs");
 
 const AppError = require("./utils/appError");
 const userRouter = require("./routes/userRoutes");
@@ -34,9 +37,21 @@ const limiter = rateLimit({
 
 app.use("/api", limiter);
 
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    const dir = path.join(__dirname, "uploads/profileImages");
+    fs.mkdirSync(dir, { recursive: true }); // Ensure the directory exists
+    cb(null, dir); // Set destination folder for uploads
+  },
+  filename: (req, file, cb) => {
+    cb(null, `${Date.now()}_${file.originalname}`); // Set filename
+  },
+});
+
 app.use(express.json({ limit: "10kb" }));
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true, limit: "10kb" }));
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 app.use(mongoSanitize());
 

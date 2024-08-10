@@ -1,0 +1,19 @@
+.menu-item {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 30px; /* Increased padding for larger height */
+	background-color: #2563eb; /* Blue background */
+	color: white;
+	font-weight: bold;
+	border-radius: 10px;
+	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+	min-width: 200px; /* Adjusted minimum width */
+	line-height: 1.5; /* Adjust line-height for better vertical alignment */
+	transition: transform 0.3s ease, background-color 0.3s ease; /* Smooth transition for transform and background color */
+}
+  
+.menu-item:hover {
+	transform: scale(1.1); /* Increase size on hover */
+	background-color: #1d4ed8; /* Darker blue on hover */
+}

@@ -4,28 +4,51 @@
 @tailwind components;
 @tailwind utilities;
 
+.miniLoader {
+  border-top-color: #3498db; /* Customize the loader color */
+  animation: spin 1s infinite linear;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
 
 .loader {
-  --c:no-repeat linear-gradient(#4e94fd 0 0);
-  background: 
-    var(--c),var(--c),var(--c),
-    var(--c),var(--c),var(--c),
-    var(--c),var(--c),var(--c);
-  background-size: 16px 16px;
-  animation: 
-    l32-1 1s infinite,
-    l32-2 1s infinite;
+  width: 50px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(farthest-side, #000 98%, #0000) 55% 20%/8px 8px
+      no-repeat,
+    #ffcc00;
+  box-shadow: 2px -6px 12px 0px inset rgba(0, 0, 0, 0.7);
+  animation: l4 0.5s infinite steps(5) alternate;
 }
-@keyframes l32-1 {
-  0%,100% {width:45px;height: 45px}
-  35%,65% {width:65px;height: 65px}
-}
-@keyframes l32-2 {
-  0%,40%  {background-position: 0 0,0 50%, 0 100%,50% 100%,100% 100%,100% 50%,100% 0,50% 0,  50% 50% }
-  60%,100%{background-position: 0 50%, 0 100%,50% 100%,100% 100%,100% 50%,100% 0,50% 0,0 0,  50% 50% }
-}
-
-
-.codemirror-transparent .cm-editor {
-  background-color: transparent !important;
+@keyframes l4 {
+  0% {
+    clip-path: polygon(
+      50% 50%,
+      100% 0,
+      100% 0,
+      0 0,
+      0 100%,
+      100% 100%,
+      100% 100%
+    );
+  }
+  100% {
+    clip-path: polygon(
+      50% 50%,
+      100% 65%,
+      100% 0,
+      0 0,
+      0 100%,
+      100% 100%,
+      100% 35%
+    );
+  }
 }

@@ -54,19 +54,23 @@ exports.userProblems = catchAsync(async (req, res, next) => {
   }
 
   try {
-    const user = await User.findOne({ email }).populate("problems");
+    const user = await User.findOne({ email });
+    console.log("THIS IS USER ");
+    console.log(user);
 
     if (!user) {
       return next(new AppError("User not found", 404));
     }
 
     res.status(200).json({
+      name: user.name,
       email: user.email,
       noOfProblems: user.noOfProblems,
       problems: user.problems,
+      collegeName: user.collegeName,
     });
   } catch (error) {
-    console.error("Error fetching user problems:", error);
+    console.error("Error fetching user data:", error);
     return next(new AppError("Internal Server Error", 500));
   }
 });
