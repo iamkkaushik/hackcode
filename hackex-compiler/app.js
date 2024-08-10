@@ -5,6 +5,8 @@ const { generateCodeFile } = require("./utils/generateCodeFile");
 const { executeCodeCpp } = require("./utils/executeCodeCpp");
 const { generateInputFile } = require("./utils/generateInputFile");
 const { executeCodePython } = require("./utils/executeCodePython");
+const { executeCodeJava } = require("./utils/executeCodeJava");
+const { executeCodeJavaScript } = require("./utils/executeCodeJavascript");
 
 const app = express();
 
@@ -25,11 +27,12 @@ app.post("/execute", async (req, res) => {
         "Invalid request! Please provide both name of language and code to execute.",
     });
   }
+  let out;
 
   try {
     const filePath = generateCodeFile(langName, executionCode);
     const inputPath = generateInputFile(customInput);
-    let out;
+
     switch (langName) {
       case "cpp":
         out = await executeCodeCpp(filePath, inputPath);
@@ -40,6 +43,12 @@ app.post("/execute", async (req, res) => {
       case "python":
         out = await executeCodePython(filePath, inputPath);
         break;
+      case "java":
+        out = await executeCodeJava(filePath, inputPath);
+        break;
+      case "js":
+        out = await executeCodeJavaScript(filePath, inputPath);
+        break;
       default:
         throw new Error("Invalid language");
     }
@@ -48,7 +57,8 @@ app.post("/execute", async (req, res) => {
   } catch (err) {
     res.status(500).json({
       status: "fail",
-      message: err.message,
+      message: err,
+      out,
     });
   }
 });

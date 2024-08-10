@@ -1,46 +1,53 @@
 import { Link, useLocation } from "react-router-dom";
 import { useUser } from "../userContext";
+import logo from "../assets/logo.png";
 
 const Navbar = () => {
   const location = useLocation();
   const { isLoggedIn } = useUser();
 
-  // Do not render Navbar on login and signup pages
   if (location.pathname === "/login" || location.pathname === "/signup") {
     return null;
   }
 
   return (
     <nav className="bg-gray-900 text-gray-100 shadow-md">
-      <div className="container mx-auto flex justify-between items-center p-4">
-        <div className="flex items-center space-x-4">
+      <div className="mx-auto flex justify-between items-center p-4">
+        <div className="flex items-center">
           <Link
             to="/"
-            className="text-2xl font-semibold flex items-center space-x-2"
+            className="text-xl font-semibold flex items-center space-x-2"
           >
-            <span>HackEx</span>
+            <img src={logo} alt="Logo" className="h-10 w-auto" />
+            <span className="ml-4">Hackex</span>
           </Link>
         </div>
-        <div className="flex items-center space-x-6">
+        <div className="flex items-center justify-around space-x-12">
           <Link
             to="/"
-            className="text-lg hover:text-blue-400 transition duration-300"
+            className="text-md hover:text-blue-400 transition duration-300"
           >
             Problems
           </Link>
           <Link
-            to="/playground"
+            to="/leaderboard"
             className="text-lg hover:text-blue-400 transition duration-300"
+          >
+            Leaderboard
+          </Link>
+          <Link
+            to="/playground"
+            className="text-md hover:text-blue-400 transition duration-300"
           >
             Playground
           </Link>
           <Link
             to="/submit"
-            className="text-lg hover:text-blue-400 transition duration-300"
+            className="text-md hover:text-blue-400 transition duration-300"
           >
             Submit Problem
           </Link>
-          <div className="ml-6 flex items-center space-x-4">
+          <div className="ml-6 flex items-center">
             {!isLoggedIn ? (
               <>
                 <Link
