@@ -38,7 +38,10 @@ exports.createContest = catchAsync(async (req, res, next) => {
 
 exports.allContests = catchAsync(async (req, res, next) => {
   try {
-    const contests = await Contest.find().populate("problems");
+    const currentDate = new Date().toISOString();
+    const contests = await Contest.find({
+      endTime: { $gt: currentDate },
+    }).populate("problems");
     res.status(200).json(contests);
   } catch (error) {
     res.status(500).json({ message: "Failed to fetch contests", error });
