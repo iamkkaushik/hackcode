@@ -29,7 +29,7 @@ const AddProblem = () => {
       );
 
       if (response.ok) {
-        navigate("/problems");
+        navigate("/");
       } else {
         setError("Failed to add problem. Please try again.");
       }
