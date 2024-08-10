@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useUser } from "../userContext";
 import { Link, useNavigate } from "react-router-dom";
 import { useTheme } from "../themeContext"; // Import ThemeContext
+import Spinner from "../Components/Spinner";
 
 const Profile = () => {
   const { isLoggedIn, user } = useUser();
@@ -10,6 +11,7 @@ const Profile = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
   const { theme } = useTheme(); // Access theme from context
   console.log(user);
   useEffect(() => {
@@ -20,6 +22,7 @@ const Profile = () => {
 
     const fetchUserData = async () => {
       try {
+        setLoading(true);
         const response = await fetch(
           `http://localhost:3000/api/v1/users/userProblems`,
           {
@@ -56,12 +59,38 @@ const Profile = () => {
       } catch (error) {
         console.error("Error fetching user data:", error);
       }
+      setLoading(false);
     };
 
     if (user) {
       fetchUserData();
     }
   }, [isLoggedIn, user, navigate]);
+  if (loading) {
+    return (
+      <div
+        className={`flex flex-col lg:flex-row min-h-screen p-4 gap-4 ${
+          theme === "light"
+            ? "bg-gray-100 text-gray-900"
+            : "bg-gray-900 text-gray-100"
+        }`}
+      >
+        <div
+          className={`flex-1 p-6 rounded-lg relative ${
+            theme === "light" ? "bg-gray-50" : "bg-gray-800"
+          }`}
+        >
+          <div className="absolute inset-0 flex items-center justify-center">
+            <Spinner
+              size={"4/5"}
+              color={theme === "light" ? "gray" : "white"}
+              width={2}
+            />
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div
