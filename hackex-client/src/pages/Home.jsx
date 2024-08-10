@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import ProblemList from "./ProblemList";
 import LeaderBoard from "./LeaderBoard";
 import "./Home.css"; // Make sure to import your CSS file
+import { useUser } from "../userContext"; // Import useUser to access user state
 
 const Home = () => {
   const [platformInfo, setPlatformInfo] = useState({
@@ -15,6 +16,12 @@ const Home = () => {
     { name: "Fact 2", path: "/contests" },
     { name: "Fact 3", path: "/leaderboard" },
   ];
+
+  const { isLoggedIn } = useUser(); // Access login state
+
+  useEffect(() => {
+    // This ensures that the Navbar will re-render if the user login state changes
+  }, [isLoggedIn]);
 
   return (
     <div className="flex flex-col lg:flex-row justify-between items-start lg:items-start lg:space-x-10 p-8 bg-gray-900 text-gray-100 min-h-screen">

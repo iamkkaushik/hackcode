@@ -39,12 +39,12 @@ const ProblemList = () => {
             {problems?.problems?.map((problem) => (
               <tr key={problem.id} className="border-b border-gray-700">
                 <td className="p-4">
-                  <Link
+                  {/* <Link
                     to={`/problem/${problem._id}`}
                     className="text-blue-400 hover:underline"
-                  >
+                  > */}
                     {problem.title}
-                  </Link>
+                  {/* </Link> */}
                 </td>
                 <td className="p-4 text-gray-300">{problem.description}</td>
                 <td className="p-4">
