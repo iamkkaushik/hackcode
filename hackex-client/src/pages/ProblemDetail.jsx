@@ -7,8 +7,10 @@ import { saveAs } from "file-saver"; // Import file-saver for downloading files
 import Spinner from "../components/Spinner.jsx";
 import CodeHighlighter from "./CodeHighlighter.jsx";
 import useScreenSize from "../hooks/useScreenSize.js";
+import { FaDownload } from "react-icons/fa";
 
 import { useTheme } from "../themeContext"; // Import ThemeContext
+import { FaPlay, FaPaperPlane } from "react-icons/fa";
 
 const ProblemDetail = () => {
   const { id } = useParams();
@@ -246,7 +248,11 @@ const ProblemDetail = () => {
               <option value="js">Javascript</option>
             </select>
             <select
-              className="p-2 bg-gray-700 text-gray-300 border border-gray-600 rounded"
+              className={`p-2  rounded ${
+                theme === "light"
+                  ? "bg-gray-200 text-gray-900"
+                  : "bg-gray-700 text-gray-100"
+              }`}
               value={themes}
               onChange={(e) => setThemes(e.target.value)}
             >
@@ -268,14 +274,16 @@ const ProblemDetail = () => {
           <div className="flex gap-8">
             <button
               onClick={handleRunCode}
-              className="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-lg"
+              className="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-lg flex items-center"
             >
+              <FaPlay className="mr-2" />
               Run
             </button>
             <button
               onClick={handleSubmitCode}
-              className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg"
+              className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg flex items-center"
             >
+              <FaPaperPlane className="mr-2" />
               Submit
             </button>
           </div>
@@ -286,7 +294,7 @@ const ProblemDetail = () => {
             language={selectedLanguage}
             code={code}
             setCode={setCode}
-            height={String(parseInt(height) * 0.6) + "px"}
+            height={String(parseInt(height) * 0.55) + "px"}
             theme={themes}
           />
           <button
@@ -300,7 +308,15 @@ const ProblemDetail = () => {
         <div className="flex justify-between items-center"></div>
 
         <div className="mb-4">
-          <h3 className="text-xl font-semibold mb-2">Input</h3>
+          <div className="flex justify-between items-center my-2">
+            <h3 className="text-xl font-semibold">Input</h3>
+            <input
+              type="file"
+              accept=".txt"
+              onChange={handleFileChange}
+              className="mt-2"
+            />
+          </div>
           <div className="relative">
             <textarea
               value={input}
@@ -313,12 +329,7 @@ const ProblemDetail = () => {
               }`}
               placeholder="Enter input for your code..."
             />
-            <input
-              type="file"
-              accept=".txt"
-              onChange={handleFileChange}
-              className="mt-2"
-            />
+
             <button
               onClick={() => copyToClipboard(input)}
               className="absolute top-1 right-1 p-2 hover:text-gray-100"
@@ -329,28 +340,36 @@ const ProblemDetail = () => {
           </div>
         </div>
 
-        <div
-          className={` p-4 rounded-lg mt-4 relative ${
-            theme === "light"
-              ? "bg-gray-200 text-gray-900"
-              : "bg-gray-800 text-gray-100"
-          }`}
-        >
-          <h3 className="text-xl font-semibold mb-2">Output</h3>
-          <pre>{output}</pre>
-          <button
-            onClick={() => copyToClipboard(output)}
-            className="absolute top-2 right-2 p-2 hover:text-gray-100"
-            aria-label="Copy output to clipboard"
-          >
-            <FaCopy />
-          </button>
-          <button
-            onClick={() => downloadFile("output.txt", output)}
-            className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg mt-2"
-          >
-            Download Output
-          </button>
+        <div className="mb-4">
+          <div className="flex justify-between items-center my-2">
+            <h3 className="text-xl font-semibold mb-2">Output</h3>
+            <button
+              onClick={() => downloadFile("output.txt", output)}
+              className="bg-blue-500 hover:bg-blue-600 text-white py-1 px-2 rounded-lg mt-2 flex items-center justify-between"
+            >
+              <FaDownload className="mr-2" />
+              Output
+            </button>
+          </div>
+          <div className="relative">
+            <textarea
+              value={output}
+              rows="4"
+              className={`w-full p-3 rounded-lg mb-4 ${
+                theme === "light"
+                  ? "bg-gray-200 text-gray-900"
+                  : "bg-gray-700 text-gray-100"
+              }`}
+              placeholder="Output..."
+            />
+            <button
+              onClick={() => copyToClipboard(output)}
+              className="absolute top-2 right-2 p-2 hover:text-gray-100"
+              aria-label="Copy output to clipboard"
+            >
+              <FaCopy />
+            </button>
+          </div>
         </div>
       </div>
       <ToastContainer />
