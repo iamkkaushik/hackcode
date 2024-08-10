@@ -12,6 +12,10 @@ import LeaderBoard from "./pages/LeaderBoard";
 import Contest from "./pages/Contest";
 import Contests from "./pages/Contests";
 import CreateContest from "./pages/CreateContest";
+import { Navigate } from "react-router-dom";
+import Home from "./pages/Home";
+import Footer from "./Components/Footer";
+
 
 const App = () => {
   return (
@@ -37,9 +41,23 @@ const App = () => {
 
         <Route
           path="/"
+          element={<Navigate to="/home" replace />}
+        />
+
+        {/* <Route
+          path="/"
           element={
             <Layout>
               <ProblemList />
+            </Layout>
+          }
+        /> */}
+
+        <Route
+          path="/home"
+          element={
+            <Layout>
+              <Home />
             </Layout>
           }
         />
@@ -97,6 +115,14 @@ const App = () => {
             </Layout>
           }
         />
+        <Route
+          path="/problems"
+          element={
+            <Layout>
+              <ProblemList />
+            </Layout>
+          }
+        />
 
         <Route
           path="/contest/:id"
@@ -124,6 +150,7 @@ const Layout = ({ children }) => {
     <>
       <Navbar />
       <main>{children}</main>
+	  <Footer />
     </>
   );
 };

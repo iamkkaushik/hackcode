@@ -11,7 +11,7 @@ const Navbar = () => {
   }
 
   return (
-    <nav className="bg-gray-900 text-gray-100 shadow-md">
+    <nav className="bg-gray-800 text-gray-100 shadow-md sticky top-0 z-50">
       <div className="mx-auto flex justify-between items-center p-4">
         <div className="flex items-center">
           <Link
@@ -24,7 +24,7 @@ const Navbar = () => {
         </div>
         <div className="flex items-center justify-around space-x-12">
           <Link
-            to="/"
+            to="/problems"
             className="text-md hover:text-blue-400 transition duration-300"
           >
             Problems

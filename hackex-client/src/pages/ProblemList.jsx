@@ -52,7 +52,7 @@ const ProblemList = () => {
                     to={`/problem/${problem._id}`}
                     className="text-blue-400 hover:underline"
                   >
-                    View Problem
+                    View
                   </Link>
                 </td>
               </tr>
