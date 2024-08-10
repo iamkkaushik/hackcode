@@ -89,30 +89,55 @@ const ProblemDetail = () => {
     }
 
     try {
-      const response = await fetch(
-        "http://localhost:3000/api/v1/users/submitCode",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            problemId: id,
-            email: user.email,
-          }),
-          credentials: "include",
-        }
-      );
+      const runResponse = await fetch("http://localhost:8000/execute", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          langName: selectedLanguage,
+          executionCode: code,
+          customInput: problem.sampleInput,
+        }),
+      });
 
-      if (response.ok) {
-        const data = await response.json();
-        toast.success("Code submitted successfully.");
+      const runResult = await runResponse.json();
+
+      if (runResponse.ok) {
+        if (runResult.out === problem.sampleOutput) {
+          const submitResponse = await fetch(
+            "http://localhost:3000/api/v1/users/submitCode",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                problemId: id,
+                email: user.email,
+              }),
+              credentials: "include",
+            }
+          );
+
+          if (submitResponse.ok) {
+            toast.success("Code submitted and verified successfully.");
+          } else {
+            toast.error("Error submitting code. Please try again.");
+          }
+        } else {
+          setOutput(
+            `Expected Output:\n${problem.sampleOutput}\n\nYour Output:\n${runResult.out}`
+          );
+          toast.error("Code did not produce the expected output.");
+        }
       } else {
-        toast.error("Error submitting code. Please try again.");
+        setOutput(runResult.message || "Error executing code.");
+        toast.error("Error executing code during submission.");
       }
     } catch (err) {
-      console.error("Error submitting code:", err);
-      toast.error("Error submitting code. Please try again.");
+      console.error("Error during code submission or execution:", err);
+      toast.error("An error occurred. Please try again.");
     }
   };
 
