@@ -110,33 +110,57 @@ const ProblemDetail = () => {
     }
 
     try {
-      const response = await fetch(
-        "http://localhost:3000/api/v1/users/submitCode",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            problemId: id,
-            email: user.email,
-          }),
-          credentials: "include",
-        }
-      );
+      const runResponse = await fetch("http://localhost:8000/execute", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          langName: selectedLanguage,
+          executionCode: code,
+          customInput: problem.sampleInput,
+        }),
+      });
 
-      if (response.ok) {
-        // const data = await response.json();
-        toast.success("Code submitted successfully.");
+      const runResult = await runResponse.json();
+
+      if (runResponse.ok) {
+        if (runResult.out === problem.sampleOutput) {
+          const submitResponse = await fetch(
+            "http://localhost:3000/api/v1/users/submitCode",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                problemId: id,
+                email: user.email,
+              }),
+              credentials: "include",
+            }
+          );
+
+          if (submitResponse.ok) {
+            toast.success("Code submitted and verified successfully.");
+          } else {
+            toast.error("Error submitting code. Please try again.");
+          }
+        } else {
+          setOutput(
+            `Expected Output:\n${problem.sampleOutput}\n\nYour Output:\n${runResult.out}`
+          );
+          toast.error("Code did not produce the expected output.");
+        }
       } else {
-        toast.error("Error submitting code. Please try again.");
+        setOutput(runResult.message || "Error executing code.");
+        toast.error("Error executing code during submission.");
       }
     } catch (err) {
-      console.error("Error submitting code:", err);
-      toast.error("Error submitting code. Please try again.");
+      console.error("Error during code submission or execution:", err);
+      toast.error("An error occurred. Please try again.");
     }
   };
-
   const copyToClipboard = (text) => {
     navigator.clipboard.writeText(text).then(
       () => {
@@ -300,7 +324,7 @@ const ProblemDetail = () => {
             </button>
             <button
               onClick={handleSubmitCode}
-              className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg flex items-center"
+              className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg  flex items-center"
             >
               <FaPaperPlane className="mr-2" />
               Submit
@@ -329,6 +353,7 @@ const ProblemDetail = () => {
         <div className="mb-4">
           <div className="flex justify-between items-center my-2">
             <h3 className="text-xl font-semibold">Input</h3>
+
             <input
               type="file"
               accept=".txt"
@@ -359,9 +384,16 @@ const ProblemDetail = () => {
           </div>
         </div>
 
-        <div className="mb-4">
+        <div
+          className={` p-4 rounded-lg mt-4 relative ${
+            theme === "light"
+              ? "bg-gray-200 text-gray-900"
+              : "bg-gray-800 text-gray-100"
+          }`}
+        >
           <div className="flex justify-between items-center my-2">
             <h3 className="text-xl font-semibold">Output</h3>
+
             <button
               onClick={() => downloadFile("output.txt", output)}
               className="bg-blue-500 hover:bg-blue-600 text-white py-1 px-2 rounded-lg flex items-center justify-between"
@@ -370,25 +402,19 @@ const ProblemDetail = () => {
               Output
             </button>
           </div>
-        </div>
-        <div className="relative">
-          <textarea
-            value={output}
-            rows="4"
-            className={`w-full p-3 rounded-lg mb-4 ${
-              theme === "light"
-                ? "bg-gray-200 text-gray-900"
-                : "bg-gray-700 text-gray-100"
-            } ${isError ? "text-red-500" : ""}`}
-            placeholder="Output..."
-          />
-          <button
-            onClick={() => copyToClipboard(output)}
-            className="absolute top-2 right-2 p-2 hover:text-gray-100"
-            aria-label="Copy output to clipboard"
-          >
-            <FaCopy />
-          </button>
+
+          <div className="relative">
+            <textarea
+              value={output}
+              rows="4"
+              className={`w-full p-3 rounded-lg mb-4 ${
+                theme === "light"
+                  ? "bg-gray-200 text-gray-900"
+                  : "bg-gray-700 text-gray-100"
+              } ${isError ? "text-red-500" : ""}`}
+              placeholder="Output..."
+            />
+          </div>
         </div>
       </div>
       <ToastContainer />
