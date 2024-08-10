@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "../themeContext"; // Import ThemeContext
+import Spinner from "../Components/Spinner";
 
 const AddProblem = () => {
   const [title, setTitle] = useState("");
@@ -12,9 +13,11 @@ const AddProblem = () => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
   const { theme } = useTheme(); // Access theme from context
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async () => {
     try {
+      setLoading(true);
       const response = await fetch(
         "http://localhost:3000/api/v1/problems/addProblem",
         {
@@ -38,8 +41,34 @@ const AddProblem = () => {
     } catch (err) {
       setError("An error occurred. Please try again.");
     }
+    setLoading(false);
   };
 
+  if (loading) {
+    return (
+      <div
+        className={`flex flex-col lg:flex-row min-h-screen p-4 gap-4 ${
+          theme === "light"
+            ? "bg-gray-100 text-gray-900"
+            : "bg-gray-900 text-gray-100"
+        }`}
+      >
+        <div
+          className={`flex-1 p-6 rounded-lg relative ${
+            theme === "light" ? "bg-gray-50" : "bg-gray-800"
+          }`}
+        >
+          <div className="absolute inset-0 flex items-center justify-center">
+            <Spinner
+              size={"4/5"}
+              color={theme === "light" ? "gray" : "white"}
+              width={2}
+            />
+          </div>
+        </div>
+      </div>
+    );
+  }
   return (
     <div
       className={`min-h-screen flex items-center justify-center p-8 ${

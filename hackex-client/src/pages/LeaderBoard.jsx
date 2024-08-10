@@ -1,13 +1,16 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
-import { ThemeContext } from "../themeContext"; // Import ThemeContext
+import { useTheme } from "../themeContext"; // Import ThemeContext
+import Spinner from "../Components/Spinner";
 
 const LeaderBoard = () => {
   const [leaderboardData, setLeaderboardData] = useState([]);
-  const { theme } = useContext(ThemeContext); // Access theme from context
+  const { theme } = useTheme(); // Access theme from context
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchLeaderboardData = async () => {
+      setLoading(true);
       try {
         const response = await axios.get(
           "http://localhost:3000/api/v1/users/leaderboard"
@@ -19,10 +22,35 @@ const LeaderBoard = () => {
       } catch (error) {
         console.error("Error fetching leaderboard data:", error);
       }
+      setLoading(false);
     };
-
     fetchLeaderboardData();
   }, []);
+  if (loading) {
+    return (
+      <div
+        className={`flex flex-col lg:flex-row min-h-screen p-4 gap-4 ${
+          theme === "light"
+            ? "bg-gray-100 text-gray-900"
+            : "bg-gray-900 text-gray-100"
+        }`}
+      >
+        <div
+          className={`flex-1 p-6 rounded-lg relative ${
+            theme === "light" ? "bg-gray-50" : "bg-gray-800"
+          }`}
+        >
+          <div className="absolute inset-0 flex items-center justify-center">
+            <Spinner
+              size={"4/5"}
+              color={theme === "light" ? "gray" : "white"}
+              width={2}
+            />
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div
@@ -30,9 +58,13 @@ const LeaderBoard = () => {
         theme !== "light" ? " bg-gray-900" : " bg-gray-100"
       }`}
     >
-      <h1 className={`text-4xl font-bold mb-8 text-center ${
-        theme === "light" ? " text-gray-900" : " text-gray-100"
-      }`}>LEADERBOARD</h1>
+      <h1
+        className={`text-4xl font-bold mb-8 text-center ${
+          theme === "light" ? " text-gray-900" : " text-gray-100"
+        }`}
+      >
+        LEADERBOARD
+      </h1>
       <div className="overflow-x-auto w-full max-w-3xl">
         <table
           className={`min-w-full ${
