@@ -7,7 +7,7 @@ import { saveAs } from "file-saver"; // Import file-saver for downloading files
 import Spinner from "../components/Spinner.jsx";
 import CodeHighlighter from "./CodeHighlighter.jsx";
 import useScreenSize from "../hooks/useScreenSize.js";
-import { useContext } from "react";
+
 import { useTheme } from "../themeContext"; // Import ThemeContext
 
 const ProblemDetail = () => {
@@ -19,7 +19,7 @@ const ProblemDetail = () => {
   const { isLoggedIn, user } = useUser();
   const [loading, setLoading] = useState(true);
   const [selectedLanguage, setSelectedLanguage] = useState("cpp");
-  const [themes, setTheme] = useState("vscodeDark");
+  const [themes, setThemes] = useState("vscodeDark");
   const { height } = useScreenSize();
   const { theme } = useTheme(); // Access theme from context
 
@@ -247,8 +247,8 @@ const ProblemDetail = () => {
             </select>
             <select
               className="p-2 bg-gray-700 text-gray-300 border border-gray-600 rounded"
-              value={theme}
-              onChange={(e) => setTheme(e.target.value)}
+              value={themes}
+              onChange={(e) => setThemes(e.target.value)}
             >
               <option value="vscodeDark">VsCode Dark</option>
               <option value="oneDark">One Dark</option>
@@ -287,7 +287,7 @@ const ProblemDetail = () => {
             code={code}
             setCode={setCode}
             height={String(parseInt(height) * 0.6) + "px"}
-            theme={theme}
+            theme={themes}
           />
           <button
             onClick={() => copyToClipboard(code)}
@@ -329,7 +329,13 @@ const ProblemDetail = () => {
           </div>
         </div>
 
-        <div className="bg-gray-700 p-4 rounded-lg mt-4 relative">
+        <div
+          className={` p-4 rounded-lg mt-4 relative ${
+            theme === "light"
+              ? "bg-gray-200 text-gray-900"
+              : "bg-gray-800 text-gray-100"
+          }`}
+        >
           <h3 className="text-xl font-semibold mb-2">Output</h3>
           <pre>{output}</pre>
           <button
