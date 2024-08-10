@@ -1,5 +1,4 @@
 /* eslint-disable react/prop-types */
-import { useState } from "react";
 import CodeMirror from "@uiw/react-codemirror";
 import { cpp } from "@codemirror/lang-cpp";
 import { java } from "@codemirror/lang-java";
@@ -27,24 +26,18 @@ const languageExtensions = {
 // };
 
 // eslint-disable-next-line react/prop-types
-const CodeHighlighter = ({
-  language,
-  height = "1000px",
-  // theme = "dracula",
-}) => {
-  const [code, setCode] = useState("");
+const CodeHighlighter = ({ language, height = "1000px", code, setCode }) => {
+  if (language === "c") language = "cpp";
 
-  console.log(height);
+  if (language === "c") language = "cpp";
+  if (language === "js") language = "javascript";
 
   return (
     <div>
       <CodeMirror
         value={code}
         height={height}
-        extensions={[
-          languageExtensions[language](), // Language extension
-          // themes[theme],
-        ]}
+        extensions={[languageExtensions[language]()]}
         onChange={(value) => setCode(value)}
         options={{
           lineNumbers: true,
