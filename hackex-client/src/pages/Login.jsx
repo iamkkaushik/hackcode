@@ -23,6 +23,14 @@ const LoginPage = () => {
 
       if (response.ok) {
         await login(email, password);
+		const data = await response.json();
+		// console.log("THIS IS TOKEN",data.token);
+		// console.log(data);
+		// console.log("THIS IS ID ",data.data.user.email);
+		localStorage.setItem("user", JSON.stringify(data.data.user.email));
+        localStorage.setItem("token", data.token);
+		console.log(localStorage.getItem("user"));
+		console.log(localStorage.getItem("token"));
         navigate("/profile"); // Redirect to profile page on successful login
       } else {
         const result = await response.json();
