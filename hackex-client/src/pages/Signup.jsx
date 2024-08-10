@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 const Signup = () => {
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
-  const [passwordConfirm, setPasswordConfirm] = useState("");
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
@@ -17,7 +16,7 @@ const Signup = () => {
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ name, email, password, passwordConfirm }),
+          body: JSON.stringify({ name, email, password }),
         }
       );
 
@@ -57,13 +56,7 @@ const Signup = () => {
           className="w-full p-3 mb-4 bg-gray-700 text-white rounded-lg border border-gray-600 focus:outline-none focus:border-blue-500"
           placeholder="Password"
         />
-        <input
-          type="password"
-          value={passwordConfirm}
-          onChange={(e) => setPasswordConfirm(e.target.value)}
-          className="w-full p-3 mb-6 bg-gray-700 text-white rounded-lg border border-gray-600 focus:outline-none focus:border-blue-500"
-          placeholder="Confirm Password"
-        />
+
         <button
           onClick={handleSignup}
           className="bg-blue-500 hover:bg-blue-600 text-white py-3 px-6 rounded-lg font-semibold transition w-full"

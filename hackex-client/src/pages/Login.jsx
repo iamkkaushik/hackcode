@@ -1,12 +1,14 @@
 /* eslint-disable no-unused-vars */
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useUser } from "../userContext";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const { login } = useUser();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -20,6 +22,7 @@ const LoginPage = () => {
       });
 
       if (response.ok) {
+        await login(email, password);
         navigate("/profile"); // Redirect to profile page on successful login
       } else {
         const result = await response.json();
