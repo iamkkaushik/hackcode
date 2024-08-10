@@ -1,9 +1,10 @@
+/* eslint-disable no-unused-vars */
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useUser } from "../userContext";
-import Spinner from "../components/Spinner.jsx";
 import { ToastContainer, toast } from "react-toastify";
-import CodeHighlighter from "./CodeHighlighter"; // Import the CodeHighlighter component
+import { FaCopy } from "react-icons/fa";
+import { saveAs } from "file-saver"; // Import file-saver for downloading files
 
 const ProblemDetail = () => {
   const { id } = useParams();
@@ -14,7 +15,6 @@ const ProblemDetail = () => {
   const [problem, setProblem] = useState(null);
   const { isLoggedIn, user } = useUser();
   const [loading, setLoading] = useState(true);
-  console.log(user);
   const [selectedLanguage, setSelectedLanguage] = useState("cpp");
 
   useEffect(() => {
@@ -27,7 +27,6 @@ const ProblemDetail = () => {
 
         if (response.ok) {
           const data = await response.json();
-          console.log(data);
           setProblem(data.problem);
         } else {
           console.error("Problem not found");
@@ -61,14 +60,10 @@ const ProblemDetail = () => {
       });
 
       const result = await response.json();
-      console.log(result);
-      console.log(selectedLanguage);
-
       if (result?.status === "fail") {
         if (selectedLanguage !== "java") {
           setOutput(result.message.cmd || "Error executing code.");
         } else {
-          console.log(result);
           setOutput(result.message);
         }
       } else {
@@ -97,17 +92,16 @@ const ProblemDetail = () => {
           },
           body: JSON.stringify({
             problemId: id,
-            email: user.email, // Ensure you're sending the correct user identifier
+            email: user.email,
             code,
             langName: selectedLanguage,
           }),
-          credentials: "include", // Ensure cookies are sent
+          credentials: "include",
         }
       );
 
       if (response.ok) {
         const data = await response.json();
-        console.log("Code submitted successfully:", data);
         toast.success("Code submitted successfully.");
       } else {
         toast.error("Error submitting code. Please try again.");
@@ -118,27 +112,61 @@ const ProblemDetail = () => {
     }
   };
 
+  const copyToClipboard = (text) => {
+    navigator.clipboard.writeText(text).then(
+      () => {
+        toast.success("Copied to clipboard!");
+      },
+      (err) => {
+        console.error("Failed to copy text:", err);
+        toast.error("Failed to copy text.");
+      }
+    );
+  };
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        setInput(reader.result);
+      };
+      reader.readAsText(file);
+    }
+  };
+
+  const downloadFile = (filename, content) => {
+    const blob = new Blob([content], { type: "text/plain;charset=utf-8" });
+    saveAs(blob, filename);
+  };
+
   if (!problem) return <div className="text-gray-400">Loading...</div>;
 
   return (
     <div className="flex flex-col lg:flex-row bg-gray-900 text-gray-100 min-h-screen p-4 gap-4">
       <div className="flex-1 bg-gray-800 p-6 rounded-lg">
         <h1 className="text-3xl font-bold mb-4">{problem.title}</h1>
-        <div className="mb-6">
-          <h2 className="text-xl font-semibold mb-2">Description</h2>
-          <p className="text-gray-300">{problem.description}</p>
-        </div>
-        <div className="mb-6">
-          <h2 className="text-xl font-semibold mb-2">Constraints</h2>
-          <p className="text-gray-300">{problem.constraints}</p>
-        </div>
-        <div className="mb-6">
+        <div className="mb-6 relative">
           <h2 className="text-xl font-semibold mb-2">Sample Input</h2>
           <pre className="bg-gray-700 p-2 rounded">{problem.sampleInput}</pre>
+          <button
+            onClick={() => copyToClipboard(problem.sampleInput)}
+            className="absolute top-2 right-2 p-2 text-gray-400 hover:text-gray-100"
+            aria-label="Copy sample input to clipboard"
+          >
+            <FaCopy />
+          </button>
         </div>
-        <div className="mb-6">
+        <div className="mb-6 relative">
           <h2 className="text-xl font-semibold mb-2">Sample Output</h2>
           <pre className="bg-gray-700 p-2 rounded">{problem.sampleOutput}</pre>
+          <button
+            onClick={() => copyToClipboard(problem.sampleOutput)}
+            className="absolute top-2 right-2 p-2 text-gray-400 hover:text-gray-100"
+            aria-label="Copy sample output to clipboard"
+          >
+            <FaCopy />
+          </button>
         </div>
       </div>
       <div className="flex-1 bg-gray-800 p-6 rounded-lg">
@@ -164,23 +192,49 @@ const ProblemDetail = () => {
           </select>
         </div>
 
-        {/* CodeHighlighter Component for Code Editing */}
-        <CodeHighlighter
-          language={selectedLanguage}
-          code={code}
-          setCode={setCode}
-        />
+        <div className="relative mb-4">
+          <textarea
+            value={code}
+            onChange={(e) => setCode(e.target.value)}
+            rows="10"
+            className="w-full p-3 bg-gray-700 text-gray-100 rounded-lg"
+            placeholder="Enter your code here..."
+          />
+          <button
+            onClick={() => copyToClipboard(code)}
+            className="absolute top-2 right-2 p-2 text-gray-400 hover:text-gray-100"
+            aria-label="Copy code to clipboard"
+          >
+            <FaCopy />
+          </button>
+        </div>
 
         <div className="mb-4">
           <h3 className="text-xl font-semibold mb-2">Input</h3>
-          <textarea
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            rows="4"
-            className="w-full p-3 bg-gray-700 text-gray-100 rounded-lg mb-4"
-            placeholder="Enter input for your code..."
-          />
+          <div className="relative">
+            <textarea
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              rows="4"
+              className="w-full p-3 bg-gray-700 text-gray-100 rounded-lg mb-4"
+              placeholder="Enter input for your code..."
+            />
+            <input
+              type="file"
+              accept=".txt"
+              onChange={handleFileChange}
+              className="mt-2"
+            />
+            <button
+              onClick={() => copyToClipboard(input)}
+              className="absolute top-1 right-1 p-2 text-gray-400 hover:text-gray-100"
+              aria-label="Copy input to clipboard"
+            >
+              <FaCopy />
+            </button>
+          </div>
         </div>
+
         <div className="flex gap-4">
           <button
             onClick={handleRunCode}
@@ -195,9 +249,23 @@ const ProblemDetail = () => {
             Submit Code
           </button>
         </div>
-        <div className="bg-gray-700 p-4 rounded-lg mt-4">
+
+        <div className="bg-gray-700 p-4 rounded-lg mt-4 relative">
           <h3 className="text-xl font-semibold mb-2">Output</h3>
           <pre className="text-gray-300">{output}</pre>
+          <button
+            onClick={() => copyToClipboard(output)}
+            className="absolute top-2 right-2 p-2 text-gray-400 hover:text-gray-100"
+            aria-label="Copy output to clipboard"
+          >
+            <FaCopy />
+          </button>
+          <button
+            onClick={() => downloadFile("output.txt", output)}
+            className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg mt-2"
+          >
+            Download Output
+          </button>
         </div>
       </div>
     </div>
