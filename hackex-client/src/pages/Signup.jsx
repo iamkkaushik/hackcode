@@ -47,7 +47,7 @@ const Signup = () => {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           className="w-full p-3 mb-4 bg-gray-700 text-white rounded-lg border border-gray-600 focus:outline-none focus:border-blue-500"
-          placeholder="Username"
+          placeholder="Email"
         />
         <input
           type="password"
