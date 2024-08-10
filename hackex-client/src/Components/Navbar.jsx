@@ -1,19 +1,16 @@
 import { Link } from "react-router-dom";
 import { useUser } from "../userContext";
-
 import { useTheme } from "../themeContext"; // Import ThemeContext
 import { FaSun, FaMoon } from "react-icons/fa";
 import logo from "../assets/logo.png"; // Light mode logo
 import logoDark from "../assets/LogoDark.png"; // Dark mode logo
 import { useState, useRef, useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import axios from "axios";
-import { FaBars } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+import { FaPowerOff } from "react-icons/fa";
 
 const Navbar = () => {
   const { theme, toggleTheme } = useTheme(); // Access theme and toggle function from context
 
-  const location = useLocation();
   const navigate = useNavigate();
   const { isLoggedIn, logout } = useUser();
   const [isDropdownOpen, setDropdownOpen] = useState(false);
@@ -120,7 +117,7 @@ const Navbar = () => {
                   className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg flex items-center"
                   aria-label="User Menu"
                 >
-                  <FaBars className="text-xl" />
+                  <FaPowerOff className="text-xl" />
                 </button>
                 {isDropdownOpen && (
                   <div

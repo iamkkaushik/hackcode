@@ -32,8 +32,8 @@ const LoginPage = () => {
 
       if (response.ok) {
         const data = await response.json();
-        setCookie("token", data.token, 1);
-        localStorage.setItem("user", JSON.stringify(data.data.user));
+        // setCookie("token", data.token, 1);
+        // localStorage.setItem("user", JSON.stringify(data.data.user));
         login(data.data.user);
         // console.log(isLoggedIn);
         navigate("/profile");
