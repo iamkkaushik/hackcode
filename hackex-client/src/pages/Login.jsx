@@ -5,8 +5,8 @@ import { useUser } from "../userContext";
 import { useTheme } from "../themeContext"; // Import ThemeContext
 
 const LoginPage = () => {
-  const [email, setEmail] = useState("dummy@email.com");
-  const [password, setPassword] = useState("dummy2222");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
