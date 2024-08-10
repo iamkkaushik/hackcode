@@ -8,6 +8,8 @@ import Login from "./pages/Login";
 import UserProfile from "./pages/Userprofile";
 import Signup from "./pages/Signup";
 import Navbar from "./Components/Navbar";
+import Contest from "./pages/Contest";
+import Contests from "./pages/Contests";
 const App = () => {
   return (
     <Router>
@@ -67,6 +69,22 @@ const App = () => {
           element={
             <Layout>
               <ProblemSubmit />
+            </Layout>
+          }
+        />
+        <Route
+          path="/contests"
+          element={
+            <Layout>
+              <Contests />
+            </Layout>
+          }
+        />
+        <Route
+          path="/contest/:id"
+          element={
+            <Layout>
+              <Contest />
             </Layout>
           }
         />
