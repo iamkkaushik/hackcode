@@ -384,37 +384,29 @@ const ProblemDetail = () => {
           </div>
         </div>
 
-        <div
-          className={` p-4 rounded-lg mt-4 relative ${
-            theme === "light"
-              ? "bg-gray-200 text-gray-900"
-              : "bg-gray-800 text-gray-100"
-          }`}
-        >
-          <div className="flex justify-between items-center my-2">
-            <h3 className="text-xl font-semibold">Output</h3>
+        <div className="flex justify-between items-center my-2">
+          <h3 className="text-xl font-semibold">Output</h3>
 
-            <button
-              onClick={() => downloadFile("output.txt", output)}
-              className="bg-blue-500 hover:bg-blue-600 text-white py-1 px-2 rounded-lg flex items-center justify-between"
-            >
-              <FaDownload className="mr-2" />
-              Output
-            </button>
-          </div>
+          <button
+            onClick={() => downloadFile("output.txt", output)}
+            className="bg-blue-500 hover:bg-blue-600 text-white py-1 px-2 rounded-lg flex items-center justify-between"
+          >
+            <FaDownload className="mr-2" />
+            Output
+          </button>
+        </div>
 
-          <div className="relative">
-            <textarea
-              value={output}
-              rows="4"
-              className={`w-full p-3 rounded-lg mb-4 ${
-                theme === "light"
-                  ? "bg-gray-200 text-gray-900"
-                  : "bg-gray-700 text-gray-100"
-              } ${isError ? "text-red-500" : ""}`}
-              placeholder="Output..."
-            />
-          </div>
+        <div className="relative">
+          <textarea
+            value={output}
+            rows="4"
+            className={`w-full p-3 rounded-lg mb-4 ${
+              theme === "light"
+                ? "bg-gray-200 text-gray-900"
+                : "bg-gray-700 text-gray-100"
+            }} ${isError ? "text-red-500" : ""}`}
+            placeholder="Output appears here..."
+          />
         </div>
       </div>
       <ToastContainer />
