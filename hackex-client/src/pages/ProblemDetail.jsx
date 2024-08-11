@@ -260,12 +260,12 @@ const ProblemDetail = () => {
           theme === "light" ? "bg-gray-50" : "bg-gray-800"
         }`}
       >
-        <h1 className="text-3xl font-bold mb-4">{problem.title}</h1>
-        <h2 className="text-xl  mb-2">{problem.description}</h2>
-        <h2 className="text-xl font-semibold mb-2">
-          Constraints:{problem.constraints}
+        <h1 className="text-3xl font-bold my-4">{problem.title}</h1>
+        <h2 className="text-xl  my-2 p-4 text-start">{problem.description}</h2>
+        <h2 className="text-xl font-semibold my-6">
+          Constraints : {problem.constraints}
         </h2>
-        <div className="mb-6 relative">
+        <div className="my-6 relative">
           <h2 className="text-xl font-semibold mb-2">Sample Input</h2>
           <pre
             className={` p-2 rounded ${
@@ -284,7 +284,7 @@ const ProblemDetail = () => {
             <FaCopy />
           </button>
         </div>
-        <div className="mb-6 relative">
+        <div className="my-6 relative">
           <h2 className="text-xl font-semibold mb-2">Sample Output</h2>
           <pre
             className={` p-2 rounded ${

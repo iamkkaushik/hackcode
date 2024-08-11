@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useTheme } from "../themeContext"; // Import ThemeContext
 import Spinner from "../components/Spinner";
 import { FaPlusCircle } from "react-icons/fa";
+import { truncateString } from "../utils/helpers";
 
 const Contests = () => {
   const [contests, setContests] = useState([]);
@@ -87,7 +88,7 @@ const Contests = () => {
     >
       <h1 className="text-4xl font-bold text-center uppercase">Contests</h1>
 
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-5xl mx-auto">
         {liveContests.length > 0 && (
           <div className="mb-8">
             <h3 className="text-2xl font-semibold mb-4 capitalize">
@@ -131,7 +132,7 @@ const Contests = () => {
                   >
                     <td className="px-6 py-4 capitalize">{contest.title}</td>
                     <td className="px-6 py-4 capitalize">
-                      {contest.description}
+                      {truncateString(contest.description)}
                     </td>
                     <td className="px-6 py-4">
                       <button
@@ -151,7 +152,7 @@ const Contests = () => {
         <div className="flex justify-between items-center mt-8 mb-2">
           <h3 className="text-2xl font-semibold mb-4">Upcoming Contests</h3>
           <Link
-            to="/login"
+            to="/create-contest"
             className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg transition duration-300 transform hover:scale-105 flex items-center justify-between"
           >
             Create Contest
@@ -203,7 +204,7 @@ const Contests = () => {
                   >
                     <td className="px-6 py-4 capitalize">{contest.title}</td>
                     <td className="px-6 py-4 capitalize">
-                      {contest.description}
+                      {truncateString(contest.description)}
                     </td>
                     <td className="px-6 py-4">{startDate}</td>
                     <td className="px-6 py-4">{startTime}</td>
