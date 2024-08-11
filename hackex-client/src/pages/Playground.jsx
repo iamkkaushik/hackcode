@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import CodeHighlighter from "./CodeHighlighter";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -19,7 +19,7 @@ const boilerplateCode = {
 };
 
 const Playground = () => {
-  const [input, setInput] = useState("");
+  const [input, setInput] = useState(boilerplateCode["cpp"]); // Initialize with C++ boilerplate code
   const [output, setOutput] = useState("");
   const [language, setLanguage] = useState("cpp");
   const [testInput, setTestInput] = useState("");
@@ -29,6 +29,11 @@ const Playground = () => {
 
   const [loading, setLoading] = useState(false);
   const [isError, setIsError] = useState(false);
+
+  // UseEffect to update the input code when language changes
+  useEffect(() => {
+    setInput(boilerplateCode[language]);
+  }, [language]);
 
   const handleRunCode = async () => {
     setLoading(true);
@@ -49,7 +54,6 @@ const Playground = () => {
 
       if (result?.status === "fail") {
         let errorMessage = result.message;
-        console.log(typeof errorMessage);
 
         if (Object.keys(errorMessage).length === 0) {
           errorMessage = "Uncaught error";
@@ -224,13 +228,12 @@ const Playground = () => {
                   id="input"
                   className={`w-full h-full p-4 border rounded-lg ${
                     theme === "light"
-                      ? "bg-gray-200 text-gray-900"
+                      ? "bg-gray-100 text-gray-900"
                       : "bg-gray-700 text-gray-200"
                   }`}
                   value={testInput}
                   onChange={(e) => setTestInput(e.target.value)}
-                  placeholder="Input data here..."
-                ></textarea>
+                />
                 <button
                   onClick={() => copyToClipboard(testInput)}
                   className="absolute top-2 right-2 p-2 text-gray-400 hover:text-gray-100"
@@ -240,6 +243,7 @@ const Playground = () => {
                 </button>
               </div>
             </div>
+
             <div className="flex-1 flex flex-col">
               <div className="flex justify-between items-center mb-2">
                 <label htmlFor="output" className="block font-semibold">
@@ -247,33 +251,24 @@ const Playground = () => {
                 </label>
                 <button
                   onClick={() => downloadFile("output.txt", output)}
-                  className="bg-blue-500 text-white py-1 px-2 rounded-lg mt-2"
+                  className="mt-2 bg-blue-500 hover:bg-blue-600 text-white py-1 px-3 rounded-lg transition-colors duration-200"
                 >
                   <FontAwesomeIcon icon={faDownload} className="mr-2" />
                   Download Output
                 </button>
               </div>
-              <div className="relative flex-1">
-                <pre
-                  id="output"
-                  className={`w-full h-full p-4 border rounded-lg overflow-auto ${
-                    isError ? "text-red-500" : "text-green-500"
-                  } ${
-                    theme === "light"
-                      ? "bg-gray-200 text-gray-900"
-                      : "bg-gray-700 text-gray-200"
-                  }`}
-                >
-                  {output}
-                </pre>
-                <button
-                  onClick={() => copyToClipboard(output)}
-                  className="absolute top-2 right-2 p-2 text-gray-400 hover:text-gray-100"
-                  aria-label="Copy output to clipboard"
-                >
-                  <FontAwesomeIcon icon={faCopy} />
-                </button>
-              </div>
+              <textarea
+                id="output"
+                className={`w-full h-full p-4 border rounded-lg ${
+                  isError
+                    ? "bg-red-50 text-red-800"
+                    : theme === "light"
+                    ? "bg-gray-100 text-gray-900"
+                    : "bg-gray-700 text-gray-200"
+                }`}
+                value={output}
+                readOnly
+              />
             </div>
           </div>
         </div>
