@@ -3,8 +3,9 @@ import { useUser } from "../userContext";
 import { Link, useNavigate } from "react-router-dom";
 import { useTheme } from "../themeContext";
 import image from "../assets/image_dummy.png";
-import Modal from "./ProfileModal"; // Import the Modal component
+import Modal from "./ProfileModal";
 import Spinner from "../components/Spinner";
+import PieChartComponent from "./PieChart"; // Import the PieChartComponent
 
 const Profile = () => {
   const { isLoggedIn, user } = useUser();
@@ -19,8 +20,7 @@ const Profile = () => {
   const [leetcodeUrl, setLeetcodeUrl] = useState("");
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const { theme } = useTheme(); // Access theme from context
-  console.log(user);
+  const { theme } = useTheme();
 
   useEffect(() => {
     if (!isLoggedIn) {
@@ -31,6 +31,12 @@ const Profile = () => {
     const fetchUserData = async () => {
       try {
         setLoading(true);
+        const res = await fetch(`http://localhost:3000/api/v1/problems/allProblems`);
+        const tot = await res.json();
+        console.log(tot);
+        setTotalProblems(tot.results);
+        console.log(totalProblems);
+
         const response = await fetch(
           `http://localhost:3000/api/v1/users/userProblems`,
           {
@@ -47,11 +53,9 @@ const Profile = () => {
 
         if (response.ok) {
           const data = await response.json();
-          console.log(data);
           setName(data.name);
           setEmail(data.email);
           setProblemCount(data.noOfProblems);
-          setTotalProblems(data.totalProblems);
 
           const fetchedProblems = await Promise.all(
             data.problems.map(async (problemId) => {
@@ -76,6 +80,7 @@ const Profile = () => {
       fetchUserData();
     }
   }, [isLoggedIn, user, navigate]);
+
   if (loading) {
     return (
       <div
@@ -142,14 +147,14 @@ const Profile = () => {
     >
       <h1 className="text-4xl font-bold mb-6 text-center">Profile</h1>
 
-      {/* Card Container with Hover Effect */}
+      {/* Flexbox Container for Image, User Information, and Pie Chart */}
       <div
-        className={`flex flex-col items-center max-w-lg mx-auto p-8 rounded-lg shadow-lg transform transition-transform duration-300 hover:scale-105 hover:shadow-xl ${
+        className={`flex flex-col lg:flex-row items-center justify-between max-w-3xl mx-auto p-8 rounded-lg shadow-lg ${
           theme === "light" ? "bg-gray-50" : "bg-gray-800"
         }`}
       >
         {/* Image and Information Section */}
-        <div className="flex flex-col items-center mb-6">
+        <div className="flex flex-col items-center lg:items-start mb-6 lg:mb-0">
           {/* Image Section */}
           <img
             src={image}
@@ -157,7 +162,7 @@ const Profile = () => {
             className="w-32 h-32 rounded-full object-cover mb-4"
           />
           {/* User Information */}
-          <div className="text-start mb-4">
+          <div className="text-start">
             <p className="text-xl mb-2">
               <strong>Name:</strong> {name}
             </p>
@@ -168,43 +173,14 @@ const Profile = () => {
               <strong>Problems Solved:</strong> {problemCount}
             </p>
           </div>
-          {/* Connect Buttons */}
-          <div className="flex space-x-4 mt-4">
-            {!codeforcesUrl ? (
-              <button
-                onClick={() => openModal("Codeforces")}
-                className="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transform transition-transform duration-300"
-              >
-                Connect to Codeforces
-              </button>
-            ) : (
-              <a
-                href={codeforcesUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transform transition-transform duration-300"
-              >
-                Codeforces Profile
-              </a>
-            )}
-            {!leetcodeUrl ? (
-              <button
-                onClick={() => openModal("Leetcode")}
-                className="bg-orange-500 text-white py-2 px-4 rounded hover:bg-orange-600 transform transition-transform duration-300"
-              >
-                Connect to Leetcode
-              </button>
-            ) : (
-              <a
-                href={leetcodeUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-orange-500 text-white py-2 px-4 rounded hover:bg-orange-600 transform transition-transform duration-300"
-              >
-                Leetcode Profile
-              </a>
-            )}
-          </div>
+        </div>
+
+        {/* Pie Chart Section */}
+        <div className="lg:ml-8 mt-6 lg:mt-0">
+          <PieChartComponent
+            problemCount={problemCount}
+            totalProblems={totalProblems}
+          />
         </div>
       </div>
 
