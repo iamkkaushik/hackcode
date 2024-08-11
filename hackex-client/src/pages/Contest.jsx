@@ -55,18 +55,17 @@ const Contest = () => {
       };
 
       updateTimer();
-      const timerInterval = setInterval(updateTimer, 1000);
+      const timerInterval = setInterval(updateTimer, 60000); // Update every minute
 
       return () => clearInterval(timerInterval); // Clean up interval on component unmount
     }
   }, [contest, navigate]);
 
   const formatTime = (milliseconds) => {
-    const totalSeconds = Math.floor(milliseconds / 1000);
-    const hours = Math.floor(totalSeconds / 3600);
-    const minutes = Math.floor((totalSeconds % 3600) / 60);
-    const seconds = totalSeconds % 60;
-    return `${hours}h ${minutes}m ${seconds}s`;
+    const totalMinutes = Math.floor(milliseconds / 60000);
+    const hours = Math.floor(totalMinutes / 60);
+    const minutes = totalMinutes % 60;
+    return `${hours}h ${minutes}m`;
   };
 
   const handleProblemClick = (problemId) => {
@@ -76,10 +75,18 @@ const Contest = () => {
   if (!contest) {
     return <div>Loading...</div>;
   }
-
-  const startTime = new Date(contest.startTime);
-  const endTime = new Date(contest.endTime);
-  const durationInHours = Math.abs(endTime - startTime) / 36e5; // Duration in hours
+  const getTagStyle = (tag) => {
+    switch (tag) {
+      case "easy":
+        return ` ${theme === "light" ? "text-green-800" : "text-green-500"} `;
+      case "medium":
+        return `${theme === "light" ? "text-yellow-500" : " text-yellow-300"}`;
+      case "hard":
+        return " text-red-500";
+      default:
+        return " text-gray-600";
+    }
+  };
 
   return (
     <div
@@ -91,13 +98,13 @@ const Contest = () => {
     >
       <div className="max-w-4xl mx-auto">
         <h1
-          className={`text-5xl font-bold mb-6 text-center ${
-            theme === "light" ? "text-black" : "text-blue-400"
+          className={`text-5xl font-bold mb-4 text-center uppercase ${
+            theme === "light" ? "text-black" : "text-white"
           }`}
         >
           {contest.title}
         </h1>
-        <p className="text-lg mb-4">{contest.description}</p>
+        <p className="text-lg mb-6 text-center">{contest.description}</p>
 
         {/* Timer */}
         <div
@@ -108,39 +115,12 @@ const Contest = () => {
           Time Remaining: {formatTime(timeRemaining)}
         </div>
 
-        <div className="mt-8 mb-10">
-          <div
-            className={`text-lg ${
-              theme === "light" ? "text-gray-800" : "text-gray-400"
-            }`}
-          >
-            <span className="font-semibold">Start Time: </span>
-            <span>{startTime.toLocaleTimeString()}</span>
-          </div>
-          <div
-            className={`text-lg mt-2 ${
-              theme === "light" ? "text-gray-800" : "text-gray-400"
-            }`}
-          >
-            <span className="font-semibold">Start Date: </span>
-            <span>{startTime.toLocaleDateString()}</span>
-          </div>
-          <div
-            className={`text-lg mt-2 ${
-              theme === "light" ? "text-gray-800" : "text-gray-400"
-            }`}
-          >
-            <span className="font-semibold">Duration: </span>
-            <span>{durationInHours} hours</span>
-          </div>
-        </div>
-
         <h2
           className={`text-3xl font-bold mt-10 mb-6 ${
-            theme === "light" ? "text-black" : "text-blue-400"
+            theme === "light" ? "text-black" : "text-white"
           }`}
         >
-          Problems in this Contest
+          Problems
         </h2>
         <table
           className={`min-w-full rounded-lg shadow-md ${
@@ -171,6 +151,7 @@ const Contest = () => {
               >
                 Description
               </th>
+              <th className={`p-4 text-left`}>Tag</th>
               <th
                 className={`text-left px-6 py-4 ${
                   theme === "light" ? "text-gray-800" : "text-gray-300"
@@ -184,7 +165,7 @@ const Contest = () => {
             {contest.problems.map((problem) => (
               <tr
                 key={problem._id}
-                className={` cursor-pointer ${
+                className={`cursor-pointer ${
                   theme === "light" ? "hover:bg-gray-200" : "hover:bg-gray-700"
                 }`}
                 onClick={() => handleProblemClick(problem._id)}
@@ -202,6 +183,13 @@ const Contest = () => {
                   }`}
                 >
                   {problem.description}
+                </td>
+                <td
+                  className={`p-4 ${getTagStyle(
+                    problem.tag
+                  )} borderpx-3 py-1 text-md `}
+                >
+                  <strong>{problem.tag || "Not Specified"}</strong>
                 </td>
                 <td className="px-6 py-4">
                   <button
