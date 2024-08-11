@@ -66,7 +66,7 @@ const ProblemList = () => {
           theme !== "light" ? "text-gray-100" : "text-gray-900"
         }`}
       >
-        Available Coding Problems
+        Coding Problems
       </h1>
       <div className="overflow-x-auto">
         <table
@@ -106,36 +106,34 @@ const ProblemList = () => {
               <tr
                 key={problem._id}
                 className={`${
-                  theme !== "light" ? "border-gray-700" : "border-gray-200"
-                }`}
+                  theme !== "light"
+                    ? "border-gray-700 hover:bg-gray-700"
+                    : "border-gray-200 hover:bg-gray-100"
+                } transition-colors duration-300`}
               >
                 <td className="p-4">
-                  {/* <Link
-                    to={`/problem/${problem._id}`}
-                    className={`hover:underline ${
-                      theme ? "text-blue-400" : "text-blue-600"
-                    }`}
-                  >
-                    className="text-blue-400 hover:underline"
-                  > */}
                   {problem.title}
-                  {/* </Link> */}
                 </td>
                 <td
                   className={`p-4 ${
                     theme !== "light" ? "text-gray-300" : "text-gray-900"
-                  }`}
+                  } truncate`}
+                  style={{ maxWidth: '300px' }} // You can adjust max-width as per your layout
+                  title={problem.description} // This adds a tooltip showing the full description
                 >
                   {problem.description}
                 </td>
                 <td className="p-4">
-                  <Link
-                    to={`/problem/${problem._id}`}
-                    className={`hover:underline ${
-                      theme ? "text-blue-400" : "text-blue-600"
-                    }`}
-                  >
-                    View
+                  <Link to={`/problem/${problem._id}`}>
+                    <button
+                      className={`px-4 py-2 rounded-lg text-sm font-semibold transition-colors ${
+                        theme !== "light"
+                          ? "bg-blue-500 hover:bg-blue-600 text-white"
+                          : "bg-blue-400 hover:bg-blue-500 text-white"
+                      }`}
+                    >
+                      View
+                    </button>
                   </Link>
                 </td>
               </tr>
