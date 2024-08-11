@@ -261,7 +261,10 @@ const ProblemDetail = () => {
         }`}
       >
         <h1 className="text-3xl font-bold mb-4">{problem.title}</h1>
-        <h2 className="text-xl font-semibold mb-2">{problem.description}</h2>
+        <h2 className="text-xl  mb-2">{problem.description}</h2>
+        <h2 className="text-xl font-semibold mb-2">
+          Constraints:{problem.constraints}
+        </h2>
         <div className="mb-6 relative">
           <h2 className="text-xl font-semibold mb-2">Sample Input</h2>
           <pre
