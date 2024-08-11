@@ -98,7 +98,7 @@ const Contest = () => {
     >
       <div className="max-w-4xl mx-auto">
         <h1
-          className={`text-5xl font-bold mb-4 text-center uppercase ${
+          className={`text-3xl font-bold mb-6 text-center uppercase ${
             theme === "light" ? "text-black" : "text-white"
           }`}
         >
@@ -187,7 +187,7 @@ const Contest = () => {
                 <td
                   className={`p-4 ${getTagStyle(
                     problem.tag
-                  )} borderpx-3 py-1 text-md `}
+                  )} borderpx-3 py-1 text-md capitalize`}
                 >
                   <strong>{problem.tag || "Not Specified"}</strong>
                 </td>
