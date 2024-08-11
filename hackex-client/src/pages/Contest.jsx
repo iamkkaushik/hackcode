@@ -138,14 +138,14 @@ const Contest = () => {
           >
             <tr>
               <th
-                className={`text-left px-6 py-4 ${
+                className={`capitalize text-left px-6 py-4 ${
                   theme === "light" ? "text-gray-800" : "text-gray-300"
                 }`}
               >
                 Title
               </th>
               <th
-                className={`text-left px-6 py-4 ${
+                className={`capitalize text-left px-6 py-4 ${
                   theme === "light" ? "text-gray-800" : "text-gray-300"
                 }`}
               >

@@ -84,7 +84,7 @@ const ProblemList = () => {
           theme !== "light" ? "text-gray-100" : "text-gray-900"
         }`}
       >
-        Coding Problems
+        Problems
       </h1>
       <div className="overflow-x-auto">
         <table

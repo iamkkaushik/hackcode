@@ -84,12 +84,16 @@ const Contests = () => {
           : "bg-gray-900 text-gray-100"
       }`}
     >
-      <h1 className="text-4xl font-bold mb-6 text-center">Contests</h1>
+      <h1 className="text-4xl font-bold mb-6 text-center capitalize">
+        Contests
+      </h1>
 
       <div className="max-w-4xl mx-auto">
         {liveContests.length > 0 && (
           <div className="mb-8">
-            <h3 className="text-2xl font-semibold mb-4">Live Contests</h3>
+            <h3 className="text-2xl font-semibold mb-4 capitalize">
+              Live Contests
+            </h3>
             <table
               className={`min-w-full rounded-lg shadow-lg ${
                 theme === "light"
@@ -105,11 +109,15 @@ const Contests = () => {
                 }
               >
                 <tr>
-                  <th className="text-left px-6 py-3 font-semibold">Title</th>
-                  <th className="text-left px-6 py-3 font-semibold">
+                  <th className="text-left px-6 py-3 font-semibold capitalize">
+                    Title
+                  </th>
+                  <th className="text-left px-6 py-3 font-semibold capitalize">
                     Description
                   </th>
-                  <th className="text-left px-6 py-3 font-semibold">Action</th>
+                  <th className="text-left px-6 py-3 font-semibold capitalize">
+                    Action
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -122,8 +130,10 @@ const Contests = () => {
                         : "border-b border-gray-600"
                     }
                   >
-                    <td className="px-6 py-4">{contest.title}</td>
-                    <td className="px-6 py-4">{contest.description}</td>
+                    <td className="px-6 py-4 capitalize">{contest.title}</td>
+                    <td className="px-6 py-4 capitalize">
+                      {contest.description}
+                    </td>
                     <td className="px-6 py-4">
                       <button
                         onClick={() => handleContestClick(contest)}
@@ -141,7 +151,7 @@ const Contests = () => {
 
         <h3 className="text-2xl font-semibold mb-4">Upcoming Contests</h3>
         <table
-          className={`min-w-full rounded-lg shadow-lg ${
+          className={`capitalize min-w-full rounded-lg shadow-lg ${
             theme === "light"
               ? "bg-gray-50 border border-gray-300"
               : "bg-gray-800 border border-gray-700"
@@ -150,13 +160,17 @@ const Contests = () => {
           <thead
             className={
               theme === "light"
-                ? "bg-gray-200 border-b border-gray-300"
-                : "bg-gray-700 border-b border-gray-600"
+                ? "bg-gray-200 border-b border-gray-300 capitalize"
+                : "bg-gray-700 border-b border-gray-600 capitalize"
             }
           >
             <tr>
-              <th className="text-left px-6 py-3 font-semibold">Title</th>
-              <th className="text-left px-6 py-3 font-semibold">Description</th>
+              <th className="text-left px-6 py-3 font-semibold capitalize">
+                Title
+              </th>
+              <th className="text-left px-6 py-3 font-semibold capitalize">
+                Description
+              </th>
               <th className="text-left px-6 py-3 font-semibold">Start Date</th>
               <th className="text-left px-6 py-3 font-semibold">Start Time</th>
             </tr>
@@ -178,8 +192,10 @@ const Contests = () => {
                       : "border-b border-gray-600"
                   }
                 >
-                  <td className="px-6 py-4">{contest.title}</td>
-                  <td className="px-6 py-4">{contest.description}</td>
+                  <td className="px-6 py-4 capitalize">{contest.title}</td>
+                  <td className="px-6 py-4 capitalize">
+                    {contest.description}
+                  </td>
                   <td className="px-6 py-4">{startDate}</td>
                   <td className="px-6 py-4">{startTime}</td>
                 </tr>
