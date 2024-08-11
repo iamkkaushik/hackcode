@@ -4,7 +4,7 @@ import { useUser } from "../userContext";
 import { ToastContainer, toast } from "react-toastify";
 import { FaCopy, FaDownload, FaPlay, FaPaperPlane } from "react-icons/fa";
 import { saveAs } from "file-saver"; // Import file-saver for downloading files
-import Spinner from "../Components/Spinner.jsx";
+import Spinner from "../components/Spinner.jsx";
 import CodeHighlighter from "./CodeHighlighter.jsx";
 import useScreenSize from "../hooks/useScreenSize.js";
 import { useTheme } from "../themeContext"; // Import ThemeContext
@@ -305,7 +305,7 @@ const ProblemDetail = () => {
         </div>
       </div>
       <div
-        className={`flex-1 p-6 rounded-lg ${
+        className={`overflow-hidden flex-1 p-6 rounded-lg ${
           theme === "light" ? "bg-gray-50" : "bg-gray-800"
         }`}
       >

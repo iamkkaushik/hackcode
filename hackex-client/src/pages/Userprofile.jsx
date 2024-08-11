@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useTheme } from "../themeContext";
 import image from "../assets/image_dummy.png";
 import Modal from "./ProfileModal"; // Import the Modal component
-import Spinner from "../Components/Spinner";
+import Spinner from "../components/Spinner";
 
 const Profile = () => {
   const { isLoggedIn, user } = useUser();
@@ -157,7 +157,7 @@ const Profile = () => {
             className="w-32 h-32 rounded-full object-cover mb-4"
           />
           {/* User Information */}
-          <div className="text-center mb-4">
+          <div className="text-start mb-4">
             <p className="text-xl mb-2">
               <strong>Name:</strong> {name}
             </p>
@@ -211,7 +211,7 @@ const Profile = () => {
       {/* List of Problems Solved */}
       {problems.length > 0 && (
         <div className="mt-10 flex justify-center">
-          <div className="w-full max-w-4xl">
+          <div className="w-full max-w-2xl">
             <h2 className="text-2xl font-semibold mb-4 text-center">
               Problems Solved
             </h2>
@@ -221,52 +221,63 @@ const Profile = () => {
               }`}
             >
               <table
-                className={`w-full rounded-lg ${
-                  theme === "light" ? "border-gray-300" : "border-gray-700"
-                }`}
+                className={`min-w-full ${
+                  theme === "light"
+                    ? "bg-gray-50 border-gray-300"
+                    : "bg-gray-800 border-gray-700"
+                } border rounded-lg shadow-md`}
               >
-                <thead>
+                <thead
+                  className={`${
+                    theme === "light"
+                      ? "bg-gray-200 border-gray-300 text-gray-700"
+                      : "bg-gray-700 border-gray-600 text-gray-200"
+                  }`}
+                >
                   <tr>
-                    <th
-                      className={`py-4 px-6 border-b text-center font-bold ${
-                        theme === "light" ? "text-gray-800" : "text-gray-300"
-                      }`}
-                    >
+                    <th className="p-4 text-center font-semibold capitalize">
                       Title
                     </th>
-                    <th className={`p-4 text-left`}>Tag</th>
-                    <th
-                      className={`py-4 px-6 border-b text-center font-bold ${
-                        theme === "light" ? "text-gray-800" : "text-gray-300"
-                      }`}
-                    >
+                    <th className="p-4 text-center font-semibold low capitalize">
+                      Tag
+                    </th>
+                    <th className="px-4 py-4 text-center font-semibold capitalize">
                       Action
                     </th>
                   </tr>
                 </thead>
                 <tbody>
                   {problems.map((problem) => (
-                    <tr key={problem._id}>
+                    <tr
+                      key={problem._id}
+                      className={`lowercase border-b ${
+                        theme === "light"
+                          ? "border-gray-300"
+                          : "border-gray-600"
+                      }`}
+                    >
                       <td
-                        className={`py-4 px-6 border-b text-center ${
-                          theme === "light" ? "text-gray-800" : "text-gray-400"
+                        className={`capitalize p-4 text-center ${
+                          theme === "light" ? "text-gray-900" : "text-gray-100"
                         }`}
                       >
                         {problem.title}
                       </td>
                       <td
-                        className={`p-4 ${getTagStyle(
+                        className={` ${getTagStyle(
                           problem.tag
-                        )} borderpx-3 py-1 text-md `}
+                        )} p-4 text-center ${
+                          theme === "light" ? "text-gray-900" : "text-gray-100"
+                        }`}
                       >
                         <strong>{problem.tag || "Not Specified"}</strong>
                       </td>
                       <td
-                        className={`py-4 px-6 border-b text-center ${
-                          theme === "light" ? "text-gray-800" : "text-gray-400"
+                        className={`px-4 py-4 text-start ${
+                          theme === "light" ? "text-gray-900" : "text-gray-100"
                         }`}
                       >
-                        <div className="flex space-x-2">
+                        <div className="flex flex-0 gap-4">
                           <Link to={`/problem/${problem._id}`}>
                             <button className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 truncate w-32">
                               View

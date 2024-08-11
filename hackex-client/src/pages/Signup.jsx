@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useTheme } from "../themeContext"; // Import ThemeContext
 
 const Signup = () => {
@@ -89,8 +89,19 @@ const Signup = () => {
             theme === "light" ? "hover:bg-blue-600" : "hover:bg-blue-700"
           }`}
         >
-          Signup
+          Login
         </button>
+        <div className="mt-4 text-center">
+          <Link
+            to="/login"
+            className={`text-blue-400 hover:underline ${
+              theme === "light" ? "hover:text-blue-500" : "hover:text-blue-300"
+            }`}
+          >
+            <p className="">Already have an account?</p>
+            Login
+          </Link>
+        </div>
       </div>
     </div>
   );

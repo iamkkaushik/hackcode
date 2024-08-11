@@ -98,7 +98,6 @@ const LoginPage = () => {
           </button>
         </form>
         <div className="mt-4 text-center">
-          <p className="text-gray-400">Don&apos;t have an account?</p>
           <Link
             to="/signup"
             className={`text-blue-400 hover:underline ${
@@ -106,6 +105,7 @@ const LoginPage = () => {
             }`}
           >
             Sign Up
+            <p className="">Don&apos;t have an account?</p>
           </Link>
         </div>
       </div>
