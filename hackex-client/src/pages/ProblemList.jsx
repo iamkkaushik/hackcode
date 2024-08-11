@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useTheme } from "../themeContext"; // Adjust path as needed
-import Spinner from "../Components/Spinner";
+import Spinner from "../components/Spinner";
 
 const ProblemList = () => {
   const [problems, setProblems] = useState([]);
@@ -80,7 +80,7 @@ const ProblemList = () => {
       }`}
     >
       <h1
-        className={`text-4xl font-bold mb-8 text-center ${
+        className={`uppercase text-4xl font-bold mb-8 text-center ${
           theme !== "light" ? "text-gray-100" : "text-gray-900"
         }`}
       >

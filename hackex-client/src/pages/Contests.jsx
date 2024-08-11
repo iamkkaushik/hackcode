@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useTheme } from "../themeContext"; // Import ThemeContext
-import Spinner from "../Components/Spinner";
+import Spinner from "../components/Spinner";
+import { FaPlusCircle } from "react-icons/fa";
 
 const Contests = () => {
   const [contests, setContests] = useState([]);
@@ -84,9 +85,7 @@ const Contests = () => {
           : "bg-gray-900 text-gray-100"
       }`}
     >
-      <h1 className="text-4xl font-bold mb-6 text-center capitalize">
-        Contests
-      </h1>
+      <h1 className="text-4xl font-bold text-center uppercase">Contests</h1>
 
       <div className="max-w-4xl mx-auto">
         {liveContests.length > 0 && (
@@ -149,7 +148,16 @@ const Contests = () => {
           </div>
         )}
 
-        <h3 className="text-2xl font-semibold mb-4">Upcoming Contests</h3>
+        <div className="flex justify-between items-center mt-8 mb-2">
+          <h3 className="text-2xl font-semibold mb-4">Upcoming Contests</h3>
+          <Link
+            to="/login"
+            className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg transition duration-300 transform hover:scale-105 flex items-center justify-between"
+          >
+            Create Contest
+            <FaPlusCircle className="ml-2" />
+          </Link>
+        </div>
         <table
           className={`capitalize min-w-full rounded-lg shadow-lg ${
             theme === "light"
@@ -176,31 +184,35 @@ const Contests = () => {
             </tr>
           </thead>
           <tbody>
-            {normalContests.map((contest) => {
-              const startDate = new Date(
-                contest.startTime
-              ).toLocaleDateString();
-              const startTime = new Date(
-                contest.startTime
-              ).toLocaleTimeString();
-              return (
-                <tr
-                  key={contest._id}
-                  className={
-                    theme === "light"
-                      ? "border-b border-gray-300"
-                      : "border-b border-gray-600"
-                  }
-                >
-                  <td className="px-6 py-4 capitalize">{contest.title}</td>
-                  <td className="px-6 py-4 capitalize">
-                    {contest.description}
-                  </td>
-                  <td className="px-6 py-4">{startDate}</td>
-                  <td className="px-6 py-4">{startTime}</td>
-                </tr>
-              );
-            })}
+            {normalContests?.length > 0 ? (
+              normalContests?.map((contest) => {
+                const startDate = new Date(
+                  contest.startTime
+                ).toLocaleDateString();
+                const startTime = new Date(
+                  contest.startTime
+                ).toLocaleTimeString();
+                return (
+                  <tr
+                    key={contest._id}
+                    className={
+                      theme === "light"
+                        ? "border-b border-gray-300"
+                        : "border-b border-gray-600"
+                    }
+                  >
+                    <td className="px-6 py-4 capitalize">{contest.title}</td>
+                    <td className="px-6 py-4 capitalize">
+                      {contest.description}
+                    </td>
+                    <td className="px-6 py-4">{startDate}</td>
+                    <td className="px-6 py-4">{startTime}</td>
+                  </tr>
+                );
+              })
+            ) : (
+              <div className="m-8">No upcoming contests.Create one!</div>
+            )}
           </tbody>
         </table>
       </div>

@@ -4,7 +4,7 @@ import { useUser } from "../userContext";
 import { ToastContainer, toast } from "react-toastify";
 import { FaCopy, FaDownload, FaPlay, FaPaperPlane } from "react-icons/fa";
 import { saveAs } from "file-saver"; // Import file-saver for downloading files
-import Spinner from "../Components/Spinner.jsx";
+import Spinner from "../components/Spinner.jsx";
 import CodeHighlighter from "./CodeHighlighter.jsx";
 import useScreenSize from "../hooks/useScreenSize.js";
 import { useTheme } from "../themeContext"; // Import ThemeContext
@@ -38,7 +38,7 @@ if __name__ == "__main__":
     // Write your code here
 }
 
-main();`
+main();`,
 };
 
 const ProblemDetail = () => {
@@ -225,14 +225,16 @@ const ProblemDetail = () => {
   if (loading)
     return (
       <div
-        className={`flex flex-col lg:flex-row min-h-screen p-4 gap-4 ${theme === "light"
-          ? "bg-gray-100 text-gray-900"
-          : "bg-gray-900 text-gray-100"
-          }`}
+        className={`flex flex-col lg:flex-row min-h-screen p-4 gap-4 ${
+          theme === "light"
+            ? "bg-gray-100 text-gray-900"
+            : "bg-gray-900 text-gray-100"
+        }`}
       >
         <div
-          className={`flex-1 p-6 rounded-lg relative ${theme === "light" ? "bg-gray-50" : "bg-gray-800"
-            }`}
+          className={`flex-1 p-6 rounded-lg relative ${
+            theme === "light" ? "bg-gray-50" : "bg-gray-800"
+          }`}
         >
           <div className="absolute inset-0 flex items-center justify-center">
             <Spinner
@@ -247,24 +249,27 @@ const ProblemDetail = () => {
 
   return (
     <div
-      className={`flex flex-col lg:flex-row min-h-screen p-4 gap-4 ${theme === "light"
-        ? "bg-gray-100 text-gray-900"
-        : "bg-gray-900 text-gray-100"
-        }`}
+      className={`flex flex-col lg:flex-row min-h-screen p-4 gap-4 ${
+        theme === "light"
+          ? "bg-gray-100 text-gray-900"
+          : "bg-gray-900 text-gray-100"
+      }`}
     >
       <div
-        className={`flex-1 p-6 rounded-lg ${theme === "light" ? "bg-gray-50" : "bg-gray-800"
-          }`}
+        className={`flex-1 p-6 rounded-lg ${
+          theme === "light" ? "bg-gray-50" : "bg-gray-800"
+        }`}
       >
         <h1 className="text-3xl font-bold mb-4">{problem.title}</h1>
         <h2 className="text-xl font-semibold mb-2">{problem.description}</h2>
         <div className="mb-6 relative">
           <h2 className="text-xl font-semibold mb-2">Sample Input</h2>
           <pre
-            className={` p-2 rounded ${theme !== "light"
-              ? "text-gray-100  bg-gray-700 "
-              : "text-gray-900  bg-gray-200"
-              }`}
+            className={` p-2 rounded ${
+              theme !== "light"
+                ? "text-gray-100  bg-gray-700 "
+                : "text-gray-900  bg-gray-200"
+            }`}
           >
             {problem.sampleInput}
           </pre>
@@ -279,10 +284,11 @@ const ProblemDetail = () => {
         <div className="mb-6 relative">
           <h2 className="text-xl font-semibold mb-2">Sample Output</h2>
           <pre
-            className={` p-2 rounded ${theme !== "light"
-              ? "text-gray-100  bg-gray-700 "
-              : "text-gray-900  bg-gray-200"
-              }`}
+            className={` p-2 rounded ${
+              theme !== "light"
+                ? "text-gray-100  bg-gray-700 "
+                : "text-gray-900  bg-gray-200"
+            }`}
           >
             {problem.sampleOutput}
           </pre>
@@ -296,16 +302,18 @@ const ProblemDetail = () => {
         </div>
       </div>
       <div
-        className={`flex-1 p-6 rounded-lg ${theme === "light" ? "bg-gray-50" : "bg-gray-800"
-          }`}
+        className={`overflow-hidden flex-1 p-6 rounded-lg ${
+          theme === "light" ? "bg-gray-50" : "bg-gray-800"
+        }`}
       >
         <div className="flex justify-between items-center mb-4">
           <div className="flex justify-between items-center gap-8">
             <select
-              className={`ml-4 p-2 rounded-lg ${theme === "light"
-                ? "bg-gray-200 text-gray-900"
-                : "bg-gray-700 text-gray-100"
-                }`}
+              className={`ml-4 p-2 rounded-lg ${
+                theme === "light"
+                  ? "bg-gray-200 text-gray-900"
+                  : "bg-gray-700 text-gray-100"
+              }`}
               value={selectedLanguage}
               onChange={(e) => setSelectedLanguage(e.target.value)}
             >
@@ -316,10 +324,11 @@ const ProblemDetail = () => {
               <option value="js">JavaScript</option>
             </select>
             <select
-              className={`p-2  rounded ${theme === "light"
-                ? "bg-gray-200 text-gray-900"
-                : "bg-gray-700 text-gray-100"
-                }`}
+              className={`p-2  rounded ${
+                theme === "light"
+                  ? "bg-gray-200 text-gray-900"
+                  : "bg-gray-700 text-gray-100"
+              }`}
               value={themes}
               onChange={(e) => setThemes(e.target.value)}
             >
@@ -389,10 +398,11 @@ const ProblemDetail = () => {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               rows="4"
-              className={`w-full p-3 rounded-lg mb-4 ${theme === "light"
-                ? "bg-gray-200 text-gray-900"
-                : "bg-gray-700 text-gray-100"
-                }`}
+              className={`w-full p-3 rounded-lg mb-4 ${
+                theme === "light"
+                  ? "bg-gray-200 text-gray-900"
+                  : "bg-gray-700 text-gray-100"
+              }`}
               placeholder="Enter input for your code..."
             />
 
@@ -422,10 +432,11 @@ const ProblemDetail = () => {
           <textarea
             value={output}
             rows="4"
-            className={`w-full p-3 rounded-lg mb-4 ${theme === "light"
-              ? "bg-gray-200 text-gray-900"
-              : "bg-gray-700 text-gray-100"
-              } ${isError ? "text-red-500" : ""}`}
+            className={`w-full p-3 rounded-lg mb-4 ${
+              theme === "light"
+                ? "bg-gray-200 text-gray-900"
+                : "bg-gray-700 text-gray-100"
+            } ${isError ? "text-red-500" : ""}`}
             placeholder="Output appears here..."
           />
         </div>

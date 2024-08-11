@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "../themeContext"; // Import ThemeContext
-import Spinner from "../Components/Spinner";
+import Spinner from "../components/Spinner";
 
 const AddProblem = () => {
   const [title, setTitle] = useState("");

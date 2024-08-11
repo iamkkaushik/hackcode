@@ -3,8 +3,8 @@ import { useUser } from "../userContext";
 import { Link, useNavigate } from "react-router-dom";
 import { useTheme } from "../themeContext";
 import image from "../assets/image_dummy.png";
-import Modal from "./ProfileModal";  // Import the Modal component
-import Spinner from "../Components/Spinner";
+import Modal from "./ProfileModal"; // Import the Modal component
+import Spinner from "../components/Spinner";
 
 const Profile = () => {
   const { isLoggedIn, user } = useUser();
@@ -124,7 +124,7 @@ const Profile = () => {
       }`}
     >
       <h1 className="text-4xl font-bold mb-6 text-center">Profile</h1>
-      
+
       {/* Card Container with Hover Effect */}
       <div
         className={`flex flex-col items-center max-w-lg mx-auto p-8 rounded-lg shadow-lg transform transition-transform duration-300 hover:scale-105 hover:shadow-xl ${
@@ -195,7 +195,9 @@ const Profile = () => {
       {problems.length > 0 && (
         <div className="mt-10 flex justify-center">
           <div className="w-full max-w-4xl">
-            <h2 className="text-2xl font-semibold mb-4 text-center">Problems Solved</h2>
+            <h2 className="text-2xl font-semibold mb-4 text-center">
+              Problems Solved
+            </h2>
             <div
               className={`overflow-x-auto rounded-lg ${
                 theme === "light" ? "bg-gray-200" : "bg-gray-800"

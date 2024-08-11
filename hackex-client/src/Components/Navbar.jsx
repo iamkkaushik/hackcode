@@ -6,6 +6,7 @@ import logo from "../assets/logo.png"; // Light mode logo
 import logoDark from "../assets/LogoDark.png"; // Dark mode logo
 import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { FaUser } from "react-icons/fa";
 
 const Navbar = () => {
   const { theme, toggleTheme } = useTheme(); // Access theme and toggle function from context
@@ -92,22 +93,23 @@ const Navbar = () => {
           >
             Submit Problem
           </Link>
+          <button
+            onClick={toggleTheme}
+            className={`text-lg focus:outline-none transition duration-300 ${
+              theme === "light" ? "text-gray-900" : "text-gray-100"
+            }`}
+            aria-label="Toggle Theme"
+          >
+            {theme === "light" ? <FaMoon /> : <FaSun />}
+          </button>
           <div className="ml-6 flex items-center space-x-4">
             {/* Theme toggle icon */}
-            <button
-              onClick={toggleTheme}
-              className={`text-lg focus:outline-none transition duration-300 ${
-                theme === "light" ? "text-gray-900" : "text-gray-100"
-              }`}
-              aria-label="Toggle Theme"
-            >
-              {theme === "light" ? <FaMoon /> : <FaSun />}
-            </button>
             {!isLoggedIn ? (
               <Link
                 to="/login"
-                className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg transition duration-300 transform hover:scale-105"
+                className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg transition duration-300 transform hover:scale-105 flex items-center justify-between"
               >
+                <FaUser className="mr-2" />
                 Login/Register
               </Link>
             ) : (
