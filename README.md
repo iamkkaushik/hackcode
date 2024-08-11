@@ -88,6 +88,7 @@ This platform is not just functional but also enjoyable to use. It blends high p
 7. **Access the Platform**
    Open your browser and navigate to `http://localhost:5173` to start using the platform.
    The server runs at `http://localhost:3000`.
+   The compiler runs at `https://localhost:8000`.
 
 ## Contributors
 - **Kshitij Gupta**
