@@ -17,7 +17,7 @@ const ProblemList = () => {
         );
         const data = await response.json();
         console.log(data); // Log data to check its structure
-        setProblems(data);
+        setProblems(data.problems || []); // Adjust based on the actual structure of the response
       } catch (error) {
         console.error("Error fetching problems:", error);
       }
@@ -52,6 +52,20 @@ const ProblemList = () => {
       </div>
     );
   }
+
+  // Function to determine the border color based on the tag
+  const getTagStyle = (tag) => {
+    switch (tag) {
+      case "easy":
+        return ` ${theme === "light" ? "text-green-800" : "text-green-500"} `;
+      case "medium":
+        return `${theme === "light" ? "text-yellow-500" : " text-yellow-300"}`;
+      case "hard":
+        return " text-red-500";
+      default:
+        return " text-gray-600";
+    }
+  };
 
   return (
     <div
@@ -92,6 +106,8 @@ const ProblemList = () => {
                 Title
               </th>
               <th className={`p-4 text-left`}>Description</th>
+              <th className={`p-4 text-left`}>Tag</th>{" "}
+              {/* New column for tag */}
               <th
                 className={`p-4 text-left ${
                   theme !== "light" ? "rounded-tr-lg" : ""
@@ -102,7 +118,7 @@ const ProblemList = () => {
             </tr>
           </thead>
           <tbody>
-            {problems?.problems?.map((problem) => (
+            {problems.map((problem) => (
               <tr
                 key={problem._id}
                 className={`${
@@ -122,6 +138,13 @@ const ProblemList = () => {
                   title={problem.description} // This adds a tooltip showing the full description
                 >
                   {problem.description}
+                </td>
+                <td
+                  className={`p-4 ${getTagStyle(
+                    problem.tag
+                  )} borderpx-3 py-1 text-md `}
+                >
+                  <strong>{problem.tag || "Not Specified"}</strong>
                 </td>
                 <td className="p-4">
                   <Link to={`/problem/${problem._id}`}>

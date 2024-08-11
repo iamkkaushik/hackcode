@@ -10,6 +10,7 @@ const AddProblem = () => {
   const [constraints, setConstraints] = useState("");
   const [sampleInput, setSampleInput] = useState("");
   const [sampleOutput, setSampleOutput] = useState("");
+  const [tag, setTag] = useState(""); // New state for tag
   const [error, setError] = useState("");
   const navigate = useNavigate();
   const { theme } = useTheme(); // Access theme from context
@@ -29,6 +30,7 @@ const AddProblem = () => {
             constraints,
             sampleInput,
             sampleOutput,
+            tag, // Include tag in the submission data
           }),
         }
       );
@@ -69,6 +71,7 @@ const AddProblem = () => {
       </div>
     );
   }
+
   return (
     <div
       className={`min-h-screen flex items-center justify-center p-8 ${
@@ -137,6 +140,20 @@ const AddProblem = () => {
           }`}
           placeholder="Sample Output"
         />
+        <select
+          value={tag}
+          onChange={(e) => setTag(e.target.value)}
+          className={`w-full p-3 mb-6 rounded-lg border ${
+            theme === "light"
+              ? "bg-gray-200 text-gray-900 border-gray-300 focus:border-blue-500"
+              : "bg-gray-700 text-white border-gray-600 focus:border-blue-500"
+          }`}
+        >
+          <option value="">Select Difficulty</option>
+          <option value="easy">Easy</option>
+          <option value="medium">Medium</option>
+          <option value="hard">Hard</option>
+        </select>
         <button
           onClick={handleSubmit}
           className="bg-blue-500 hover:bg-blue-600 text-white py-3 px-6 rounded-lg font-semibold transition w-full"

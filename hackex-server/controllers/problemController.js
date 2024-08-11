@@ -31,7 +31,7 @@ exports.getProblem = catchAsync(async (req, res, next) => {
 });
 
 exports.addProblem = catchAsync(async (req, res, next) => {
-  const { title, description, constraints, sampleInput, sampleOutput } =
+  const { title, description, constraints, sampleInput, sampleOutput, tag } =
     req.body;
   const newProblem = {
     title,
@@ -39,6 +39,7 @@ exports.addProblem = catchAsync(async (req, res, next) => {
     constraints,
     sampleInput,
     sampleOutput,
+    tag,
   };
   const problem = await Problem.create(newProblem);
   res.status(200).json({

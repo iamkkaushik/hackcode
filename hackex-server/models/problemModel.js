@@ -21,6 +21,11 @@ const problemSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  tag: {
+    type: String,
+    enum: ["easy", "medium", "hard"],
+    default: "easy",
+  },
 });
 
 const Problem = mongoose.model("Problem", problemSchema);
