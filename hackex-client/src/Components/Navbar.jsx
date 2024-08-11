@@ -75,10 +75,10 @@ const Navbar = () => {
             Problems
           </Link>
           <Link
-            to="/create-contest"
+            to="/contests"
             className="text-md hover:text-blue-400 transition-all duration-300 transform hover:scale-105"
           >
-            Create Contest
+            Contests
           </Link>
           <Link
             to="/playground"

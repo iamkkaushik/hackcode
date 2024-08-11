@@ -55,7 +55,7 @@ const LeaderBoard = () => {
   return (
     <div
       className={`min-h-screen p-8 flex flex-col items-center ${
-        theme !== "light" ? " bg-gray-900" : " bg-gray-100"
+        theme !== "light" ? " bg-gray-900" : " "
       }`}
     >
       <h1
@@ -81,16 +81,20 @@ const LeaderBoard = () => {
             }`}
           >
             <tr>
-              <th className="p-4 text-center font-semibold">RANK</th>
-              <th className="p-4 text-center font-semibold">USERNAME</th>
-              <th className="p-4 text-center font-semibold">PROBLEMS SOLVED</th>
+              <th className="p-4 text-center font-semibold capitalize">RANK</th>
+              <th className="p-4 text-center font-semibold low capitalize">
+                USERNAME
+              </th>
+              <th className="p-4 text-center font-semibold capitalize">
+                PROBLEMS SOLVED
+              </th>
             </tr>
           </thead>
           <tbody>
             {leaderboardData.map((user, index) => (
               <tr
                 key={user.email}
-                className={`border-b ${
+                className={`lowercase border-b ${
                   theme === "light" ? "border-gray-300" : "border-gray-600"
                 }`}
               >

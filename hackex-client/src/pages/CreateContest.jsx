@@ -117,7 +117,7 @@ const CreateContest = () => {
           : "bg-gray-900 text-gray-100"
       }`}
     >
-      <h1 className="text-4xl font-bold mb-6 text-center">
+      <h1 className="text-4xl font-bold mb-6 text-center capitalize">
         Create a New Contest
       </h1>
       <div

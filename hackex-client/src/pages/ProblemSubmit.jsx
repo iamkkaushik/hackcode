@@ -85,7 +85,7 @@ const AddProblem = () => {
           theme === "light" ? "bg-gray-50" : "bg-gray-800"
         }`}
       >
-        <h1 className="text-3xl font-bold mb-6 text-center">
+        <h1 className="text-3xl font-bold mb-6 text-center capitalize">
           Add a New Problem
         </h1>
         {error && <p className="text-red-500 mb-4 text-center">{error}</p>}
