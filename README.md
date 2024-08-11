@@ -93,8 +93,3 @@ This platform is not just functional but also enjoyable to use. It blends high p
 - **Kshitij Gupta**
 - **Akshitha Mittapally**
 - **Harsh Dalwadi**
-
-## License
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
----
