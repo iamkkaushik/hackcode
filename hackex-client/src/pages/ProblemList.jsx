@@ -57,11 +57,15 @@ const ProblemList = () => {
   const getTagStyle = (tag) => {
     switch (tag) {
       case "easy":
-        return ` ${theme === "light" ? "text-green-800" : "text-green-500"} `;
+        return ` ${
+          theme === "light" ? "text-green-700" : "text-green-500"
+        } uppercase`;
       case "medium":
-        return `${theme === "light" ? "text-yellow-500" : " text-yellow-300"}`;
+        return `${
+          theme === "light" ? "text-yellow-500" : " text-yellow-300"
+        } uppercase`;
       case "hard":
-        return " text-red-500";
+        return " text-red-500 uppercase";
       default:
         return " text-gray-600";
     }
@@ -127,14 +131,12 @@ const ProblemList = () => {
                     : "border-gray-200 hover:bg-gray-100"
                 } transition-colors duration-300`}
               >
-                <td className="p-4">
-                  {problem.title}
-                </td>
+                <td className="p-4 capitalize">{problem.title}</td>
                 <td
                   className={`p-4 ${
                     theme !== "light" ? "text-gray-300" : "text-gray-900"
-                  } truncate`}
-                  style={{ maxWidth: '300px' }} // You can adjust max-width as per your layout
+                  } truncate capitalize`}
+                  style={{ maxWidth: "300px" }} // You can adjust max-width as per your layout
                   title={problem.description} // This adds a tooltip showing the full description
                 >
                   {problem.description}
