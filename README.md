@@ -98,5 +98,3 @@ This platform is not just functional but also enjoyable to use. It blends high p
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
-
-This README file should help users understand what the platform does and how to set it up locally.
