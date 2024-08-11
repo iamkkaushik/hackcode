@@ -74,7 +74,7 @@ This platform is not just functional but also enjoyable to use. It blends high p
    ```
 
 3. **Run the Backend Server**
-   In the `hackex-server' and 'hackex-compiler` directory, start the server and compiler:
+   In the `hackex-server` and `hackex-compiler` directory, start the server and compiler:
    ```bash
    npm start
    ```
