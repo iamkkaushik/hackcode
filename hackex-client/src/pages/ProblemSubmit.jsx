@@ -3,8 +3,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "../themeContext"; // Import ThemeContext
 import Spinner from "../components/Spinner";
-import { saveAs } from "file-saver";
-import { FaDownload, FaUpload } from "react-icons/fa";
+// import { saveAs } from "file-saver";
+// import { FaDownload, FaUpload } from "react-icons/fa";
 
 const AddProblem = () => {
   const [title, setTitle] = useState("");
@@ -13,8 +13,8 @@ const AddProblem = () => {
   const [sampleInput, setSampleInput] = useState("");
   const [sampleOutput, setSampleOutput] = useState("");
   const [tag, setTag] = useState(""); // New state for tag
-  const [inputFile, setInputFile] = useState(null); // New state for input file
-  const [outputFile, setOutputFile] = useState(null); // New state for output file
+  // const [inputFile, setInputFile] = useState(null); // New state for input file
+  // const [outputFile, setOutputFile] = useState(null); // New state for output file
   const [error, setError] = useState("");
   const navigate = useNavigate();
   const { theme } = useTheme(); // Access theme from context
@@ -24,22 +24,31 @@ const AddProblem = () => {
     try {
       setLoading(true);
 
-      const formData = new FormData();
-      formData.append("title", title);
-      formData.append("description", description);
-      formData.append("constraints", constraints);
-      formData.append("sampleInput", sampleInput);
-      formData.append("sampleOutput", sampleOutput);
-      formData.append("tag", tag); // Include tag in the submission data
+      // const formData = new FormData();
+      // formData.append("title", title);
+      // formData.append("description", description);
+      // formData.append("constraints", constraints);
+      // formData.append("sampleInput", sampleInput);
+      // formData.append("sampleOutput", sampleOutput);
+      // formData.append("tag", tag); // Include tag in the submission data
 
-      if (inputFile) formData.append("inputFile", inputFile);
-      if (outputFile) formData.append("outputFile", outputFile);
+      // if (inputFile) formData.append("inputFile", inputFile);
+      // if (outputFile) formData.append("outputFile", outputFile);
 
       const response = await fetch(
         "http://localhost:3000/api/v1/problems/addProblem",
         {
           method: "POST",
-          body: formData,
+          // body: formData,
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            title,
+            description,
+            constraints,
+            sampleInput,
+            sampleOutput,
+            tag, // Include tag in the submission data
+          }),
         }
       );
 
@@ -80,21 +89,21 @@ const AddProblem = () => {
     );
   }
 
-  const handleFileChange = (e, setter) => {
-    const file = e.target.files[0];
-    if (file) {
-      setter(file);
-      const reader = new FileReader();
-      reader.onload = () => {
-        if (setter === setInputFile) {
-          setSampleInput(reader.result);
-        } else if (setter === setOutputFile) {
-          setSampleOutput(reader.result);
-        }
-      };
-      reader.readAsText(file);
-    }
-  };
+  // const handleFileChange = (e, setter) => {
+  //   const file = e.target.files[0];
+  //   if (file) {
+  //     setter(file);
+  //     const reader = new FileReader();
+  //     reader.onload = () => {
+  //       if (setter === setInputFile) {
+  //         setSampleInput(reader.result);
+  //       } else if (setter === setOutputFile) {
+  //         setSampleOutput(reader.result);
+  //       }
+  //     };
+  //     reader.readAsText(file);
+  //   }
+  // };
 
   return (
     <div
@@ -155,14 +164,14 @@ const AddProblem = () => {
           placeholder="Sample Input"
         />
 
-        <div className="mb-4">
+        {/* <div className="mb-4"> 
           <input
             type="file"
             accept=".txt"
             onChange={(e) => handleFileChange(e, setInputFile)}
             className="w-full mb-4"
           />
-        </div>
+        </div> */}
         <textarea
           value={sampleOutput}
           onChange={(e) => setSampleOutput(e.target.value)}
@@ -173,14 +182,14 @@ const AddProblem = () => {
           }`}
           placeholder="Sample Output"
         />
-        <div className="mb-6">
+        {/* <div className="mb-6">
           <input
             type="file"
             accept=".txt"
             onChange={(e) => handleFileChange(e, setOutputFile)}
             className="w-full mb-4"
           />
-        </div>
+        </div> */}
         <select
           value={tag}
           onChange={(e) => setTag(e.target.value)}
