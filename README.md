@@ -1,4 +1,4 @@
-Here's a **README** file for your online coding platform:
+Here’s the extended **README** file with instructions on how to start the platform locally:
 
 ---
 
@@ -33,7 +33,7 @@ A competitive arena for coding contests.
 - **Scalability**: Handle a growing number of users seamlessly.
 
 ### 2. Security and Resiliency
-- **Compiler of our Own**: To increase the security and scalability, we created our own compiler for different langauges.
+- **Compiler of our Own**: To increase security and scalability, we created our own compiler for different languages.
 
 ### 3. User Experience
 - **Intuitive Interface**: Designed for ease of use, even for first-time users.
@@ -42,23 +42,70 @@ A competitive arena for coding contests.
 ## Additional Features
 - **Syntax Highlighting & Auto-completion**: Enhance the coding experience with a responsive and intelligent editor.
 - **User Profiles**: Track progress with statistics like problems solved, accuracy, streaks, achievements, and badges.
-- **Multiple Languages**: The user can code and compile in multiple langauges
-- **User Statistics**: The user can analyse his performance on the platform
-- **Competitive Programming**:The user can compete with fellow programmers to imporve their performance.
-- **Input / Output File Uploads and Downloads**: The user can upload test cases as a file and download the outputs
-- **Custom Contest Creation**: The user can create custom contests of their own. 
-- **Customization Options**: Configure coding environment.
+- **Multiple Languages**: Users can code and compile in multiple languages.
+- **User Statistics**: Analyze performance on the platform.
+- **Competitive Programming**: Compete with fellow programmers to improve performance.
+- **Input / Output File Uploads and Downloads**: Upload test cases as a file and download the outputs.
+- **Custom Contest Creation**: Create custom contests.
+- **Customization Options**: Configure coding environment settings.
 - **Global Leaderboards**: Showcase the top performers across the platform.
 - **Dark Mode**: A visually appealing dark theme for comfortable coding.
 
 ## Why Choose This Platform?
 This platform is not just functional but also enjoyable to use. It blends high performance, robust security, and a seamless user experience to create a coding environment that you’ll love. Every feature has been thoughtfully designed to ensure that your journey from a beginner to a full-stack developer is both challenging and rewarding.
 
+## Getting Started
+
+### Prerequisites
+Before you can run the platform locally, ensure you have the following installed:
+- **Node.js** (v14 or higher)
+- **npm** (Node Package Manager)
+- **MongoDB** (for database)
+- **Git** (for version control)
+
+### Installation Steps
+
+1. **Clone the Repository**
+   ```bash
+   git clone https://github.com/yourusername/online-coding-platform.git
+   cd online-coding-platform
+   ```
+
+2. **Install Dependencies**
+   Navigate to both the frontend and backend directories and install the required dependencies.
+   ```bash
+   cd hackex-client
+   npm install
+   cd ../hackex-server
+   npm install
+   cd ../hackex-compiler
+   npm install
+   ```
+
+3. **Run the Backend Server**
+   In the `hackex-server' and 'hackex-compiler` directory, start the server and compiler:
+   ```bash
+   npm start
+   ```
+
+6. **Run the Frontend Server**
+   Open a new terminal, navigate to the `hackex-client` directory, and start the React development server:
+   ```bash
+   npm start
+   ```
+
+7. **Access the Platform**
+   Open your browser and navigate to `http://localhost:5173` to start using the platform.
+   The server runs at `http://localhost:3000`.
 
 ## Contributors
--**Kshitij Gupta**
--**Akshitha Mittapally**
--**Harsh Dalwadi**
+- **Kshitij Gupta**
+- **Akshitha Mittapally**
+- **Harsh Dalwadi**
+
+## License
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
 ---
 
-This README should give users a comprehensive understanding of your platform and guide them on how to get started.
+This README file should help users understand what the platform does and how to set it up locally.
