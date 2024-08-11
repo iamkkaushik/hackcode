@@ -20,6 +20,7 @@ using namespace std;
 
 int main() {
     // Write your code here
+    
     return 0;
 }`,
   c: `#include <stdio.h>
@@ -157,7 +158,14 @@ const ProblemDetail = () => {
       const runResult = await runResponse.json();
 
       if (runResponse.ok) {
-        if (runResult.out === problem.sampleOutput) {
+        console.log("Run Output:", runResult.out);
+        console.log("Expected Output:", problem.sampleOutput);
+        const normalizeOutput = (output) => output.trim().replace(/\s+/g, " ");
+
+        if (
+          normalizeOutput(runResult.out) ===
+          normalizeOutput(problem.sampleOutput)
+        ) {
           const submitResponse = await fetch(
             "http://localhost:3000/api/v1/users/submitCode",
             {
