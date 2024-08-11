@@ -11,7 +11,7 @@ Welcome to the **Online Coding Platform**—your gateway to mastering full-stack
 A space where users can experiment with code.
 - **Code Editor**: Supports coding in a compiled language.
 - **Execution**: Run code with custom inputs.
-- **Output & Metrics**: View errors, execution time, memory usage, and outputs.
+- **Output & Metrics**: View errors and outputs.
 
 ### 2. Coding Arena
 A hub for practicing coding problems.
