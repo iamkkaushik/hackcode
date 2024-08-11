@@ -82,7 +82,7 @@ This platform is not just functional but also enjoyable to use. It blends high p
 6. **Run the Frontend Server**
    Open a new terminal, navigate to the `hackex-client` directory, and start the React development server:
    ```bash
-   npm start
+   npm run dev
    ```
 
 7. **Access the Platform**
