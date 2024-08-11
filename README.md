@@ -54,13 +54,6 @@ This platform is not just functional but also enjoyable to use. It blends high p
 
 ## Getting Started
 
-### Prerequisites
-Before you can run the platform locally, ensure you have the following installed:
-- **Node.js** (v14 or higher)
-- **npm** (Node Package Manager)
-- **MongoDB** (for database)
-- **Git** (for version control)
-
 ### Installation Steps
 
 1. **Clone the Repository**
