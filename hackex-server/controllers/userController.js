@@ -27,12 +27,21 @@ exports.submitCode = catchAsync(async (req, res, next) => {
   if (!problemId || !email) {
     return next(new AppError("All fields are required", 400));
   }
+
   try {
     const user = await User.findOne({ email });
     if (!user) {
       return next(new AppError("User not found", 404));
     }
 
+    // Check if the problem has already been solved by the user
+    if (user.problems.includes(problemId)) {
+      return res
+        .status(200)
+        .json({ message: "Problem already solved by the user." });
+    }
+
+    // Add the problem ID to the user's list of solved problems
     user.problems.push(problemId);
     user.noOfProblems = user.problems.length;
 

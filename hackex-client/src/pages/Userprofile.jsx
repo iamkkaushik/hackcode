@@ -3,7 +3,7 @@ import { useUser } from "../userContext";
 import { Link, useNavigate } from "react-router-dom";
 import { useTheme } from "../themeContext";
 import image from "../assets/image_dummy.png";
-import Modal from "./ProfileModal";  // Import the Modal component
+import Modal from "./ProfileModal"; // Import the Modal component
 import Spinner from "../Components/Spinner";
 
 const Profile = () => {
@@ -115,6 +115,23 @@ const Profile = () => {
     }
   };
 
+  const getTagStyle = (tag) => {
+    switch (tag) {
+      case "easy":
+        return ` ${
+          theme === "light" ? "text-green-700" : "text-green-500"
+        } uppercase`;
+      case "medium":
+        return `${
+          theme === "light" ? "text-yellow-500" : " text-yellow-300"
+        } uppercase`;
+      case "hard":
+        return " text-red-500 uppercase";
+      default:
+        return " text-gray-600";
+    }
+  };
+
   return (
     <div
       className={`min-h-screen p-8 ${
@@ -124,7 +141,7 @@ const Profile = () => {
       }`}
     >
       <h1 className="text-4xl font-bold mb-6 text-center">Profile</h1>
-      
+
       {/* Card Container with Hover Effect */}
       <div
         className={`flex flex-col items-center max-w-lg mx-auto p-8 rounded-lg shadow-lg transform transition-transform duration-300 hover:scale-105 hover:shadow-xl ${
@@ -195,7 +212,9 @@ const Profile = () => {
       {problems.length > 0 && (
         <div className="mt-10 flex justify-center">
           <div className="w-full max-w-4xl">
-            <h2 className="text-2xl font-semibold mb-4 text-center">Problems Solved</h2>
+            <h2 className="text-2xl font-semibold mb-4 text-center">
+              Problems Solved
+            </h2>
             <div
               className={`overflow-x-auto rounded-lg ${
                 theme === "light" ? "bg-gray-200" : "bg-gray-800"
@@ -215,13 +234,7 @@ const Profile = () => {
                     >
                       Title
                     </th>
-                    <th
-                      className={`py-4 px-6 border-b text-center font-bold ${
-                        theme === "light" ? "text-gray-800" : "text-gray-300"
-                      }`}
-                    >
-                      Description
-                    </th>
+                    <th className={`p-4 text-left`}>Tag</th>
                     <th
                       className={`py-4 px-6 border-b text-center font-bold ${
                         theme === "light" ? "text-gray-800" : "text-gray-300"
@@ -242,11 +255,11 @@ const Profile = () => {
                         {problem.title}
                       </td>
                       <td
-                        className={`py-4 px-6 border-b text-center ${
-                          theme === "light" ? "text-gray-800" : "text-gray-400"
-                        }`}
+                        className={`p-4 ${getTagStyle(
+                          problem.tag
+                        )} borderpx-3 py-1 text-md `}
                       >
-                        {problem.description}
+                        <strong>{problem.tag || "Not Specified"}</strong>
                       </td>
                       <td
                         className={`py-4 px-6 border-b text-center ${
