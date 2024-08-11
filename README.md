@@ -1,5 +1,3 @@
-Here’s the extended **README** file with instructions on how to start the platform locally:
-
 ---
 
 # Online Coding Platform
