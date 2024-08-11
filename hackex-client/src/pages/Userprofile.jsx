@@ -211,7 +211,7 @@ const Profile = () => {
       {/* List of Problems Solved */}
       {problems.length > 0 && (
         <div className="mt-10 flex justify-center">
-          <div className="w-full max-w-2xl">
+          <div className="w-full max-w-3xl">
             <h2 className="text-2xl font-semibold mb-4 text-center">
               Problems Solved
             </h2>

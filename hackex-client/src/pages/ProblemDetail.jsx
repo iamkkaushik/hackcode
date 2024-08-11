@@ -67,6 +67,7 @@ const ProblemDetail = () => {
         if (response.ok) {
           const data = await response.json();
           setProblem(data.problem);
+          setInput(data.problem.sampleInput);
         } else {
           console.error("Problem not found");
         }
