@@ -38,7 +38,7 @@ const Playground = () => {
   const handleRunCode = async () => {
     setLoading(true);
     try {
-      const response = await fetch("http://localhost:8000/execute", {
+      const response = await fetch("https://hackcode-1.onrender.com/execute", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

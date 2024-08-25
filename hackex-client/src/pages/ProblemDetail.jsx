@@ -61,7 +61,7 @@ const ProblemDetail = () => {
       try {
         setLoading(true);
         const response = await fetch(
-          `http://localhost:3000/api/v1/problems/getProblem/${id}`
+          `https://hackcode.onrender.com/api/v1/problems/getProblem/${id}`
         );
 
         if (response.ok) {
@@ -91,7 +91,7 @@ const ProblemDetail = () => {
     }
 
     try {
-      const response = await fetch("http://localhost:8000/execute", {
+      const response = await fetch("https://hackcode-1.onrender.com/execute", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -144,7 +144,7 @@ const ProblemDetail = () => {
     }
 
     try {
-      const runResponse = await fetch("http://localhost:8000/execute", {
+      const runResponse = await fetch("https://hackcode-1.onrender.com/execute", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -168,7 +168,7 @@ const ProblemDetail = () => {
           normalizeOutput(problem.sampleOutput)
         ) {
           const submitResponse = await fetch(
-            "http://localhost:3000/api/v1/users/submitCode",
+            "https://hackcode.onrender.com/api/v1/users/submitCode",
             {
               method: "POST",
               headers: {
