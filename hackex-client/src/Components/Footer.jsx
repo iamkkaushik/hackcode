@@ -24,7 +24,7 @@ const Footer = () => {
       2. Contact Support: If you need further assistance, you can contact our support team via email or live chat.
       3. Report Issues: If you encounter bugs or problems with the platform, please report them using our bug reporting tool.
   
-      We are here to help you make the most of your experience on Hackex. For additional support, visit our support page or reach out to us directly.
+      We are here to help you make the most of your experience on Hackcode. For additional support, visit our support page or reach out to us directly.
       
       Thank you for being a part of our community!
     `
@@ -40,14 +40,14 @@ const Footer = () => {
       2. Report Findings: Submit detailed reports about the bugs you find. Include steps to reproduce, screenshots, and any other relevant information.
       3. Earn Rewards: We offer rewards for valid bug reports based on the severity of the issue. Check our reward guidelines for more details.
   
-      Your contributions help us improve the security and reliability of Hackex. Thank you for your efforts!
+      Your contributions help us improve the security and reliability of Hackcode. Thank you for your efforts!
     `
   };
 
   const termsContent = {
     title: 'Terms of Service',
     body: `
-      By using Hackex, you agree to our Terms of Service. Please read the following terms carefully:
+      By using Hackcode, you agree to our Terms of Service. Please read the following terms carefully:
   
       1. Acceptance of Terms: By accessing or using our platform, you agree to comply with and be bound by these terms.
       2. User Responsibilities: You are responsible for maintaining the confidentiality of your account information and for all activities that occur under your account.
@@ -79,7 +79,7 @@ const Footer = () => {
       <div className="container mx-auto px-4 text-center">
         {/* Copyright Section */}
         <div className="mb-4">
-          <p>&copy; 2024 Hackex. All rights reserved.</p>
+          <p>&copy; 2024 Hackcode. All rights reserved.</p>
         </div>
 
         {/* Links Section */}

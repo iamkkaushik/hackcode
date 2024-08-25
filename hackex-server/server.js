@@ -11,7 +11,9 @@ process.on("uncaughtException", (err) => {
 
 dotenv.config({ path: "./config.env" });
 const app = require("./app");
-
+// DATABASE_USER= kshitijg
+// DATABASE_PASSWORD = 65p31pMH8LdOgAvq
+// DATABASE = mongodb+srv://<USER>:<PASSWORD>@cluster0.1vkr70l.mongodb.net/hackex?retryWrites=true&w=majority
 const DB = process.env.DATABASE.replace(
   "<USER>",
   process.env.DATABASE_USER,

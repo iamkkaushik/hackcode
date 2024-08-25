@@ -9,9 +9,9 @@ import img from "../assets/img2.png";
 const Home = () => {
   const { theme } = useTheme(); // Get theme context
   const platformInfo = {
-    title: "Welcome to Hackex",
+    title: "Welcome to Hackcode",
     description:
-      "Hackex is a cutting-edge platform designed to enhance your coding skills through interactive challenges, diverse contests, and a vibrant community. Whether you're a beginner or a seasoned coder, Hackex offers a range of tools and opportunities to grow and showcase your abilities. Dive into coding challenges, participate in competitive contests, and connect with fellow developers to take your skills to the next level.",
+      "Hackcode is a cutting-edge platform designed to enhance your coding skills through interactive challenges, diverse contests, and a vibrant community. Whether you're a beginner or a seasoned coder, Hackcode offers a range of tools and opportunities to grow and showcase your abilities. Dive into coding challenges, participate in competitive contests, and connect with fellow developers to take your skills to the next level.",
   };
 
   const { isLoggedIn } = useUser(); // Access login state
